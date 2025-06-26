@@ -474,25 +474,23 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                  className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
                     viewMode === 'list'
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
                   }`}
                 >
-                  <List className="w-4 h-4 mr-2" />
-                  List
+                  <List className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode('card')}
-                  className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                  className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
                     viewMode === 'card'
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
                   }`}
                 >
-                  <LayoutGrid className="w-4 h-4 mr-2" />
-                  Cards
+                  <LayoutGrid className="w-4 h-4" />
                 </button>
               </div>
               <Button variant="outline" size="sm" className="h-9">
