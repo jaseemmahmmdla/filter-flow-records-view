@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List } from 'lucide-react';
+import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface TrialDatabaseProps {
@@ -220,7 +220,10 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 <Badge className={`${getStatusColor(trial.status)} border`}>{trial.status}</Badge>
                 <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border`}>{trial.lineTherapy}</Badge>
                 <Badge className={`${getModalityColor(trial.modality)} border`}>{trial.modality}</Badge>
-                <span className="text-sm text-gray-600">Enrollment: {trial.enrollment}</span>
+                <div className="flex items-center gap-1 text-sm text-gray-600">
+                  <User className="h-4 w-4" />
+                  <span>{trial.enrollment}</span>
+                </div>
               </div>
               
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
