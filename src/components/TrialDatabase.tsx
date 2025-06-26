@@ -194,14 +194,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-                <div className="flex space-x-2 ml-4">
-                  <Button variant="ghost" size="sm">
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4 mb-4">
