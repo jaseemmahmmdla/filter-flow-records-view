@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -169,7 +168,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                       <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
                       <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
                       
-                      {/* New row with phase, status, enrollment, and company */}
+                      {/* Row with phase, status, enrollment, and company */}
                       <div className="flex items-center gap-3 mt-2 flex-wrap">
                         <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
                         <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
@@ -217,6 +216,17 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   <p className="font-medium text-gray-900">{trial.indication}</p>
                 </div>
                 <div>
+                  <p className="text-sm text-gray-500">Line of Therapy</p>
+                  <div className="flex items-center gap-2">
+                    <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
+                    <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Population</p>
+                  <p className="font-medium text-gray-900">{trial.stage} • {trial.population}</p>
+                </div>
+                <div>
                   <p className="text-sm text-gray-500">Target/Modality</p>
                   <p className="font-medium text-gray-900">{trial.target}</p>
                 </div>
@@ -224,11 +234,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   <p className="text-sm text-gray-500">Biomarker</p>
                   <p className="font-medium text-gray-900">{trial.biomarker}</p>
                 </div>
-              </div>
-              
-              <div className="flex items-center gap-2 mb-4 flex-wrap">
-                <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border`}>{trial.lineTherapy}</Badge>
-                <Badge className={`${getModalityColor(trial.modality)} border`}>{trial.modality}</Badge>
               </div>
               
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
