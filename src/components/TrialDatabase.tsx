@@ -284,90 +284,94 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   );
 
   const ListView = () => (
-    <Card className="shadow-sm">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="min-w-[200px]">Trial</TableHead>
-            <TableHead className="min-w-[300px] max-w-[400px]">Abstract Title</TableHead>
-            <TableHead className="min-w-[120px]">Company</TableHead>
-            <TableHead className="min-w-[100px]">Phase</TableHead>
-            <TableHead className="min-w-[100px]">Status</TableHead>
-            <TableHead className="min-w-[120px]">Indication</TableHead>
-            <TableHead className="min-w-[180px]">Treatment</TableHead>
-            <TableHead className="min-w-[120px]">Target</TableHead>
-            <TableHead className="min-w-[120px]">Conference</TableHead>
-            <TableHead className="min-w-[80px]">ORR</TableHead>
-            <TableHead className="min-w-[80px]">PFS</TableHead>
-            <TableHead className="min-w-[80px]">OS</TableHead>
-            <TableHead className="min-w-[100px] text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {trials.map((trial) => (
-            <TableRow key={trial.id}>
-              <TableCell>
-                <div className="flex items-center gap-3">
-                  <CompanyLogo company={trial.company} logo={trial.companyLogo} />
-                  <div>
-                    <div className="font-medium text-gray-900">{trial.trialName}</div>
-                    <a 
-                      href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="font-medium text-gray-900 hover:text-blue-600 underline"
-                    >
-                      {trial.id}
-                    </a>
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell className="max-w-[400px]">
-                <div className="line-clamp-2 text-sm text-gray-900" title={trial.abstractTitle}>
-                  {trial.abstractTitle}
-                </div>
-              </TableCell>
-              <TableCell className="text-sm text-gray-900">{trial.company}</TableCell>
-              <TableCell>
-                <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
-              </TableCell>
-              <TableCell>
-                <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
-              </TableCell>
-              <TableCell>
-                <div className="text-sm text-gray-900">{trial.indication}</div>
-                <div className="flex gap-1 mt-1">
-                  <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
-                </div>
-              </TableCell>
-              <TableCell className="max-w-[180px]">
-                <div className="truncate text-sm text-gray-900">{trial.treatment}</div>
-                <div className="flex gap-1 mt-1">
-                  <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
-                </div>
-              </TableCell>
-              <TableCell className="text-sm text-gray-900">{trial.target}</TableCell>
-              <TableCell>
-                <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
-              </TableCell>
-              <TableCell className="text-sm font-medium text-gray-900">{trial.orr}</TableCell>
-              <TableCell className="text-sm font-medium text-gray-900">{trial.pfs}</TableCell>
-              <TableCell className="text-sm font-medium text-gray-900">{trial.os}</TableCell>
-              <TableCell className="text-right">
-                <div className="flex justify-end space-x-2">
-                  <Button variant="ghost" size="sm">
-                    <Eye className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Card>
+    <div className="w-full overflow-hidden">
+      <Card className="shadow-sm">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="min-w-[200px]">Trial</TableHead>
+                <TableHead className="min-w-[300px] max-w-[400px]">Abstract Title</TableHead>
+                <TableHead className="min-w-[120px]">Company</TableHead>
+                <TableHead className="min-w-[100px]">Phase</TableHead>
+                <TableHead className="min-w-[100px]">Status</TableHead>
+                <TableHead className="min-w-[120px]">Indication</TableHead>
+                <TableHead className="min-w-[180px]">Treatment</TableHead>
+                <TableHead className="min-w-[120px]">Target</TableHead>
+                <TableHead className="min-w-[120px]">Conference</TableHead>
+                <TableHead className="min-w-[80px]">ORR</TableHead>
+                <TableHead className="min-w-[80px]">PFS</TableHead>
+                <TableHead className="min-w-[80px]">OS</TableHead>
+                <TableHead className="min-w-[100px] text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {trials.map((trial) => (
+                <TableRow key={trial.id}>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <CompanyLogo company={trial.company} logo={trial.companyLogo} />
+                      <div>
+                        <div className="font-medium text-gray-900">{trial.trialName}</div>
+                        <a 
+                          href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-gray-900 hover:text-blue-600 underline"
+                        >
+                          {trial.id}
+                        </a>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="max-w-[400px]">
+                    <div className="line-clamp-2 text-sm text-gray-900" title={trial.abstractTitle}>
+                      {trial.abstractTitle}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-sm text-gray-900">{trial.company}</TableCell>
+                  <TableCell>
+                    <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-sm text-gray-900">{trial.indication}</div>
+                    <div className="flex gap-1 mt-1">
+                      <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
+                    </div>
+                  </TableCell>
+                  <TableCell className="max-w-[180px]">
+                    <div className="truncate text-sm text-gray-900">{trial.treatment}</div>
+                    <div className="flex gap-1 mt-1">
+                      <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-sm text-gray-900">{trial.target}</TableCell>
+                  <TableCell>
+                    <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
+                  </TableCell>
+                  <TableCell className="text-sm font-medium text-gray-900">{trial.orr}</TableCell>
+                  <TableCell className="text-sm font-medium text-gray-900">{trial.pfs}</TableCell>
+                  <TableCell className="text-sm font-medium text-gray-900">{trial.os}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end space-x-2">
+                      <Button variant="ghost" size="sm">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </Card>
+    </div>
   );
 
   return (
