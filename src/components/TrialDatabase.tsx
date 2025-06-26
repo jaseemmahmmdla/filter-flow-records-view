@@ -16,6 +16,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     {
       id: 'NCT03539536',
       trialName: 'CHECKMATE-123',
+      abstractTitle: 'Nivolumab plus ipilimumab versus chemotherapy as first-line treatment for advanced non-small-cell lung cancer with high PD-L1 expression: primary analysis of CHECKMATE-123',
       company: 'Bristol Myers Squibb',
       companyLogo: 'BMS',
       phase: 'Phase 3',
@@ -38,6 +39,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     {
       id: 'NCT04567890',
       trialName: 'KEYNOTE-456',
+      abstractTitle: 'Pembrolizumab plus chemotherapy versus chemotherapy alone as first-line treatment in patients with advanced non-small-cell lung cancer: final overall survival analysis of KEYNOTE-456',
       company: 'Merck',
       companyLogo: 'MRK',
       phase: 'Phase 3',
@@ -60,6 +62,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     {
       id: 'NCT05123456',
       trialName: 'HIMALAYA-2',
+      abstractTitle: 'Durvalumab plus tremelimumab versus sorafenib as first-line treatment for unresectable hepatocellular carcinoma: updated results from HIMALAYA-2',
       company: 'AstraZeneca',
       companyLogo: 'AZN',
       phase: 'Phase 2',
@@ -219,6 +222,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
           <thead className="bg-gray-50 border-b">
             <tr>
               <th className="text-left p-4 font-medium text-gray-900">Trial</th>
+              <th className="text-left p-4 font-medium text-gray-900">Abstract Title</th>
               <th className="text-left p-4 font-medium text-gray-900">Company</th>
               <th className="text-left p-4 font-medium text-gray-900">Phase</th>
               <th className="text-left p-4 font-medium text-gray-900">Status</th>
@@ -243,6 +247,9 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                       <div className="font-mono text-sm text-blue-600">{trial.id}</div>
                     </div>
                   </div>
+                </td>
+                <td className="p-4 text-sm text-gray-900 max-w-80">
+                  <div className="line-clamp-3">{trial.abstractTitle}</div>
                 </td>
                 <td className="p-4 text-sm text-gray-900">{trial.company}</td>
                 <td className="p-4">
