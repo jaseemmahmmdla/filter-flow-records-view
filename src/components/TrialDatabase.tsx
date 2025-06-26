@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -166,6 +167,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     </div>
   );
 
+  
   const CardView = () => (
     <div className="grid gap-6">
       {trials.map((trial) => (
@@ -383,26 +385,27 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <p className="text-gray-600 mt-1">{trials.length} trials found</p>
           </div>
           <div className="flex space-x-3">
-            <div className="flex bg-gray-100 rounded-lg p-1">
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-                className={viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}
+            <ToggleGroup 
+              type="single" 
+              value={viewMode} 
+              onValueChange={(value) => value && setViewMode(value as 'card' | 'list')}
+              className="bg-gray-50 border border-gray-200 rounded-lg p-1"
+            >
+              <ToggleGroupItem 
+                value="list" 
+                className="data-[state=on]:bg-white data-[state=on]:text-gray-900 data-[state=on]:shadow-sm text-gray-600 hover:text-gray-900 hover:bg-white/50 transition-all duration-200"
               >
                 <List className="w-4 h-4 mr-2" />
                 List
-              </Button>
-              <Button
-                variant={viewMode === 'card' ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => setViewMode('card')}
-                className={viewMode === 'card' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}
+              </ToggleGroupItem>
+              <ToggleGroupItem 
+                value="card" 
+                className="data-[state=on]:bg-white data-[state=on]:text-gray-900 data-[state=on]:shadow-sm text-gray-600 hover:text-gray-900 hover:bg-white/50 transition-all duration-200"
               >
                 <LayoutGrid className="w-4 h-4 mr-2" />
                 Cards
-              </Button>
-            </div>
+              </ToggleGroupItem>
+            </ToggleGroup>
             <Button variant="outline" size="sm">
               <Download className="h-4 w-4 mr-2" />
               Export
