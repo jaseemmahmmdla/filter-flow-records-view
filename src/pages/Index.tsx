@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
-import RecordsTable from '@/components/RecordsTable';
+import TrialDatabase from '@/components/TrialDatabase';
+import DashboardStats from '@/components/DashboardStats';
 
 const Index = () => {
   const [filters, setFilters] = useState({});
+  const [activeView, setActiveView] = useState('dashboard');
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -13,12 +15,39 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <Header />
-      <div className="flex flex-1">
-        <FilterPanel onFiltersChange={handleFiltersChange} />
-        <RecordsTable filters={filters} />
-      </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Header activeView={activeView} setActiveView={setActiveView} />
+      
+      {activeView === 'dashboard' ? (
+        <div className="flex-1 p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Oncology Clinical Trial Data Benchmarking Platform
+              </h1>
+              <p className="text-gray-600">
+                Compare clinical trial abstracts, analyze efficacy endpoints, and benchmark oncology treatments
+              </p>
+            </div>
+            
+            <DashboardStats />
+            
+            <div className="mt-8">
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold mb-4">Recent Trial Updates</h2>
+                <div className="text-gray-500">
+                  Latest trials and data will appear here...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-1">
+          <FilterPanel onFiltersChange={handleFiltersChange} />
+          <TrialDatabase filters={filters} />
+        </div>
+      )}
     </div>
   );
 };

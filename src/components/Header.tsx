@@ -1,6 +1,13 @@
-import React from 'react';
 
-const Header = () => {
+import React from 'react';
+import { Search, Bell, User } from 'lucide-react';
+
+interface HeaderProps {
+  activeView: string;
+  setActiveView: (view: string) => void;
+}
+
+const Header = ({ activeView, setActiveView }: HeaderProps) => {
   return (
     <header className="w-full bg-[#1A237E] shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,26 +18,61 @@ const Header = () => {
               alt="Logo" 
               className="h-10 w-auto"
             />
+            <div className="ml-4 text-white">
+              <h1 className="text-lg font-semibold">Clinical Trial Benchmarking</h1>
+            </div>
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-[#e8eff3] hover:text-white transition-colors duration-200 font-medium">
-              Overview
-            </a>
-            <a href="#" className="text-[#e8eff3] hover:text-white transition-colors duration-200 font-medium">
-              Analytics
-            </a>
-            <a href="#" className="text-[#e8eff3] hover:text-white transition-colors duration-200 font-medium">
-              Reports
-            </a>
-            <a href="#" className="text-[#e8eff3] hover:text-white transition-colors duration-200 font-medium">
-              Settings
-            </a>
+            <button 
+              onClick={() => setActiveView('dashboard')}
+              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
+                activeView === 'dashboard' 
+                  ? 'text-white bg-white/20' 
+                  : 'text-[#e8eff3] hover:text-white'
+              }`}
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => setActiveView('trials')}
+              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
+                activeView === 'trials' 
+                  ? 'text-white bg-white/20' 
+                  : 'text-[#e8eff3] hover:text-white'
+              }`}
+            >
+              Trial Database
+            </button>
+            <button 
+              onClick={() => setActiveView('compare')}
+              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
+                activeView === 'compare' 
+                  ? 'text-white bg-white/20' 
+                  : 'text-[#e8eff3] hover:text-white'
+              }`}
+            >
+              Compare
+            </button>
+            <button 
+              onClick={() => setActiveView('trends')}
+              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
+                activeView === 'trends' 
+                  ? 'text-white bg-white/20' 
+                  : 'text-[#e8eff3] hover:text-white'
+              }`}
+            >
+              Trends
+            </button>
           </nav>
           
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Search className="h-5 w-5 text-[#e8eff3] hover:text-white cursor-pointer" />
+            </div>
+            <Bell className="h-5 w-5 text-[#e8eff3] hover:text-white cursor-pointer" />
             <div className="w-8 h-8 bg-[#e8eff3] rounded-full flex items-center justify-center">
-              <span className="text-[#1A237E] font-medium text-sm">U</span>
+              <User className="h-4 w-4 text-[#1A237E]" />
             </div>
           </div>
         </div>
