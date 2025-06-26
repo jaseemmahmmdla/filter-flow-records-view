@@ -221,8 +221,8 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
         <table className="w-full">
           <thead className="bg-gray-50 border-b">
             <tr>
-              <th className="text-left p-4 font-medium text-gray-900">Trial</th>
-              <th className="text-left p-4 font-medium text-gray-900">Abstract Title</th>
+              <th className="text-left p-4 font-medium text-gray-900 min-w-[200px]">Trial</th>
+              <th className="text-left p-4 font-medium text-gray-900 min-w-[400px]">Abstract Title</th>
               <th className="text-left p-4 font-medium text-gray-900">Company</th>
               <th className="text-left p-4 font-medium text-gray-900">Phase</th>
               <th className="text-left p-4 font-medium text-gray-900">Status</th>
@@ -239,7 +239,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
           <tbody>
             {trials.map((trial) => (
               <tr key={trial.id} className="border-b hover:bg-gray-50">
-                <td className="p-4">
+                <td className="p-4 min-w-[200px]">
                   <div className="flex items-center gap-3">
                     <CompanyLogo company={trial.company} logo={trial.companyLogo} />
                     <div>
@@ -248,8 +248,10 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     </div>
                   </div>
                 </td>
-                <td className="p-4 text-sm text-gray-900 max-w-80">
-                  <div className="line-clamp-3">{trial.abstractTitle}</div>
+                <td className="p-4 text-sm text-gray-900 min-w-[400px] max-w-[500px]">
+                  <div className="line-clamp-2" title={trial.abstractTitle}>
+                    {trial.abstractTitle}
+                  </div>
                 </td>
                 <td className="p-4 text-sm text-gray-900">{trial.company}</td>
                 <td className="p-4">
