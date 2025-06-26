@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -218,10 +217,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Line of Therapy</p>
-                  <div className="flex items-center gap-1">
-                    <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
-                    <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
-                  </div>
+                  <p className="font-medium text-gray-900">{trial.lineTherapy}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Population</p>
