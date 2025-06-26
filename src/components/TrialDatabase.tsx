@@ -163,50 +163,46 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1 min-w-0 pr-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
-                      <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
-                      
-                      {/* Row with phase, status, enrollment, and company */}
-                      <div className="flex items-center gap-3 mt-2 flex-wrap">
-                        <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
-                        <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
-                        <div className="flex items-center gap-1 text-sm text-gray-600">
-                          <User className="h-4 w-4" />
-                          <span>{trial.enrollment}</span>
-                        </div>
-                        <span className="text-sm text-gray-600">{trial.company}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 ml-2 flex-shrink-0">
-                      <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>
-                        {trial.conference}
-                      </Badge>
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+                  {/* Title at the top with bigger font and trial name prefix */}
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <p className="text-gray-700 text-base mt-2 line-clamp-2 font-medium leading-relaxed" title={trial.abstractTitle}>
-                          {trial.abstractTitle}
-                        </p>
+                        <h3 className="text-xl font-medium text-gray-900 mb-3 line-clamp-2 leading-relaxed" title={trial.abstractTitle}>
+                          <span className="font-bold">{trial.trialName}:</span> {trial.abstractTitle}
+                        </h3>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-md">
-                        <p>{trial.abstractTitle}</p>
+                        <p><span className="font-bold">{trial.trialName}:</span> {trial.abstractTitle}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
+                  
+                  {/* Row with NCT ID, phase, status, enrollment, and company */}
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <p className="text-blue-600 font-mono text-sm font-medium">{trial.id}</p>
+                    <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
+                    <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
+                    <div className="flex items-center gap-1 text-sm text-gray-600">
+                      <User className="h-4 w-4" />
+                      <span>{trial.enrollment}</span>
+                    </div>
+                    <span className="text-sm text-gray-600">{trial.company}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                  <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>
+                    {trial.conference}
+                  </Badge>
+                  <Button variant="ghost" size="sm">
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
               
-              <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="grid grid-cols-3 gap-4 mb-4 mt-4">
                 <div>
                   <p className="text-sm text-gray-500">Treatment</p>
                   <p className="font-medium text-gray-900">{trial.treatment}</p>
