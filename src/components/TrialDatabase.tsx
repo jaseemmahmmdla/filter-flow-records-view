@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -149,13 +149,29 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
-                  <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
-                  <p className="text-gray-600 text-sm mt-1">{trial.company}</p>
-                  <p className="text-gray-700 text-sm mt-2 line-clamp-2" title={trial.abstractTitle}>
-                    {trial.abstractTitle}
-                  </p>
+                <div className="flex-1 min-w-0 pr-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
+                      <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
+                      <p className="text-gray-600 text-sm mt-1">{trial.company}</p>
+                    </div>
+                    <Badge className={`${getConferenceColor(trial.conference)} border text-xs ml-2 flex-shrink-0`}>
+                      {trial.conference}
+                    </Badge>
+                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <p className="text-gray-700 text-base mt-2 line-clamp-2 font-medium leading-relaxed" title={trial.abstractTitle}>
+                          {trial.abstractTitle}
+                        </p>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-md">
+                        <p>{trial.abstractTitle}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
                 <div className="flex space-x-2 ml-4">
                   <Button variant="ghost" size="sm">
@@ -190,7 +206,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 <Badge className={`${getPhaseColor(trial.phase)} border`}>{trial.phase}</Badge>
                 <Badge className={`${getStatusColor(trial.status)} border`}>{trial.status}</Badge>
                 <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border`}>{trial.lineTherapy}</Badge>
-                <Badge className={`${getConferenceColor(trial.conference)} border`}>{trial.conference}</Badge>
                 <Badge className={`${getModalityColor(trial.modality)} border`}>{trial.modality}</Badge>
                 <span className="text-sm text-gray-600">Enrollment: {trial.enrollment}</span>
               </div>
