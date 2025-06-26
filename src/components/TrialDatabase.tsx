@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -206,7 +207,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-3 gap-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-500">Treatment</p>
                   <p className="font-medium text-gray-900">{trial.treatment}</p>
@@ -217,7 +218,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Line of Therapy</p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
                     <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
                   </div>
