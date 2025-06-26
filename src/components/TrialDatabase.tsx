@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -189,9 +190,8 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     </Tooltip>
                   </TooltipProvider>
                   
-                  {/* Row with NCT ID, trial name badge, phase, status, enrollment, and company */}
+                  {/* Row with trial name badge, phase, status, and enrollment */}
                   <div className="flex items-center gap-3 flex-wrap">
-                    <p className="text-blue-600 font-mono text-sm font-medium">{trial.id}</p>
                     <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
                     <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
                     <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
@@ -199,7 +199,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                       <User className="h-4 w-4" />
                       <span>{trial.enrollment}</span>
                     </div>
-                    <span className="text-sm text-gray-600">{trial.company}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-2 flex-shrink-0">
@@ -216,6 +215,14 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </div>
               
               <div className="grid grid-cols-3 gap-4 mb-4 mt-4">
+                <div>
+                  <p className="text-sm text-gray-500">NCT ID</p>
+                  <p className="font-medium text-gray-900 font-mono">{trial.id}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Company</p>
+                  <p className="font-medium text-gray-900">{trial.company}</p>
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Abstract Type</p>
                   <Badge className={`${getAbstractTypeColor(trial.abstractType)} border text-xs`}>{trial.abstractType}</Badge>
