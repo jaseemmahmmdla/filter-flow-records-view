@@ -34,7 +34,8 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       os: '21.2m',
       target: 'PD-1/CTLA-4',
       modality: 'mAb',
-      drug: 'Nivolumab'
+      drug: 'Nivolumab',
+      abstractType: 'Oral Presentation'
     },
     {
       id: 'NCT04567890',
@@ -57,7 +58,8 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       os: '18.9m',
       target: 'PD-1',
       modality: 'mAb',
-      drug: 'Pembrolizumab'
+      drug: 'Pembrolizumab',
+      abstractType: 'Poster'
     },
     {
       id: 'NCT05123456',
@@ -80,7 +82,8 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       os: 'NR',
       target: 'PD-L1/CTLA-4',
       modality: 'mAb',
-      drug: 'Durvalumab'
+      drug: 'Durvalumab',
+      abstractType: 'Oral Presentation'
     }
   ]);
 
@@ -130,6 +133,15 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       case 'ADC': return 'bg-pink-100 text-pink-800 border-pink-200';
       case 'Bispecific': return 'bg-lime-100 text-lime-800 border-lime-200';
       case 'Small Molecule': return 'bg-orange-100 text-orange-800 border-orange-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const getAbstractTypeColor = (type: string) => {
+    switch (type) {
+      case 'Oral Presentation': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'Poster': return 'bg-amber-100 text-amber-800 border-amber-200';
+      case 'Mini Oral': return 'bg-blue-100 text-blue-800 border-blue-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
@@ -204,6 +216,18 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </div>
               
               <div className="grid grid-cols-3 gap-4 mb-4 mt-4">
+                <div>
+                  <p className="text-sm text-gray-500">NCT ID</p>
+                  <p className="font-medium text-gray-900 font-mono">{trial.id}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Company</p>
+                  <p className="font-medium text-gray-900">{trial.company}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Abstract Type</p>
+                  <Badge className={`${getAbstractTypeColor(trial.abstractType)} border text-xs`}>{trial.abstractType}</Badge>
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Treatment</p>
                   <p className="font-medium text-gray-900">{trial.treatment}</p>
