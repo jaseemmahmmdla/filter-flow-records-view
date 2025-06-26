@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,7 +29,8 @@ import {
   Brain,
   BarChart3,
   FileText,
-  Tags
+  Tags,
+  Calendar
 } from 'lucide-react';
 
 interface FilterPanelProps {
@@ -46,6 +46,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
     scoreRange: 0,
     abstractType: '',
     tags: [] as string[],
+    conference: '',
   });
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -93,12 +94,20 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
       scoreRange: 0,
       abstractType: '',
       tags: [],
+      conference: '',
     };
     setFilters(clearedFilters);
     setActiveFilters([]);
     onFiltersChange(clearedFilters);
     setTagInput('');
   };
+
+  const recentConferences = [
+    { name: 'ASCO 2025', value: 'asco-2025', color: 'bg-blue-500 hover:bg-blue-600 text-white' },
+    { name: 'SITC 2025', value: 'sitc-2025', color: 'bg-green-500 hover:bg-green-600 text-white' },
+    { name: 'WCLC 2025', value: 'wclc-2025', color: 'bg-purple-500 hover:bg-purple-600 text-white' },
+    { name: 'ELCC 2025', value: 'elcc-2025', color: 'bg-orange-500 hover:bg-orange-600 text-white' },
+  ];
 
   const categories = [
     { value: 'ai-models', label: 'AI Models', icon: Brain },
@@ -164,6 +173,31 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
             <div className="mb-6">
               <p className="text-sm text-gray-500">Refine your search results</p>
             </div>
+
+            {/* Recent Conferences */}
+            <div className="mb-6">
+              <Label className="text-sm font-medium text-gray-700 mb-3 block">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  Recent Conferences
+                </div>
+              </Label>
+              <div className="grid grid-cols-2 gap-2">
+                {recentConferences.map((conference) => (
+                  <Button
+                    key={conference.value}
+                    onClick={() => handleFilterChange('conference', conference.value)}
+                    className={`${conference.color} text-xs h-8 px-2 ${
+                      filters.conference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
+                    }`}
+                  >
+                    {conference.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <Separator className="my-6 bg-gray-200" />
 
             {/* Active Filters */}
             {activeFilters.length > 0 && (
