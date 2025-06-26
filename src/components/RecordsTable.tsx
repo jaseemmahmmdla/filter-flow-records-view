@@ -240,23 +240,23 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
   const CardView = () => (
     <div className="grid gap-4">
       {paginatedRecords.map((record) => (
-        <Card key={record.id} className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow p-6">
+        <Card key={record.id} className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow p-6">
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-blue-50 rounded-xl">
+            <div className="p-3 bg-slate-50 rounded-xl">
               {getTypeIcon(record.type)}
             </div>
             
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-lg">{record.name}</h3>
-                  <p className="text-gray-600 text-sm mt-1">{record.description}</p>
+                  <h3 className="font-semibold text-slate-900 text-lg">{record.name}</h3>
+                  <p className="text-slate-600 text-sm mt-1">{record.description}</p>
                 </div>
                 <ActionDropdown record={record} />
               </div>
               
               <div className="flex items-center gap-4 mt-4">
-                <Badge variant="outline" className="border-gray-300 text-gray-700">
+                <Badge variant="outline" className="border-slate-300 text-slate-700">
                   {record.type.replace('-', ' ')}
                 </Badge>
                 <Badge className={getStatusColor(record.status)}>
@@ -264,21 +264,21 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                 </Badge>
                 <div className="flex items-center gap-2">
                   <Progress value={record.score} className="h-2 w-20" />
-                  <span className="text-sm text-gray-700">{record.score}%</span>
+                  <span className="text-sm text-slate-700">{record.score}%</span>
                 </div>
                 {getTrendIcon(record.trend)}
               </div>
               
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+              <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
                 <div className="flex items-center gap-2">
                   <Avatar className="w-8 h-8">
-                    <AvatarFallback className="bg-blue-500 text-white text-xs">
+                    <AvatarFallback className="bg-slate-500 text-white text-xs">
                       {record.author.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-sm text-gray-700">{record.author}</span>
+                  <span className="text-sm text-slate-700">{record.author}</span>
                 </div>
-                <span className="text-sm text-gray-500">{record.lastUpdated}</span>
+                <span className="text-sm text-slate-500">{record.lastUpdated}</span>
               </div>
             </div>
           </div>
@@ -288,37 +288,37 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
   );
 
   const ListView = () => (
-    <Card className="bg-white shadow-sm border border-gray-200 overflow-hidden">
+    <Card className="bg-white shadow-sm border border-slate-200 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="border-b border-gray-200 bg-gray-50">
+          <thead className="border-b border-slate-200 bg-slate-50">
             <tr>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Name</th>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Type</th>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Status</th>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Score</th>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Trend</th>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Author</th>
-              <th className="text-left p-4 text-sm font-semibold text-gray-700">Updated</th>
-              <th className="text-right p-4 text-sm font-semibold text-gray-700">Actions</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Name</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Type</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Status</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Score</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Trend</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Author</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Updated</th>
+              <th className="text-right p-4 text-sm font-semibold text-slate-700">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedRecords.map((record) => (
-              <tr key={record.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+              <tr key={record.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-50 rounded-lg">
+                    <div className="p-2 bg-slate-50 rounded-lg">
                       {getTypeIcon(record.type)}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">{record.name}</p>
-                      <p className="text-sm text-gray-500 mt-1">{record.description}</p>
+                      <p className="font-medium text-slate-900">{record.name}</p>
+                      <p className="text-sm text-slate-500 mt-1">{record.description}</p>
                     </div>
                   </div>
                 </td>
                 <td className="p-4">
-                  <Badge variant="outline" className="border-gray-300 text-gray-700">
+                  <Badge variant="outline" className="border-slate-300 text-slate-700">
                     {record.type.replace('-', ' ')}
                   </Badge>
                 </td>
@@ -331,7 +331,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                   <div className="w-20">
                     <div className="flex items-center gap-2">
                       <Progress value={record.score} className="h-2" />
-                      <span className="text-sm text-gray-700">{record.score}%</span>
+                      <span className="text-sm text-slate-700">{record.score}%</span>
                     </div>
                   </div>
                 </td>
@@ -341,15 +341,15 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                 <td className="p-4">
                   <div className="flex items-center gap-2">
                     <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-blue-500 text-white text-xs">
+                      <AvatarFallback className="bg-slate-500 text-white text-xs">
                         {record.author.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="text-sm text-gray-700">{record.author}</span>
+                    <span className="text-sm text-slate-700">{record.author}</span>
                   </div>
                 </td>
                 <td className="p-4">
-                  <span className="text-sm text-gray-500">{record.lastUpdated}</span>
+                  <span className="text-sm text-slate-500">{record.lastUpdated}</span>
                 </td>
                 <td className="p-4 text-right">
                   <ActionDropdown record={record} />
@@ -363,25 +363,25 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
   );
 
   return (
-    <div className="flex-1 p-6 bg-gray-50">
+    <div className="flex-1 p-6 bg-slate-50">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-blue-600 mb-2">
+            <h1 className="text-3xl font-bold text-slate-800 mb-2">
               AI Data Records
             </h1>
-            <p className="text-gray-600">
+            <p className="text-slate-600">
               Showing {startIndex + 1}-{Math.min(startIndex + ITEMS_PER_PAGE, filteredRecords.length)} of {filteredRecords.length} records
             </p>
           </div>
           <div className="flex gap-3">
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex bg-slate-100 rounded-lg p-1">
               <Button
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('list')}
-                className={viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}
+                className={viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'}
               >
                 <List className="w-4 h-4 mr-2" />
                 List
@@ -390,17 +390,17 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                 variant={viewMode === 'card' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setViewMode('card')}
-                className={viewMode === 'card' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}
+                className={viewMode === 'card' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'}
               >
                 <LayoutGrid className="w-4 h-4 mr-2" />
                 Cards
               </Button>
             </div>
-            <Button variant="outline" className="border-gray-300 hover:border-blue-500 hover:bg-blue-50">
+            <Button variant="outline" className="border-slate-300 hover:border-slate-400 hover:bg-slate-50">
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-slate-800 hover:bg-slate-900">
               <Zap className="w-4 h-4 mr-2" />
               New Record
             </Button>
