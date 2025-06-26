@@ -163,23 +163,24 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1 min-w-0 pr-4">
-                  {/* Title at the top with bigger font and trial name prefix */}
+                  {/* Title at the top with bigger font */}
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <h3 className="text-xl font-medium text-gray-900 mb-3 line-clamp-2 leading-relaxed" title={trial.abstractTitle}>
-                          <span className="font-bold">{trial.trialName}:</span> {trial.abstractTitle}
+                          {trial.abstractTitle}
                         </h3>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-md">
-                        <p><span className="font-bold">{trial.trialName}:</span> {trial.abstractTitle}</p>
+                        <p>{trial.abstractTitle}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                   
-                  {/* Row with NCT ID, phase, status, enrollment, and company */}
+                  {/* Row with NCT ID, trial name badge, phase, status, enrollment, and company */}
                   <div className="flex items-center gap-3 flex-wrap">
                     <p className="text-blue-600 font-mono text-sm font-medium">{trial.id}</p>
+                    <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
                     <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
                     <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
                     <div className="flex items-center gap-1 text-sm text-gray-600">
