@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -54,9 +53,26 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
     background: white;
     min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-medium;
+  }
+
+  .font-body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Roboto Condensed', system-ui, sans-serif;
+    font-weight: 600;
+  }
+
+  .font-code {
+    font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
   }
 }
 
