@@ -71,7 +71,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       population: 'Unresectable',
       biomarker: 'Child-Pugh A',
       treatment: 'Durvalumab + Tremelimumab',
-      conference: 'ASCO 2024',
+      conference: 'SITC 2025',
       orr: '28.3%',
       pfs: '5.6m',
       os: 'NR',
@@ -83,20 +83,51 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'recruiting': return 'bg-yellow-100 text-yellow-800';
-      case 'terminated': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'active': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'completed': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'recruiting': return 'bg-amber-100 text-amber-800 border-amber-200';
+      case 'terminated': return 'bg-red-100 text-red-800 border-red-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getPhaseColor = (phase: string) => {
     switch (phase) {
-      case 'Phase 1': return 'bg-purple-100 text-purple-800';
-      case 'Phase 2': return 'bg-orange-100 text-orange-800';
-      case 'Phase 3': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Phase 1': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'Phase 2': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'Phase 3': return 'bg-cyan-100 text-cyan-800 border-cyan-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const getConferenceColor = (conference: string) => {
+    switch (conference) {
+      case 'ASCO 2025': return 'bg-rose-100 text-rose-800 border-rose-200';
+      case 'ESMO 2024': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+      case 'SITC 2025': return 'bg-teal-100 text-teal-800 border-teal-200';
+      case 'WCLC 2025': return 'bg-violet-100 text-violet-800 border-violet-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const getLineTherapyColor = (line: string) => {
+    switch (line) {
+      case '1L': return 'bg-green-100 text-green-800 border-green-200';
+      case '2L': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case '3L+': return 'bg-red-100 text-red-800 border-red-200';
+      case 'Adjuvant': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'Neoadjuvant': return 'bg-purple-100 text-purple-800 border-purple-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const getModalityColor = (modality: string) => {
+    switch (modality) {
+      case 'mAb': return 'bg-sky-100 text-sky-800 border-sky-200';
+      case 'ADC': return 'bg-pink-100 text-pink-800 border-pink-200';
+      case 'Bispecific': return 'bg-lime-100 text-lime-800 border-lime-200';
+      case 'Small Molecule': return 'bg-orange-100 text-orange-800 border-orange-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -118,7 +149,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 <div>
                   <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
                   <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
-                  <p className="text-gray-600 text-sm mt-1">{trial.company} • {trial.conference}</p>
+                  <p className="text-gray-600 text-sm mt-1">{trial.company}</p>
                 </div>
                 <div className="flex space-x-2">
                   <Button variant="ghost" size="sm">
@@ -137,11 +168,11 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Indication</p>
-                  <p className="font-medium text-gray-900">{trial.indication} • {trial.lineTherapy}</p>
+                  <p className="font-medium text-gray-900">{trial.indication}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Target/Modality</p>
-                  <p className="font-medium text-gray-900">{trial.target} • {trial.modality}</p>
+                  <p className="font-medium text-gray-900">{trial.target}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Biomarker</p>
@@ -149,9 +180,12 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
               </div>
               
-              <div className="flex items-center gap-4 mb-4">
-                <Badge className={getPhaseColor(trial.phase)}>{trial.phase}</Badge>
-                <Badge className={getStatusColor(trial.status)}>{trial.status}</Badge>
+              <div className="flex items-center gap-2 mb-4 flex-wrap">
+                <Badge className={`${getPhaseColor(trial.phase)} border`}>{trial.phase}</Badge>
+                <Badge className={`${getStatusColor(trial.status)} border`}>{trial.status}</Badge>
+                <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border`}>{trial.lineTherapy}</Badge>
+                <Badge className={`${getConferenceColor(trial.conference)} border`}>{trial.conference}</Badge>
+                <Badge className={`${getModalityColor(trial.modality)} border`}>{trial.modality}</Badge>
                 <span className="text-sm text-gray-600">Enrollment: {trial.enrollment}</span>
               </div>
               
@@ -191,6 +225,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               <th className="text-left p-4 font-medium text-gray-900">Indication</th>
               <th className="text-left p-4 font-medium text-gray-900">Treatment</th>
               <th className="text-left p-4 font-medium text-gray-900">Target</th>
+              <th className="text-left p-4 font-medium text-gray-900">Conference</th>
               <th className="text-left p-4 font-medium text-gray-900">ORR</th>
               <th className="text-left p-4 font-medium text-gray-900">PFS</th>
               <th className="text-left p-4 font-medium text-gray-900">OS</th>
@@ -206,26 +241,32 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     <div>
                       <div className="font-medium text-gray-900">{trial.trialName}</div>
                       <div className="font-mono text-sm text-blue-600">{trial.id}</div>
-                      <div className="text-sm text-gray-500">{trial.conference}</div>
                     </div>
                   </div>
                 </td>
                 <td className="p-4 text-sm text-gray-900">{trial.company}</td>
                 <td className="p-4">
-                  <Badge className={getPhaseColor(trial.phase)}>{trial.phase}</Badge>
+                  <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
                 </td>
                 <td className="p-4">
-                  <Badge className={getStatusColor(trial.status)}>{trial.status}</Badge>
+                  <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
                 </td>
                 <td className="p-4">
                   <div className="text-sm text-gray-900">{trial.indication}</div>
-                  <div className="text-xs text-gray-500">{trial.lineTherapy} • {trial.biomarker}</div>
+                  <div className="flex gap-1 mt-1">
+                    <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
+                  </div>
                 </td>
                 <td className="p-4 text-sm text-gray-900 max-w-48">
                   <div className="truncate">{trial.treatment}</div>
-                  <div className="text-xs text-gray-500">{trial.drug} • {trial.modality}</div>
+                  <div className="flex gap-1 mt-1">
+                    <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
+                  </div>
                 </td>
                 <td className="p-4 text-sm text-gray-900">{trial.target}</td>
+                <td className="p-4">
+                  <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
+                </td>
                 <td className="p-4 text-sm font-medium text-gray-900">{trial.orr}</td>
                 <td className="p-4 text-sm font-medium text-gray-900">{trial.pfs}</td>
                 <td className="p-4 text-sm font-medium text-gray-900">{trial.os}</td>

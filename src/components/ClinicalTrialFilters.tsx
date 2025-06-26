@@ -21,7 +21,8 @@ import {
   FlaskConical,
   Target,
   Pill,
-  BarChart3
+  BarChart3,
+  Calendar
 } from 'lucide-react';
 
 interface ClinicalTrialFiltersProps {
@@ -36,6 +37,7 @@ const ClinicalTrialFilters: React.FC<ClinicalTrialFiltersProps> = ({ onFiltersCh
     status: '',
     lineTherapy: '',
     company: '',
+    conference: '',
     drugs: [] as string[],
     targets: [] as string[],
     modalities: [] as string[],
@@ -83,6 +85,7 @@ const ClinicalTrialFilters: React.FC<ClinicalTrialFiltersProps> = ({ onFiltersCh
       status: '',
       lineTherapy: '',
       company: '',
+      conference: '',
       drugs: [],
       targets: [],
       modalities: [],
@@ -131,6 +134,13 @@ const ClinicalTrialFilters: React.FC<ClinicalTrialFiltersProps> = ({ onFiltersCh
     { value: 'Roche', label: 'Roche' },
     { value: 'Pfizer', label: 'Pfizer' },
     { value: 'Novartis', label: 'Novartis' },
+  ];
+
+  const conferences = [
+    { value: 'ASCO 2025', label: 'ASCO 2025' },
+    { value: 'SITC 2025', label: 'SITC 2025' },
+    { value: 'WCLC 2025', label: 'WCLC 2025' },
+    { value: 'ESMO 2024', label: 'ESMO 2024' },
   ];
 
   const drugOptions = [
@@ -290,6 +300,25 @@ const ClinicalTrialFilters: React.FC<ClinicalTrialFiltersProps> = ({ onFiltersCh
               {companies.map((company) => (
                 <SelectItem key={company.value} value={company.value}>
                   {company.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <Calendar className="w-4 h-4 text-indigo-600" />
+            <Label className="text-sm font-medium text-gray-700">Conference</Label>
+          </div>
+          <Select onValueChange={(value) => handleFilterChange('conference', value)} value={filters.conference}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select conference" />
+            </SelectTrigger>
+            <SelectContent>
+              {conferences.map((conference) => (
+                <SelectItem key={conference.value} value={conference.value}>
+                  {conference.label}
                 </SelectItem>
               ))}
             </SelectContent>
