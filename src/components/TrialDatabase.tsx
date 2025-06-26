@@ -149,12 +149,15 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
                   <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
                   <p className="text-gray-600 text-sm mt-1">{trial.company}</p>
+                  <p className="text-gray-700 text-sm mt-2 line-clamp-2" title={trial.abstractTitle}>
+                    {trial.abstractTitle}
+                  </p>
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 ml-4">
                   <Button variant="ghost" size="sm">
                     <Eye className="h-4 w-4" />
                   </Button>
