@@ -47,36 +47,36 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
   }, [searchTerm, selectedStatus, selectedCategory, scoreRange]);
 
   return (
-    <div className="w-80 min-h-screen p-6 bg-gradient-to-b from-slate-900/50 to-slate-800/30 backdrop-blur-xl border-r border-white/10">
+    <div className="w-80 min-h-screen p-6 bg-white border-r border-gray-200">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
             <Filter className="w-5 h-5 text-white" />
           </div>
-          <h2 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Smart Filters
           </h2>
         </div>
-        <p className="text-sm text-slate-400">Refine your data with precision</p>
+        <p className="text-sm text-gray-600">Refine your data with precision</p>
       </div>
 
       {/* Search */}
-      <Card className="p-4 mb-6 glass-morphism border-white/10">
+      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input
             placeholder="Search records..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-slate-800/50 border-slate-700 text-white placeholder-slate-400 focus:border-blue-500"
+            className="pl-10 bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-blue-500"
           />
         </div>
       </Card>
 
       {/* Quick Filters */}
       <div className="mb-6">
-        <Label className="text-sm font-semibold text-slate-300 mb-3 block">Quick Filters</Label>
+        <Label className="text-sm font-semibold text-gray-700 mb-3 block">Quick Filters</Label>
         <div className="grid grid-cols-2 gap-2">
           {['High Priority', 'Recent', 'AI Generated', 'Favorites'].map((filter) => (
             <Button
@@ -84,7 +84,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
               variant={activeFilters.includes(filter) ? "default" : "outline"}
               size="sm"
               onClick={() => activeFilters.includes(filter) ? removeFilter(filter) : addFilter(filter)}
-              className="text-xs border-slate-600 hover:border-blue-500 hover:bg-blue-500/10"
+              className="text-xs border-gray-300 hover:border-blue-500 hover:bg-blue-50"
             >
               {filter}
             </Button>
@@ -93,46 +93,46 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
       </div>
 
       {/* Status Filter */}
-      <Card className="p-4 mb-6 glass-morphism border-white/10">
-        <Label className="text-sm font-semibold text-slate-300 mb-3 block flex items-center gap-2">
+      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
+        <Label className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2">
           <Target className="w-4 h-4" />
           Status
         </Label>
         <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="bg-slate-800/50 border-slate-700 text-white">
+          <SelectTrigger className="bg-white border-gray-200 text-gray-900">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
-          <SelectContent className="bg-slate-800 border-slate-700">
-            <SelectItem value="active" className="text-white hover:bg-slate-700">Active</SelectItem>
-            <SelectItem value="pending" className="text-white hover:bg-slate-700">Pending</SelectItem>
-            <SelectItem value="completed" className="text-white hover:bg-slate-700">Completed</SelectItem>
-            <SelectItem value="archived" className="text-white hover:bg-slate-700">Archived</SelectItem>
+          <SelectContent className="bg-white border-gray-200">
+            <SelectItem value="active" className="text-gray-900 hover:bg-gray-100">Active</SelectItem>
+            <SelectItem value="pending" className="text-gray-900 hover:bg-gray-100">Pending</SelectItem>
+            <SelectItem value="completed" className="text-gray-900 hover:bg-gray-100">Completed</SelectItem>
+            <SelectItem value="archived" className="text-gray-900 hover:bg-gray-100">Archived</SelectItem>
           </SelectContent>
         </Select>
       </Card>
 
       {/* Category Filter */}
-      <Card className="p-4 mb-6 glass-morphism border-white/10">
-        <Label className="text-sm font-semibold text-slate-300 mb-3 block flex items-center gap-2">
+      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
+        <Label className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2">
           <Zap className="w-4 h-4" />
           Category
         </Label>
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="bg-slate-800/50 border-slate-700 text-white">
+          <SelectTrigger className="bg-white border-gray-200 text-gray-900">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
-          <SelectContent className="bg-slate-800 border-slate-700">
-            <SelectItem value="ai-models" className="text-white hover:bg-slate-700">AI Models</SelectItem>
-            <SelectItem value="datasets" className="text-white hover:bg-slate-700">Datasets</SelectItem>
-            <SelectItem value="analytics" className="text-white hover:bg-slate-700">Analytics</SelectItem>
-            <SelectItem value="reports" className="text-white hover:bg-slate-700">Reports</SelectItem>
+          <SelectContent className="bg-white border-gray-200">
+            <SelectItem value="ai-models" className="text-gray-900 hover:bg-gray-100">AI Models</SelectItem>
+            <SelectItem value="datasets" className="text-gray-900 hover:bg-gray-100">Datasets</SelectItem>
+            <SelectItem value="analytics" className="text-gray-900 hover:bg-gray-100">Analytics</SelectItem>
+            <SelectItem value="reports" className="text-gray-900 hover:bg-gray-100">Reports</SelectItem>
           </SelectContent>
         </Select>
       </Card>
 
       {/* Score Range */}
-      <Card className="p-4 mb-6 glass-morphism border-white/10">
-        <Label className="text-sm font-semibold text-slate-300 mb-3 block flex items-center gap-2">
+      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
+        <Label className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2">
           <TrendingUp className="w-4 h-4" />
           Performance Score: {scoreRange[0]}%
         </Label>
@@ -143,7 +143,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
           step={1}
           className="py-4"
         />
-        <div className="flex justify-between text-xs text-slate-400 mt-1">
+        <div className="flex justify-between text-xs text-gray-400 mt-1">
           <span>0%</span>
           <span>100%</span>
         </div>
@@ -151,7 +151,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
 
       {/* Advanced Filters Toggle */}
       <div className="flex items-center justify-between mb-4">
-        <Label className="text-sm font-semibold text-slate-300">Advanced Filters</Label>
+        <Label className="text-sm font-semibold text-gray-700">Advanced Filters</Label>
         <Switch
           checked={showAdvanced}
           onCheckedChange={setShowAdvanced}
@@ -160,14 +160,14 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
 
       {/* Active Filters */}
       {activeFilters.length > 0 && (
-        <Card className="p-4 mb-6 glass-morphism border-white/10">
+        <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <Label className="text-sm font-semibold text-slate-300">Active Filters</Label>
+            <Label className="text-sm font-semibold text-gray-700">Active Filters</Label>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setActiveFilters([])}
-              className="text-xs text-slate-400 hover:text-white"
+              className="text-xs text-gray-600 hover:text-gray-900"
             >
               Clear All
             </Button>
@@ -177,7 +177,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
               <Badge
                 key={filter}
                 variant="secondary"
-                className="bg-blue-500/20 text-blue-300 border-blue-400/30 hover:bg-blue-500/30"
+                className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
               >
                 {filter}
                 <X
