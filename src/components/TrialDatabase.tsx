@@ -169,9 +169,17 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                       <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
                       <p className="text-gray-600 text-sm mt-1">{trial.company}</p>
                     </div>
-                    <Badge className={`${getConferenceColor(trial.conference)} border text-xs ml-2 flex-shrink-0`}>
-                      {trial.conference}
-                    </Badge>
+                    <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                      <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>
+                        {trial.conference}
+                      </Badge>
+                      <Button variant="ghost" size="sm">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                   <TooltipProvider>
                     <Tooltip>
