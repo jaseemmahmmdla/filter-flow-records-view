@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +11,7 @@ interface TrialDatabaseProps {
 }
 
 const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
-  const [viewMode, setViewMode] = useState<'card' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   
   const [trials] = useState([
     {
