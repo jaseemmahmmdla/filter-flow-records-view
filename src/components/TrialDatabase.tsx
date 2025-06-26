@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -221,7 +221,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-900 hover:text-blue-600 underline font-mono text-sm"
+                    className="text-gray-900 hover:text-blue-600 underline font-medium"
                   >
                     {trial.id}
                   </a>
@@ -285,90 +285,88 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
 
   const ListView = () => (
     <Card className="shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b">
-            <tr>
-              <th className="text-left p-4 font-medium text-gray-900 min-w-[200px]">Trial</th>
-              <th className="text-left p-4 font-medium text-gray-900 min-w-[400px]">Abstract Title</th>
-              <th className="text-left p-4 font-medium text-gray-900">Company</th>
-              <th className="text-left p-4 font-medium text-gray-900">Phase</th>
-              <th className="text-left p-4 font-medium text-gray-900">Status</th>
-              <th className="text-left p-4 font-medium text-gray-900">Indication</th>
-              <th className="text-left p-4 font-medium text-gray-900">Treatment</th>
-              <th className="text-left p-4 font-medium text-gray-900">Target</th>
-              <th className="text-left p-4 font-medium text-gray-900">Conference</th>
-              <th className="text-left p-4 font-medium text-gray-900">ORR</th>
-              <th className="text-left p-4 font-medium text-gray-900">PFS</th>
-              <th className="text-left p-4 font-medium text-gray-900">OS</th>
-              <th className="text-left p-4 font-medium text-gray-900">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trials.map((trial) => (
-              <tr key={trial.id} className="border-b hover:bg-gray-50">
-                <td className="p-4 min-w-[200px]">
-                  <div className="flex items-center gap-3">
-                    <CompanyLogo company={trial.company} logo={trial.companyLogo} />
-                    <div>
-                      <div className="font-medium text-gray-900">{trial.trialName}</div>
-                      <a 
-                        href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="font-mono text-sm text-gray-600 hover:text-blue-600 underline"
-                      >
-                        {trial.id}
-                      </a>
-                    </div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="min-w-[200px]">Trial</TableHead>
+            <TableHead className="min-w-[300px] max-w-[400px]">Abstract Title</TableHead>
+            <TableHead className="min-w-[120px]">Company</TableHead>
+            <TableHead className="min-w-[100px]">Phase</TableHead>
+            <TableHead className="min-w-[100px]">Status</TableHead>
+            <TableHead className="min-w-[120px]">Indication</TableHead>
+            <TableHead className="min-w-[180px]">Treatment</TableHead>
+            <TableHead className="min-w-[120px]">Target</TableHead>
+            <TableHead className="min-w-[120px]">Conference</TableHead>
+            <TableHead className="min-w-[80px]">ORR</TableHead>
+            <TableHead className="min-w-[80px]">PFS</TableHead>
+            <TableHead className="min-w-[80px]">OS</TableHead>
+            <TableHead className="min-w-[100px] text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {trials.map((trial) => (
+            <TableRow key={trial.id}>
+              <TableCell>
+                <div className="flex items-center gap-3">
+                  <CompanyLogo company={trial.company} logo={trial.companyLogo} />
+                  <div>
+                    <div className="font-medium text-gray-900">{trial.trialName}</div>
+                    <a 
+                      href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="font-medium text-gray-900 hover:text-blue-600 underline"
+                    >
+                      {trial.id}
+                    </a>
                   </div>
-                </td>
-                <td className="p-4 text-sm text-gray-900 min-w-[400px] max-w-[500px]">
-                  <div className="line-clamp-2" title={trial.abstractTitle}>
-                    {trial.abstractTitle}
-                  </div>
-                </td>
-                <td className="p-4 text-sm text-gray-900">{trial.company}</td>
-                <td className="p-4">
-                  <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
-                </td>
-                <td className="p-4">
-                  <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
-                </td>
-                <td className="p-4">
-                  <div className="text-sm text-gray-900">{trial.indication}</div>
-                  <div className="flex gap-1 mt-1">
-                    <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
-                  </div>
-                </td>
-                <td className="p-4 text-sm text-gray-900 max-w-48">
-                  <div className="truncate">{trial.treatment}</div>
-                  <div className="flex gap-1 mt-1">
-                    <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
-                  </div>
-                </td>
-                <td className="p-4 text-sm text-gray-900">{trial.target}</td>
-                <td className="p-4">
-                  <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
-                </td>
-                <td className="p-4 text-sm font-medium text-gray-900">{trial.orr}</td>
-                <td className="p-4 text-sm font-medium text-gray-900">{trial.pfs}</td>
-                <td className="p-4 text-sm font-medium text-gray-900">{trial.os}</td>
-                <td className="p-4">
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </div>
+              </TableCell>
+              <TableCell className="max-w-[400px]">
+                <div className="line-clamp-2 text-sm text-gray-900" title={trial.abstractTitle}>
+                  {trial.abstractTitle}
+                </div>
+              </TableCell>
+              <TableCell className="text-sm text-gray-900">{trial.company}</TableCell>
+              <TableCell>
+                <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
+              </TableCell>
+              <TableCell>
+                <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
+              </TableCell>
+              <TableCell>
+                <div className="text-sm text-gray-900">{trial.indication}</div>
+                <div className="flex gap-1 mt-1">
+                  <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
+                </div>
+              </TableCell>
+              <TableCell className="max-w-[180px]">
+                <div className="truncate text-sm text-gray-900">{trial.treatment}</div>
+                <div className="flex gap-1 mt-1">
+                  <Badge className={`${getModalityColor(trial.modality)} border text-xs`}>{trial.modality}</Badge>
+                </div>
+              </TableCell>
+              <TableCell className="text-sm text-gray-900">{trial.target}</TableCell>
+              <TableCell>
+                <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
+              </TableCell>
+              <TableCell className="text-sm font-medium text-gray-900">{trial.orr}</TableCell>
+              <TableCell className="text-sm font-medium text-gray-900">{trial.pfs}</TableCell>
+              <TableCell className="text-sm font-medium text-gray-900">{trial.os}</TableCell>
+              <TableCell className="text-right">
+                <div className="flex justify-end space-x-2">
+                  <Button variant="ghost" size="sm">
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm">
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </Card>
   );
 
