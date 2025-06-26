@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Slider } from '@/components/ui/slider';
+import { Checkbox } from '@/components/ui/checkbox';
 import { 
   Collapsible,
   CollapsibleContent,
@@ -18,20 +19,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { 
   Search, 
   Filter, 
   X, 
   ChevronDown,
   ChevronLeft,
-  Database,
-  Brain,
-  BarChart3,
-  FileText,
-  Tags,
-  Calendar
+  Calendar,
+  Plus,
+  Minus
 } from 'lucide-react';
+
+interface FilterCondition {
+  field: string;
+  operator: 'include' | 'exclude';
+  values: string[];
+  logic: 'and' | 'or';
+}
 
 interface FilterPanelProps {
   onFiltersChange: (filters: any) => void;
@@ -39,67 +44,25 @@ interface FilterPanelProps {
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [filters, setFilters] = useState({
-    search: '',
-    status: '',
-    category: '',
-    scoreRange: 0,
-    abstractType: '',
-    tags: [] as string[],
-    conference: '',
-  });
+  const [recentConference, setRecentConference] = useState('');
+  const [filterConditions, setFilterConditions] = useState<FilterCondition[]>([]);
+  const [trialIdentifier, setTrialIdentifier] = useState('');
 
-  const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
-
-  const handleFilterChange = (key: string, value: any) => {
-    const newFilters = { ...filters, [key]: value };
-    setFilters(newFilters);
-    onFiltersChange(newFilters);
-
-    // Update active filters
-    if (value && !activeFilters.includes(key)) {
-      setActiveFilters([...activeFilters, key]);
-    } else if (!value && activeFilters.includes(key)) {
-      setActiveFilters(activeFilters.filter(f => f !== key));
-    }
-  };
-
-  const handleTagAdd = (tag: string) => {
-    if (tag && !filters.tags.includes(tag)) {
-      const newTags = [...filters.tags, tag];
-      handleFilterChange('tags', newTags);
-      setTagInput('');
-    }
-  };
-
-  const handleTagRemove = (tagToRemove: string) => {
-    const newTags = filters.tags.filter(tag => tag !== tagToRemove);
-    handleFilterChange('tags', newTags);
-  };
-
-  const clearFilter = (key: string) => {
-    if (key === 'tags') {
-      handleFilterChange(key, []);
-    } else {
-      handleFilterChange(key, key === 'scoreRange' ? 0 : '');
-    }
-  };
-
-  const clearAllFilters = () => {
-    const clearedFilters = {
-      search: '',
-      status: '',
-      category: '',
-      scoreRange: 0,
-      abstractType: '',
-      tags: [],
-      conference: '',
-    };
-    setFilters(clearedFilters);
-    setActiveFilters([]);
-    onFiltersChange(clearedFilters);
-    setTagInput('');
+  const filterOptions = {
+    conference: ['ASCO 2025', 'SITC 2025', 'WCLC 2025', 'ELCC 2025', 'ESMO 2024', 'ASH 2024'],
+    abstractType: ['Oral Presentation', 'Poster', 'Mini Oral', 'Publication', 'Abstract'],
+    endpoint: ['ORR', 'PFS', 'OS', 'DFS', 'DCR', 'Safety', 'QoL'],
+    indication: ['NSCLC', 'HCC', 'Melanoma', 'Breast Cancer', 'Prostate Cancer', 'Renal Cell Carcinoma'],
+    population: ['Metastatic', 'Advanced', 'Locally Advanced', 'Resectable', 'Unresectable'],
+    stage: ['I', 'II', 'III', 'IV', 'IIIa', 'IIIb', 'IVa', 'IVb'],
+    lineTherapy: ['1L', '2L', '3L+', 'Adjuvant', 'Neoadjuvant', 'Maintenance'],
+    biomarker: ['PD-L1 ≥50%', 'PD-L1 1-49%', 'PD-L1 <1%', 'EGFR+', 'ALK+', 'ROS1+', 'KRAS G12C', 'All comers'],
+    company: ['Bristol Myers Squibb', 'Merck', 'AstraZeneca', 'Roche', 'Pfizer', 'Novartis', 'GSK'],
+    drug: ['Nivolumab', 'Pembrolizumab', 'Durvalumab', 'Atezolizumab', 'Ipilimumab', 'Tremelimumab'],
+    target: ['PD-1', 'PD-L1', 'CTLA-4', 'PD-1/CTLA-4', 'PD-L1/CTLA-4', 'EGFR', 'ALK', 'VEGF'],
+    modality: ['mAb', 'ADC', 'Bispecific', 'Small Molecule', 'CAR-T', 'Vaccine'],
+    trialPhase: ['Phase 1', 'Phase 1/2', 'Phase 2', 'Phase 2/3', 'Phase 3', 'Phase 4'],
+    trialStatus: ['Active', 'Recruiting', 'Completed', 'Terminated', 'Suspended', 'Withdrawn']
   };
 
   const recentConferences = [
@@ -109,36 +72,97 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
     { name: 'ELCC 2025', value: 'elcc-2025', color: 'bg-indigo-100 text-indigo-800 border-indigo-200 hover:bg-indigo-200' },
   ];
 
-  const categories = [
-    { value: 'ai-models', label: 'AI Models', icon: Brain },
-    { value: 'datasets', label: 'Datasets', icon: Database },
-    { value: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { value: 'reports', label: 'Reports', icon: FileText },
-  ];
+  const addFilterCondition = () => {
+    const newCondition: FilterCondition = {
+      field: '',
+      operator: 'include',
+      values: [],
+      logic: 'and'
+    };
+    setFilterConditions([...filterConditions, newCondition]);
+  };
 
-  const statuses = [
-    { value: 'active', label: 'Active' },
-    { value: 'pending', label: 'Pending' },
-    { value: 'completed', label: 'Completed' },
-    { value: 'archived', label: 'Archived' },
-  ];
+  const updateFilterCondition = (index: number, updates: Partial<FilterCondition>) => {
+    const updatedConditions = filterConditions.map((condition, i) => 
+      i === index ? { ...condition, ...updates } : condition
+    );
+    setFilterConditions(updatedConditions);
+    emitFilters(updatedConditions);
+  };
 
-  const abstractTypes = [
-    { value: 'poster', label: 'Poster' },
-    { value: 'abstract', label: 'Abstract' },
-    { value: 'publication', label: 'Publication' },
-  ];
+  const removeFilterCondition = (index: number) => {
+    const updatedConditions = filterConditions.filter((_, i) => i !== index);
+    setFilterConditions(updatedConditions);
+    emitFilters(updatedConditions);
+  };
 
-  const commonTags = [
-    'Immunotherapy',
-    'Targeted Therapy',
-    'Combination Therapy',
-    'Biomarker',
-    'First-line',
-    'Metastatic',
-    'Phase 3',
-    'Efficacy',
-  ];
+  const toggleValue = (conditionIndex: number, value: string) => {
+    const condition = filterConditions[conditionIndex];
+    const newValues = condition.values.includes(value)
+      ? condition.values.filter(v => v !== value)
+      : [...condition.values, value];
+    
+    updateFilterCondition(conditionIndex, { values: newValues });
+  };
+
+  const selectAllValues = (conditionIndex: number) => {
+    const condition = filterConditions[conditionIndex];
+    if (condition.field && filterOptions[condition.field as keyof typeof filterOptions]) {
+      updateFilterCondition(conditionIndex, { 
+        values: filterOptions[condition.field as keyof typeof filterOptions] 
+      });
+    }
+  };
+
+  const clearValues = (conditionIndex: number) => {
+    updateFilterCondition(conditionIndex, { values: [] });
+  };
+
+  const emitFilters = (conditions: FilterCondition[]) => {
+    const filters = {
+      recentConference,
+      trialIdentifier,
+      conditions
+    };
+    onFiltersChange(filters);
+  };
+
+  const handleRecentConferenceChange = (value: string) => {
+    setRecentConference(value);
+    emitFilters(filterConditions);
+  };
+
+  const handleTrialIdentifierChange = (value: string) => {
+    setTrialIdentifier(value);
+    emitFilters(filterConditions);
+  };
+
+  const clearAllFilters = () => {
+    setRecentConference('');
+    setTrialIdentifier('');
+    setFilterConditions([]);
+    onFiltersChange({});
+  };
+
+  const getFieldDisplayName = (field: string) => {
+    const displayNames: Record<string, string> = {
+      conference: 'Conference',
+      abstractType: 'Abstract Type',
+      endpoint: 'Endpoint',
+      indication: 'Indication',
+      population: 'Population',
+      stage: 'Stage',
+      lineTherapy: 'Line of Therapy',
+      biomarker: 'Biomarker',
+      company: 'Company',
+      drug: 'Drug',
+      target: 'Target',
+      modality: 'Modality',
+      trialPhase: 'Trial Phase',
+      trialStatus: 'Trial Status'
+    };
+    return displayNames[field] || field;
+  };
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -169,11 +193,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
 
         <CollapsibleContent className="h-[calc(100vh-80px)] overflow-y-auto">
           <div className="p-6">
-            {/* Header Description */}
-            <div className="mb-6">
-              <p className="text-sm text-gray-500">Refine your search results</p>
-            </div>
-
             {/* Recent Conferences */}
             <div className="mb-6">
               <Label className="text-sm font-medium text-gray-700 mb-3 block">
@@ -187,9 +206,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                   <Button
                     key={conference.value}
                     variant="outline"
-                    onClick={() => handleFilterChange('conference', conference.value)}
+                    onClick={() => handleRecentConferenceChange(conference.value)}
                     className={`${conference.color} border text-xs h-8 px-2 transition-colors ${
-                      filters.conference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
+                      recentConference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
                     }`}
                   >
                     {conference.name}
@@ -200,52 +219,18 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
 
             <Separator className="my-6 bg-gray-200" />
 
-            {/* Active Filters */}
-            {activeFilters.length > 0 && (
-              <Card className="p-4 mb-6 bg-blue-50 border-blue-200">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-blue-900">Active Filters</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={clearAllFilters}
-                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-100 h-auto p-1"
-                  >
-                    Clear All
-                  </Button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {activeFilters.map((filterKey) => (
-                    <Badge
-                      key={filterKey}
-                      variant="secondary"
-                      className="bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200"
-                    >
-                      {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}
-                      <button
-                        onClick={() => clearFilter(filterKey)}
-                        className="ml-1 hover:bg-purple-300 rounded-full"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </Badge>
-                  ))}
-                </div>
-              </Card>
-            )}
-
-            {/* Search */}
+            {/* Trial Identifier Search */}
             <div className="mb-6">
-              <Label htmlFor="search" className="text-sm font-medium text-gray-700 mb-2 block">
-                Search
+              <Label htmlFor="trial-identifier" className="text-sm font-medium text-gray-700 mb-2 block">
+                Trial Identifier
               </Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
-                  id="search"
-                  placeholder="Search records..."
-                  value={filters.search}
-                  onChange={(e) => handleFilterChange('search', e.target.value)}
+                  id="trial-identifier"
+                  placeholder="e.g., NCT03539536, CHECKMATE-123"
+                  value={trialIdentifier}
+                  onChange={(e) => handleTrialIdentifierChange(e.target.value)}
                   className="pl-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
@@ -253,212 +238,172 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
 
             <Separator className="my-6 bg-gray-200" />
 
-            {/* Status Filter */}
+            {/* Filter Conditions */}
             <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                Status
-              </Label>
-              <Select onValueChange={(value) => handleFilterChange('status', value)} value={filters.status}>
-                <SelectTrigger className="bg-white border-gray-300 focus:border-blue-500">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border-gray-200 shadow-lg">
-                  {statuses.map((status) => (
-                    <SelectItem key={status.value} value={status.value} className="hover:bg-gray-100">
-                      {status.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Abstract Type Filter */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                Abstract Type
-              </Label>
-              <RadioGroup 
-                value={filters.abstractType} 
-                onValueChange={(value) => handleFilterChange('abstractType', value)}
-                className="space-y-2"
-              >
-                {abstractTypes.map((type) => (
-                  <div key={type.value} className="flex items-center space-x-2">
-                    <RadioGroupItem value={type.value} id={type.value} />
-                    <Label htmlFor={type.value} className="text-sm font-normal cursor-pointer">
-                      {type.label}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            {/* Tags Filter */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                <div className="flex items-center gap-2">
-                  <Tags className="w-4 h-4" />
-                  Tags
-                </div>
-              </Label>
-              
-              {/* Tag Input */}
-              <div className="relative mb-3">
-                <Input
-                  placeholder="Add tag..."
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleTagAdd(tagInput.trim());
-                    }
-                  }}
-                  className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                />
-                {tagInput && (
-                  <Button
-                    size="sm"
-                    onClick={() => handleTagAdd(tagInput.trim())}
-                    className="absolute right-1 top-1 h-8 px-2"
-                  >
-                    Add
-                  </Button>
-                )}
+              <div className="flex items-center justify-between mb-4">
+                <Label className="text-sm font-medium text-gray-700">
+                  Filter Conditions
+                </Label>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={addFilterCondition}
+                  className="h-8 px-3"
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add Filter
+                </Button>
               </div>
 
-              {/* Common Tags */}
-              <div className="mb-3">
-                <p className="text-xs text-gray-500 mb-2">Common tags:</p>
-                <div className="flex flex-wrap gap-1">
-                  {commonTags.map((tag) => (
-                    <Button
-                      key={tag}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleTagAdd(tag)}
-                      disabled={filters.tags.includes(tag)}
-                      className="h-6 px-2 text-xs"
-                    >
-                      {tag}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Selected Tags */}
-              {filters.tags.length > 0 && (
-                <div>
-                  <p className="text-xs text-gray-500 mb-2">Selected tags:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {filters.tags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="secondary"
-                        className="bg-green-100 text-green-700 border-green-200 hover:bg-green-200"
-                      >
-                        {tag}
-                        <button
-                          onClick={() => handleTagRemove(tag)}
-                          className="ml-1 hover:bg-green-300 rounded-full"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
+              {filterConditions.length === 0 && (
+                <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                  <Filter className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                  <p className="text-sm">No filters applied</p>
+                  <p className="text-xs text-gray-400 mt-1">Click "Add Filter" to start building your query</p>
                 </div>
               )}
-            </div>
 
-            {/* Category Filter */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                Category
-              </Label>
-              <Select onValueChange={(value) => handleFilterChange('category', value)} value={filters.category}>
-                <SelectTrigger className="bg-white border-gray-300 focus:border-blue-500">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border-gray-200 shadow-lg">
-                  {categories.map((category) => {
-                    const IconComponent = category.icon;
-                    return (
-                      <SelectItem key={category.value} value={category.value} className="hover:bg-gray-100">
-                        <div className="flex items-center gap-2">
-                          <IconComponent className="w-4 h-4 text-gray-600" />
-                          {category.label}
+              {filterConditions.map((condition, index) => (
+                <Card key={index} className="p-4 mb-4 border border-gray-200">
+                  <div className="space-y-4">
+                    {/* Logic Operator (except for first condition) */}
+                    {index > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-500">Where</span>
+                        <ToggleGroup
+                          type="single"
+                          value={condition.logic}
+                          onValueChange={(value) => value && updateFilterCondition(index, { logic: value as 'and' | 'or' })}
+                          className="h-8"
+                        >
+                          <ToggleGroupItem value="and" className="px-3 py-1 text-xs">
+                            AND
+                          </ToggleGroupItem>
+                          <ToggleGroupItem value="or" className="px-3 py-1 text-xs">
+                            OR
+                          </ToggleGroupItem>
+                        </ToggleGroup>
+                      </div>
+                    )}
+
+                    {/* Field Selection */}
+                    <div className="flex items-center gap-2">
+                      <Select
+                        value={condition.field}
+                        onValueChange={(value) => updateFilterCondition(index, { field: value, values: [] })}
+                      >
+                        <SelectTrigger className="flex-1 bg-white border-gray-300">
+                          <SelectValue placeholder="Select field" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-200 shadow-lg">
+                          {Object.keys(filterOptions).map((field) => (
+                            <SelectItem key={field} value={field} className="hover:bg-gray-100">
+                              {getFieldDisplayName(field)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      <ToggleGroup
+                        type="single"
+                        value={condition.operator}
+                        onValueChange={(value) => value && updateFilterCondition(index, { operator: value as 'include' | 'exclude' })}
+                        className="h-10"
+                      >
+                        <ToggleGroupItem value="include" className="px-3 text-xs bg-green-50 data-[state=on]:bg-green-100 data-[state=on]:text-green-800">
+                          Include
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="exclude" className="px-3 text-xs bg-red-50 data-[state=on]:bg-red-100 data-[state=on]:text-red-800">
+                          Exclude
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFilterCondition(index)}
+                        className="p-1 h-8 w-8 text-gray-400 hover:text-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+
+                    {/* Value Selection */}
+                    {condition.field && (
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-gray-500">Values:</span>
+                          <div className="flex gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => selectAllValues(index)}
+                              className="h-6 px-2 text-xs text-blue-600 hover:text-blue-800"
+                            >
+                              Select All
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => clearValues(index)}
+                              className="h-6 px-2 text-xs text-gray-600 hover:text-gray-800"
+                            >
+                              Clear
+                            </Button>
+                          </div>
                         </div>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-            </div>
+                        
+                        <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto border border-gray-200 rounded-md p-2 bg-gray-50">
+                          {filterOptions[condition.field as keyof typeof filterOptions]?.map((option) => (
+                            <div key={option} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`${index}-${option}`}
+                                checked={condition.values.includes(option)}
+                                onCheckedChange={() => toggleValue(index, option)}
+                              />
+                              <Label 
+                                htmlFor={`${index}-${option}`} 
+                                className="text-sm cursor-pointer flex-1"
+                              >
+                                {option}
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
 
-            {/* Score Range */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                Minimum Score: {filters.scoreRange}%
-              </Label>
-              <div className="px-2">
-                <Slider
-                  value={[filters.scoreRange]}
-                  onValueChange={(value) => handleFilterChange('scoreRange', value[0])}
-                  max={100}
-                  step={5}
-                  className="w-full"
-                />
-                <div className="flex justify-between text-xs text-gray-500 mt-2">
-                  <span>0%</span>
-                  <span>50%</span>
-                  <span>100%</span>
-                </div>
-              </div>
-            </div>
-
-            <Separator className="my-6 bg-gray-200" />
-
-            {/* Quick Filters */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                Quick Filters
-              </Label>
-              <div className="space-y-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    handleFilterChange('status', 'active');
-                    handleFilterChange('scoreRange', 80);
-                  }}
-                  className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
-                >
-                  High Performance Active
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    handleFilterChange('abstractType', 'publication');
-                    handleFilterChange('status', 'completed');
-                  }}
-                  className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
-                >
-                  Published Studies
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    handleTagAdd('Immunotherapy');
-                    handleFilterChange('abstractType', 'poster');
-                  }}
-                  className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
-                >
-                  Immunotherapy Posters
-                </Button>
-              </div>
+                        {/* Selected Values Display */}
+                        {condition.values.length > 0 && (
+                          <div className="mt-2">
+                            <p className="text-xs text-gray-500 mb-1">Selected ({condition.values.length}):</p>
+                            <div className="flex flex-wrap gap-1">
+                              {condition.values.map((value) => (
+                                <Badge
+                                  key={value}
+                                  variant="secondary"
+                                  className={`text-xs ${
+                                    condition.operator === 'include' 
+                                      ? 'bg-green-100 text-green-700 border-green-200' 
+                                      : 'bg-red-100 text-red-700 border-red-200'
+                                  }`}
+                                >
+                                  {condition.operator === 'exclude' && <Minus className="w-3 h-3 mr-1" />}
+                                  {value}
+                                  <button
+                                    onClick={() => toggleValue(index, value)}
+                                    className="ml-1 hover:bg-opacity-50 rounded-full"
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              ))}
             </div>
 
             {/* Reset Button */}
