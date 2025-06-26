@@ -109,7 +109,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
             <SelectItem value="archived" className="text-white hover:bg-slate-700">Archived</SelectItem>
           </SelectContent>
         </Select>
-      </div>
+      </Card>
 
       {/* Category Filter */}
       <Card className="p-4 mb-6 glass-morphism border-white/10">
