@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
 import RecordsTable from '@/components/RecordsTable';
 
@@ -12,9 +13,12 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex">
-      <FilterPanel onFiltersChange={handleFiltersChange} />
-      <RecordsTable filters={filters} />
+    <div className="min-h-screen bg-white flex flex-col">
+      <Header />
+      <div className="flex flex-1">
+        <FilterPanel onFiltersChange={handleFiltersChange} />
+        <RecordsTable filters={filters} />
+      </div>
     </div>
   );
 };
