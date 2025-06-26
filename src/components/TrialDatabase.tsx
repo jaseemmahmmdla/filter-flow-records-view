@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -155,7 +155,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
         alt={`${company} logo`}
         className="w-full h-full object-cover"
         onError={(e) => {
-          // Fallback to text if image fails to load
           const target = e.target as HTMLImageElement;
           target.style.display = 'none';
           target.nextElementSibling?.classList.remove('hidden');
@@ -167,7 +166,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     </div>
   );
 
-  
   const CardView = () => (
     <div className="grid gap-6">
       {trials.map((trial) => (
@@ -178,7 +176,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1 min-w-0 pr-4">
-                  {/* Title at the top with bigger font */}
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -192,7 +189,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     </Tooltip>
                   </TooltipProvider>
                   
-                  {/* Row with trial name badge, phase, status, and enrollment */}
                   <div className="flex items-center gap-3 flex-wrap">
                     <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
                     <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
@@ -376,6 +372,71 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     </div>
   );
 
+  const OverviewContent = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Trials</h3>
+          <p className="text-3xl font-bold text-blue-600">{trials.length}</p>
+          <p className="text-sm text-gray-500 mt-1">Active clinical trials</p>
+        </Card>
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Completed Trials</h3>
+          <p className="text-3xl font-bold text-green-600">
+            {trials.filter(t => t.status === 'Completed').length}
+          </p>
+          <p className="text-sm text-gray-500 mt-1">Trials with results</p>
+        </Card>
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Active Trials</h3>
+          <p className="text-3xl font-bold text-orange-600">
+            {trials.filter(t => t.status === 'Active' || t.status === 'Recruiting').length}
+          </p>
+          <p className="text-sm text-gray-500 mt-1">Ongoing recruitment</p>
+        </Card>
+      </div>
+      
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Trial Distribution by Phase</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {['Phase 1', 'Phase 2', 'Phase 3'].map(phase => {
+            const count = trials.filter(t => t.phase === phase).length;
+            const percentage = Math.round((count / trials.length) * 100);
+            return (
+              <div key={phase} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="font-medium text-gray-900">{phase}</p>
+                  <p className="text-sm text-gray-500">{count} trials</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-semibold text-gray-900">{percentage}%</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+      
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+            <p className="text-gray-700">Most trials are focused on NSCLC (Non-Small Cell Lung Cancer) treatment</p>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+            <p className="text-gray-700">PD-1/PD-L1 inhibitors remain the most common treatment approach</p>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+            <p className="text-gray-700">First-line therapy trials show promising efficacy outcomes</p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+
   return (
     <div className="flex-1 bg-white">
       <div className="p-6">
@@ -384,43 +445,57 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <h1 className="text-2xl font-bold text-gray-900">Clinical Trial Database</h1>
             <p className="text-gray-600 mt-1">{trials.length} trials found</p>
           </div>
-          <div className="flex space-x-3">
-            <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1">
-              <button
-                onClick={() => setViewMode('list')}
-                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  viewMode === 'list'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                }`}
-              >
-                <List className="w-4 h-4 mr-2" />
-                List
-              </button>
-              <button
-                onClick={() => setViewMode('card')}
-                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  viewMode === 'card'
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                }`}
-              >
-                <LayoutGrid className="w-4 h-4 mr-2" />
-                Cards
-              </button>
-            </div>
-            <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Button variant="outline" size="sm">
-              <GitCompare className="h-4 w-4 mr-2" />
-              Compare Selected
-            </Button>
-          </div>
         </div>
 
-        {viewMode === 'card' ? <CardView /> : <ListView />}
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="clinical-data">Clinical Data</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview" className="space-y-6">
+            <OverviewContent />
+          </TabsContent>
+          
+          <TabsContent value="clinical-data" className="space-y-4">
+            <div className="flex justify-end space-x-3">
+              <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1">
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'list'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                  }`}
+                >
+                  <List className="w-4 h-4 mr-2" />
+                  List
+                </button>
+                <button
+                  onClick={() => setViewMode('card')}
+                  className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'card'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                  }`}
+                >
+                  <LayoutGrid className="w-4 h-4 mr-2" />
+                  Cards
+                </button>
+              </div>
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-2" />
+                Export
+              </Button>
+              <Button variant="outline" size="sm">
+                <GitCompare className="h-4 w-4 mr-2" />
+                Compare Selected
+              </Button>
+            </div>
+
+            {viewMode === 'card' ? <CardView /> : <ListView />}
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
