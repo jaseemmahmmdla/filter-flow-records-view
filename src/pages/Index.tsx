@@ -1,12 +1,20 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import FilterPanel from '@/components/FilterPanel';
+import RecordsTable from '@/components/RecordsTable';
 
 const Index = () => {
+  const [filters, setFilters] = useState({});
+
+  const handleFiltersChange = (newFilters: any) => {
+    setFilters(newFilters);
+    console.log('Filters applied:', newFilters);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 flex">
+      <FilterPanel onFiltersChange={handleFiltersChange} />
+      <RecordsTable filters={filters} />
     </div>
   );
 };
