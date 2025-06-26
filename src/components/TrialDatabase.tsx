@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -215,8 +216,15 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               
               <div className="grid grid-cols-3 gap-4 mb-4 mt-4">
                 <div>
-                  <p className="text-sm text-gray-500">NCT ID</p>
-                  <p className="font-medium text-gray-900 font-mono">{trial.id}</p>
+                  <p className="text-sm text-gray-500">Trial</p>
+                  <a 
+                    href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-medium text-blue-600 hover:text-blue-800 underline font-mono"
+                  >
+                    {trial.id}
+                  </a>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Company</p>
@@ -304,7 +312,14 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     <CompanyLogo company={trial.company} logo={trial.companyLogo} />
                     <div>
                       <div className="font-medium text-gray-900">{trial.trialName}</div>
-                      <div className="font-mono text-sm text-blue-600">{trial.id}</div>
+                      <a 
+                        href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="font-mono text-sm text-blue-600 hover:text-blue-800 underline"
+                      >
+                        {trial.id}
+                      </a>
                     </div>
                   </div>
                 </td>
