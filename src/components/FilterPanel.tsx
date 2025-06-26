@@ -4,198 +4,262 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
-import { Calendar, Filter, Search, X, Zap, Target, TrendingUp } from 'lucide-react';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { 
+  Search, 
+  Filter, 
+  X, 
+  ChevronDown,
+  Database,
+  Brain,
+  BarChart3,
+  FileText
+} from 'lucide-react';
 
 interface FilterPanelProps {
   onFiltersChange: (filters: any) => void;
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [scoreRange, setScoreRange] = useState([0]);
+  const [filters, setFilters] = useState({
+    search: '',
+    status: '',
+    category: '',
+    scoreRange: 0,
+  });
+
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const handleFilterChange = () => {
-    const filters = {
-      search: searchTerm,
-      status: selectedStatus,
-      category: selectedCategory,
-      scoreRange: scoreRange[0],
-    };
-    onFiltersChange(filters);
-  };
+  const handleFilterChange = (key: string, value: any) => {
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
+    onFiltersChange(newFilters);
 
-  const addFilter = (filterName: string) => {
-    if (!activeFilters.includes(filterName)) {
-      setActiveFilters([...activeFilters, filterName]);
+    // Update active filters
+    if (value && !activeFilters.includes(key)) {
+      setActiveFilters([...activeFilters, key]);
+    } else if (!value && activeFilters.includes(key)) {
+      setActiveFilters(activeFilters.filter(f => f !== key));
     }
   };
 
-  const removeFilter = (filterName: string) => {
-    setActiveFilters(activeFilters.filter(f => f !== filterName));
+  const clearFilter = (key: string) => {
+    handleFilterChange(key, key === 'scoreRange' ? 0 : '');
   };
 
-  React.useEffect(() => {
-    handleFilterChange();
-  }, [searchTerm, selectedStatus, selectedCategory, scoreRange]);
+  const clearAllFilters = () => {
+    const clearedFilters = {
+      search: '',
+      status: '',
+      category: '',
+      scoreRange: 0,
+    };
+    setFilters(clearedFilters);
+    setActiveFilters([]);
+    onFiltersChange(clearedFilters);
+  };
+
+  const categories = [
+    { value: 'ai-models', label: 'AI Models', icon: Brain },
+    { value: 'datasets', label: 'Datasets', icon: Database },
+    { value: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { value: 'reports', label: 'Reports', icon: FileText },
+  ];
+
+  const statuses = [
+    { value: 'active', label: 'Active' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'archived', label: 'Archived' },
+  ];
 
   return (
-    <div className="w-80 min-h-screen p-6 bg-white border-r border-gray-200">
+    <div className="w-80 bg-white border-r border-gray-200 p-6 overflow-y-auto">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
-            <Filter className="w-5 h-5 text-white" />
-          </div>
-          <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Smart Filters
-          </h2>
-        </div>
-        <p className="text-sm text-gray-600">Refine your data with precision</p>
-      </div>
-
-      {/* Search */}
-      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            placeholder="Search records..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-blue-500"
-          />
-        </div>
-      </Card>
-
-      {/* Quick Filters */}
       <div className="mb-6">
-        <Label className="text-sm font-semibold text-gray-700 mb-3 block">Quick Filters</Label>
-        <div className="grid grid-cols-2 gap-2">
-          {['High Priority', 'Recent', 'AI Generated', 'Favorites'].map((filter) => (
-            <Button
-              key={filter}
-              variant={activeFilters.includes(filter) ? "default" : "outline"}
-              size="sm"
-              onClick={() => activeFilters.includes(filter) ? removeFilter(filter) : addFilter(filter)}
-              className="text-xs border-gray-300 hover:border-blue-500 hover:bg-blue-50"
-            >
-              {filter}
-            </Button>
-          ))}
+        <div className="flex items-center gap-2 mb-2">
+          <Filter className="w-5 h-5 text-gray-600" />
+          <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
         </div>
-      </div>
-
-      {/* Status Filter */}
-      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
-        <Label className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2">
-          <Target className="w-4 h-4" />
-          Status
-        </Label>
-        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="bg-white border-gray-200 text-gray-900">
-            <SelectValue placeholder="Select status" />
-          </SelectTrigger>
-          <SelectContent className="bg-white border-gray-200">
-            <SelectItem value="active" className="text-gray-900 hover:bg-gray-100">Active</SelectItem>
-            <SelectItem value="pending" className="text-gray-900 hover:bg-gray-100">Pending</SelectItem>
-            <SelectItem value="completed" className="text-gray-900 hover:bg-gray-100">Completed</SelectItem>
-            <SelectItem value="archived" className="text-gray-900 hover:bg-gray-100">Archived</SelectItem>
-          </SelectContent>
-        </Select>
-      </Card>
-
-      {/* Category Filter */}
-      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
-        <Label className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2">
-          <Zap className="w-4 h-4" />
-          Category
-        </Label>
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="bg-white border-gray-200 text-gray-900">
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent className="bg-white border-gray-200">
-            <SelectItem value="ai-models" className="text-gray-900 hover:bg-gray-100">AI Models</SelectItem>
-            <SelectItem value="datasets" className="text-gray-900 hover:bg-gray-100">Datasets</SelectItem>
-            <SelectItem value="analytics" className="text-gray-900 hover:bg-gray-100">Analytics</SelectItem>
-            <SelectItem value="reports" className="text-gray-900 hover:bg-gray-100">Reports</SelectItem>
-          </SelectContent>
-        </Select>
-      </Card>
-
-      {/* Score Range */}
-      <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
-        <Label className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2">
-          <TrendingUp className="w-4 h-4" />
-          Performance Score: {scoreRange[0]}%
-        </Label>
-        <Slider
-          value={scoreRange}
-          onValueChange={setScoreRange}
-          max={100}
-          step={1}
-          className="py-4"
-        />
-        <div className="flex justify-between text-xs text-gray-400 mt-1">
-          <span>0%</span>
-          <span>100%</span>
-        </div>
-      </Card>
-
-      {/* Advanced Filters Toggle */}
-      <div className="flex items-center justify-between mb-4">
-        <Label className="text-sm font-semibold text-gray-700">Advanced Filters</Label>
-        <Switch
-          checked={showAdvanced}
-          onCheckedChange={setShowAdvanced}
-        />
+        <p className="text-sm text-gray-500">Refine your search results</p>
       </div>
 
       {/* Active Filters */}
       {activeFilters.length > 0 && (
-        <Card className="p-4 mb-6 border border-gray-200 shadow-sm">
+        <Card className="p-4 mb-6 bg-blue-50 border-blue-200">
           <div className="flex items-center justify-between mb-3">
-            <Label className="text-sm font-semibold text-gray-700">Active Filters</Label>
+            <span className="text-sm font-medium text-blue-900">Active Filters</span>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setActiveFilters([])}
-              className="text-xs text-gray-600 hover:text-gray-900"
+              onClick={clearAllFilters}
+              className="text-blue-600 hover:text-blue-800 hover:bg-blue-100 h-auto p-1"
             >
               Clear All
             </Button>
           </div>
           <div className="flex flex-wrap gap-2">
-            {activeFilters.map((filter) => (
+            {activeFilters.map((filterKey) => (
               <Badge
-                key={filter}
+                key={filterKey}
                 variant="secondary"
-                className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+                className="bg-blue-100 text-blue-800 hover:bg-blue-200"
               >
-                {filter}
-                <X
-                  className="w-3 h-3 ml-1 cursor-pointer"
-                  onClick={() => removeFilter(filter)}
-                />
+                {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}
+                <button
+                  onClick={() => clearFilter(filterKey)}
+                  className="ml-1 hover:bg-blue-300 rounded-full"
+                >
+                  <X className="w-3 h-3" />
+                </button>
               </Badge>
             ))}
           </div>
         </Card>
       )}
 
-      {/* Apply Filters Button */}
+      {/* Search */}
+      <div className="mb-6">
+        <Label htmlFor="search" className="text-sm font-medium text-gray-700 mb-2 block">
+          Search
+        </Label>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Input
+            id="search"
+            placeholder="Search records..."
+            value={filters.search}
+            onChange={(e) => handleFilterChange('search', e.target.value)}
+            className="pl-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+      <Separator className="my-6 bg-gray-200" />
+
+      {/* Status Filter */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          Status
+        </Label>
+        <Select onValueChange={(value) => handleFilterChange('status', value)} value={filters.status}>
+          <SelectTrigger className="bg-white border-gray-300 focus:border-blue-500">
+            <SelectValue placeholder="Select status" />
+          </SelectTrigger>
+          <SelectContent className="bg-white border-gray-200 shadow-lg">
+            {statuses.map((status) => (
+              <SelectItem key={status.value} value={status.value} className="hover:bg-gray-100">
+                {status.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Category Filter */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          Category
+        </Label>
+        <Select onValueChange={(value) => handleFilterChange('category', value)} value={filters.category}>
+          <SelectTrigger className="bg-white border-gray-300 focus:border-blue-500">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent className="bg-white border-gray-200 shadow-lg">
+            {categories.map((category) => {
+              const IconComponent = category.icon;
+              return (
+                <SelectItem key={category.value} value={category.value} className="hover:bg-gray-100">
+                  <div className="flex items-center gap-2">
+                    <IconComponent className="w-4 h-4 text-gray-600" />
+                    {category.label}
+                  </div>
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Score Range */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          Minimum Score: {filters.scoreRange}%
+        </Label>
+        <div className="px-2">
+          <Slider
+            value={[filters.scoreRange]}
+            onValueChange={(value) => handleFilterChange('scoreRange', value[0])}
+            max={100}
+            step={5}
+            className="w-full"
+          />
+          <div className="flex justify-between text-xs text-gray-500 mt-2">
+            <span>0%</span>
+            <span>50%</span>
+            <span>100%</span>
+          </div>
+        </div>
+      </div>
+
+      <Separator className="my-6 bg-gray-200" />
+
+      {/* Quick Filters */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          Quick Filters
+        </Label>
+        <div className="space-y-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              handleFilterChange('status', 'active');
+              handleFilterChange('scoreRange', 80);
+            }}
+            className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
+          >
+            High Performance Active
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              handleFilterChange('category', 'ai-models');
+              handleFilterChange('status', 'active');
+            }}
+            className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
+          >
+            Active AI Models
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleFilterChange('scoreRange', 90)}
+            className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
+          >
+            Top Performers (90%+)
+          </Button>
+        </div>
+      </div>
+
+      {/* Reset Button */}
       <Button
-        onClick={handleFilterChange}
-        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2.5"
+        variant="outline"
+        onClick={clearAllFilters}
+        className="w-full bg-white border-gray-300 hover:bg-red-50 hover:border-red-500 hover:text-red-600"
       >
-        Apply Filters
+        <X className="w-4 h-4 mr-2" />
+        Reset All Filters
       </Button>
     </div>
   );
