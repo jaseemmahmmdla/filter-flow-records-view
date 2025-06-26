@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Eye, Compare, Download, MoreHorizontal } from 'lucide-react';
+import { Eye, GitCompare, Download, MoreHorizontal } from 'lucide-react';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -100,7 +99,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               Export
             </Button>
             <Button variant="outline" size="sm">
-              <Compare className="h-4 w-4 mr-2" />
+              <GitCompare className="h-4 w-4 mr-2" />
               Compare Selected
             </Button>
           </div>
