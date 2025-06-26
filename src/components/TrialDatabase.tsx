@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -167,7 +168,17 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-900 text-lg">{trial.trialName}</h3>
                       <p className="text-blue-600 font-mono text-sm">{trial.id}</p>
-                      <p className="text-gray-600 text-sm mt-1">{trial.company}</p>
+                      
+                      {/* New row with phase, status, enrollment, and company */}
+                      <div className="flex items-center gap-3 mt-2 flex-wrap">
+                        <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
+                        <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
+                        <div className="flex items-center gap-1 text-sm text-gray-600">
+                          <User className="h-4 w-4" />
+                          <span>{trial.enrollment}</span>
+                        </div>
+                        <span className="text-sm text-gray-600">{trial.company}</span>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 ml-2 flex-shrink-0">
                       <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>
@@ -216,14 +227,8 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </div>
               
               <div className="flex items-center gap-2 mb-4 flex-wrap">
-                <Badge className={`${getPhaseColor(trial.phase)} border`}>{trial.phase}</Badge>
-                <Badge className={`${getStatusColor(trial.status)} border`}>{trial.status}</Badge>
                 <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border`}>{trial.lineTherapy}</Badge>
                 <Badge className={`${getModalityColor(trial.modality)} border`}>{trial.modality}</Badge>
-                <div className="flex items-center gap-1 text-sm text-gray-600">
-                  <User className="h-4 w-4" />
-                  <span>{trial.enrollment}</span>
-                </div>
               </div>
               
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
