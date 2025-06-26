@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -417,39 +416,31 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
             value: records.length, 
             change: '+12%', 
             positive: true,
-            bgColor: 'bg-purple-50',
-            iconColor: 'text-purple-600',
-            borderColor: 'border-purple-200'
+            iconColor: 'text-purple-600'
           },
           { 
             label: 'Active Models', 
             value: records.filter(r => r.status === 'active').length, 
             change: '+8%', 
             positive: true,
-            bgColor: 'bg-fuchsia-50',
-            iconColor: 'text-fuchsia-600',
-            borderColor: 'border-fuchsia-200'
+            iconColor: 'text-purple-600'
           },
           { 
             label: 'Avg Score', 
             value: `${Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%`, 
             change: '+2.1%', 
             positive: true,
-            bgColor: 'bg-violet-50',
-            iconColor: 'text-violet-600',
-            borderColor: 'border-violet-200'
+            iconColor: 'text-purple-600'
           },
           { 
             label: 'This Month', 
             value: records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length, 
             change: '-3%', 
             positive: false,
-            bgColor: 'bg-pink-50',
-            iconColor: 'text-pink-600',
-            borderColor: 'border-pink-200'
+            iconColor: 'text-purple-600'
           }
         ].map((stat, index) => (
-          <Card key={index} className={`p-6 ${stat.bgColor} shadow-sm ${stat.borderColor} border hover:shadow-md transition-all duration-200 hover:scale-105`}>
+          <Card key={index} className="p-6 bg-white shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200 hover:scale-105">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-slate-600 mb-1 font-body">{stat.label}</p>
