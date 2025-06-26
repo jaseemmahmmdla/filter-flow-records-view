@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -221,7 +220,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="font-medium text-blue-600 hover:text-blue-800 underline font-mono"
+                    className="text-gray-900 hover:text-blue-600 underline font-mono text-sm"
                   >
                     {trial.id}
                   </a>
@@ -316,7 +315,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                         href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="font-mono text-sm text-blue-600 hover:text-blue-800 underline"
+                        className="font-mono text-sm text-gray-600 hover:text-blue-600 underline"
                       >
                         {trial.id}
                       </a>
