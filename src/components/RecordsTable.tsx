@@ -201,7 +201,6 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
     return true;
   });
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredRecords.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedRecords = filteredRecords.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -243,7 +242,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
       {paginatedRecords.map((record) => (
         <Card key={record.id} className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow p-6">
           <div className="flex items-start gap-4">
-            <div className="p-3 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl">
+            <div className="p-3 bg-blue-50 rounded-xl">
               {getTypeIcon(record.type)}
             </div>
             
@@ -273,7 +272,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2">
                   <Avatar className="w-8 h-8">
-                    <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs">
+                    <AvatarFallback className="bg-blue-500 text-white text-xs">
                       {record.author.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
@@ -309,7 +308,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <tr key={record.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg">
+                    <div className="p-2 bg-blue-50 rounded-lg">
                       {getTypeIcon(record.type)}
                     </div>
                     <div>
@@ -342,7 +341,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                 <td className="p-4">
                   <div className="flex items-center gap-2">
                     <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs">
+                      <AvatarFallback className="bg-blue-500 text-white text-xs">
                         {record.author.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
@@ -369,7 +368,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold text-blue-600 mb-2">
               AI Data Records
             </h1>
             <p className="text-gray-600">
@@ -401,7 +400,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            <Button className="bg-blue-600 hover:bg-blue-700">
               <Zap className="w-4 h-4 mr-2" />
               New Record
             </Button>
