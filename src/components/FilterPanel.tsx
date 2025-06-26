@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { 
   Search, 
   Filter, 
@@ -22,7 +22,8 @@ import {
   Database,
   Brain,
   BarChart3,
-  FileText
+  FileText,
+  Tags
 } from 'lucide-react';
 
 interface FilterPanelProps {
@@ -35,9 +36,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
     status: '',
     category: '',
     scoreRange: 0,
+    abstractType: '',
+    tags: [] as string[],
   });
 
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
 
   const handleFilterChange = (key: string, value: any) => {
     const newFilters = { ...filters, [key]: value };
@@ -52,8 +56,25 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
     }
   };
 
+  const handleTagAdd = (tag: string) => {
+    if (tag && !filters.tags.includes(tag)) {
+      const newTags = [...filters.tags, tag];
+      handleFilterChange('tags', newTags);
+      setTagInput('');
+    }
+  };
+
+  const handleTagRemove = (tagToRemove: string) => {
+    const newTags = filters.tags.filter(tag => tag !== tagToRemove);
+    handleFilterChange('tags', newTags);
+  };
+
   const clearFilter = (key: string) => {
-    handleFilterChange(key, key === 'scoreRange' ? 0 : '');
+    if (key === 'tags') {
+      handleFilterChange(key, []);
+    } else {
+      handleFilterChange(key, key === 'scoreRange' ? 0 : '');
+    }
   };
 
   const clearAllFilters = () => {
@@ -62,10 +83,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
       status: '',
       category: '',
       scoreRange: 0,
+      abstractType: '',
+      tags: [],
     };
     setFilters(clearedFilters);
     setActiveFilters([]);
     onFiltersChange(clearedFilters);
+    setTagInput('');
   };
 
   const categories = [
@@ -80,6 +104,23 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
     { value: 'pending', label: 'Pending' },
     { value: 'completed', label: 'Completed' },
     { value: 'archived', label: 'Archived' },
+  ];
+
+  const abstractTypes = [
+    { value: 'poster', label: 'Poster' },
+    { value: 'abstract', label: 'Abstract' },
+    { value: 'publication', label: 'Publication' },
+  ];
+
+  const commonTags = [
+    'Immunotherapy',
+    'Targeted Therapy',
+    'Combination Therapy',
+    'Biomarker',
+    'First-line',
+    'Metastatic',
+    'Phase 3',
+    'Efficacy',
   ];
 
   return (
@@ -165,6 +206,105 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
         </Select>
       </div>
 
+      {/* Abstract Type Filter */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          Abstract Type
+        </Label>
+        <RadioGroup 
+          value={filters.abstractType} 
+          onValueChange={(value) => handleFilterChange('abstractType', value)}
+          className="space-y-2"
+        >
+          {abstractTypes.map((type) => (
+            <div key={type.value} className="flex items-center space-x-2">
+              <RadioGroupItem value={type.value} id={type.value} />
+              <Label htmlFor={type.value} className="text-sm font-normal cursor-pointer">
+                {type.label}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </div>
+
+      {/* Tags Filter */}
+      <div className="mb-6">
+        <Label className="text-sm font-medium text-gray-700 mb-3 block">
+          <div className="flex items-center gap-2">
+            <Tags className="w-4 h-4" />
+            Tags
+          </div>
+        </Label>
+        
+        {/* Tag Input */}
+        <div className="relative mb-3">
+          <Input
+            placeholder="Add tag..."
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleTagAdd(tagInput.trim());
+              }
+            }}
+            className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+          {tagInput && (
+            <Button
+              size="sm"
+              onClick={() => handleTagAdd(tagInput.trim())}
+              className="absolute right-1 top-1 h-8 px-2"
+            >
+              Add
+            </Button>
+          )}
+        </div>
+
+        {/* Common Tags */}
+        <div className="mb-3">
+          <p className="text-xs text-gray-500 mb-2">Common tags:</p>
+          <div className="flex flex-wrap gap-1">
+            {commonTags.map((tag) => (
+              <Button
+                key={tag}
+                variant="outline"
+                size="sm"
+                onClick={() => handleTagAdd(tag)}
+                disabled={filters.tags.includes(tag)}
+                className="h-6 px-2 text-xs"
+              >
+                {tag}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Selected Tags */}
+        {filters.tags.length > 0 && (
+          <div>
+            <p className="text-xs text-gray-500 mb-2">Selected tags:</p>
+            <div className="flex flex-wrap gap-1">
+              {filters.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="bg-blue-100 text-blue-800"
+                >
+                  {tag}
+                  <button
+                    onClick={() => handleTagRemove(tag)}
+                    className="ml-1 hover:bg-blue-300 rounded-full"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Category Filter */}
       <div className="mb-6">
         <Label className="text-sm font-medium text-gray-700 mb-3 block">
@@ -234,20 +374,23 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
             variant="outline"
             size="sm"
             onClick={() => {
-              handleFilterChange('category', 'ai-models');
-              handleFilterChange('status', 'active');
+              handleFilterChange('abstractType', 'publication');
+              handleFilterChange('status', 'completed');
             }}
             className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
           >
-            Active AI Models
+            Published Studies
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handleFilterChange('scoreRange', 90)}
+            onClick={() => {
+              handleTagAdd('Immunotherapy');
+              handleFilterChange('abstractType', 'poster');
+            }}
             className="w-full justify-start bg-white border-gray-300 hover:bg-gray-50 hover:border-blue-500"
           >
-            Top Performers (90%+)
+            Immunotherapy Posters
           </Button>
         </div>
       </div>
