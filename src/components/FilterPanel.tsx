@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -218,12 +219,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                     <Badge
                       key={filterKey}
                       variant="secondary"
-                      className="bg-blue-100 text-blue-800 hover:bg-blue-200"
+                      className="bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200"
                     >
                       {filterKey.charAt(0).toUpperCase() + filterKey.slice(1)}
                       <button
                         onClick={() => clearFilter(filterKey)}
-                        className="ml-1 hover:bg-blue-300 rounded-full"
+                        className="ml-1 hover:bg-purple-300 rounded-full"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -354,12 +355,12 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                       <Badge
                         key={tag}
                         variant="secondary"
-                        className="bg-blue-100 text-blue-800"
+                        className="bg-green-100 text-green-700 border-green-200 hover:bg-green-200"
                       >
                         {tag}
                         <button
                           onClick={() => handleTagRemove(tag)}
-                          className="ml-1 hover:bg-blue-300 rounded-full"
+                          className="ml-1 hover:bg-green-300 rounded-full"
                         >
                           <X className="w-3 h-3" />
                         </button>
