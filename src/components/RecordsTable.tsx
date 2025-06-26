@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -368,10 +369,10 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">
+            <h1 className="text-3xl font-bold text-slate-800 mb-2 font-display">
               AI Data Records
             </h1>
-            <p className="text-slate-600">
+            <p className="text-slate-600 font-body">
               Showing {startIndex + 1}-{Math.min(startIndex + ITEMS_PER_PAGE, filteredRecords.length)} of {filteredRecords.length} records
             </p>
           </div>
@@ -400,7 +401,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
-            <Button className="bg-slate-800 hover:bg-slate-900">
+            <Button className="bg-purple-500 hover:bg-purple-600 text-white">
               <Zap className="w-4 h-4 mr-2" />
               New Record
             </Button>
@@ -411,20 +412,52 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-6 mb-8">
         {[
-          { label: 'Total Records', value: records.length, change: '+12%', positive: true },
-          { label: 'Active Models', value: records.filter(r => r.status === 'active').length, change: '+8%', positive: true },
-          { label: 'Avg Score', value: `${Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%`, change: '+2.1%', positive: true },
-          { label: 'This Month', value: records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length, change: '-3%', positive: false }
+          { 
+            label: 'Total Records', 
+            value: records.length, 
+            change: '+12%', 
+            positive: true,
+            bgColor: 'bg-purple-50',
+            iconColor: 'text-purple-600',
+            borderColor: 'border-purple-200'
+          },
+          { 
+            label: 'Active Models', 
+            value: records.filter(r => r.status === 'active').length, 
+            change: '+8%', 
+            positive: true,
+            bgColor: 'bg-fuchsia-50',
+            iconColor: 'text-fuchsia-600',
+            borderColor: 'border-fuchsia-200'
+          },
+          { 
+            label: 'Avg Score', 
+            value: `${Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%`, 
+            change: '+2.1%', 
+            positive: true,
+            bgColor: 'bg-violet-50',
+            iconColor: 'text-violet-600',
+            borderColor: 'border-violet-200'
+          },
+          { 
+            label: 'This Month', 
+            value: records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length, 
+            change: '-3%', 
+            positive: false,
+            bgColor: 'bg-pink-50',
+            iconColor: 'text-pink-600',
+            borderColor: 'border-pink-200'
+          }
         ].map((stat, index) => (
-          <Card key={index} className="p-6 bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+          <Card key={index} className={`p-6 ${stat.bgColor} shadow-sm ${stat.borderColor} border hover:shadow-md transition-all duration-200 hover:scale-105`}>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500 mb-1">{stat.label}</p>
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-sm text-slate-600 mb-1 font-body">{stat.label}</p>
+                <p className={`text-2xl font-bold ${stat.iconColor} font-display`}>{stat.value}</p>
               </div>
-              <div className={`flex items-center gap-1 text-sm ${stat.positive ? 'text-green-600' : 'text-red-600'}`}>
+              <div className={`flex items-center gap-1 text-sm ${stat.positive ? 'text-emerald-600' : 'text-rose-600'}`}>
                 {stat.positive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                {stat.change}
+                <span className="font-body">{stat.change}</span>
               </div>
             </div>
           </Card>
@@ -444,7 +477,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <PaginationItem>
                 <PaginationPrevious 
                   onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-purple-50 hover:text-purple-600'}
                 />
               </PaginationItem>
               
@@ -453,7 +486,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                   <PaginationLink
                     onClick={() => handlePageChange(page)}
                     isActive={currentPage === page}
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${currentPage === page ? 'bg-purple-500 text-white hover:bg-purple-600' : 'hover:bg-purple-50 hover:text-purple-600'}`}
                   >
                     {page}
                   </PaginationLink>
@@ -463,7 +496,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <PaginationItem>
                 <PaginationNext
                   onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-purple-50 hover:text-purple-600'}
                 />
               </PaginationItem>
             </PaginationContent>
