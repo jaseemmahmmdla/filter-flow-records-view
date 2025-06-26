@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -104,10 +103,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
   };
 
   const recentConferences = [
-    { name: 'ASCO 2025', value: 'asco-2025', color: 'bg-blue-500 hover:bg-blue-600 text-white' },
-    { name: 'SITC 2025', value: 'sitc-2025', color: 'bg-green-500 hover:bg-green-600 text-white' },
-    { name: 'WCLC 2025', value: 'wclc-2025', color: 'bg-purple-500 hover:bg-purple-600 text-white' },
-    { name: 'ELCC 2025', value: 'elcc-2025', color: 'bg-orange-500 hover:bg-orange-600 text-white' },
+    { name: 'ASCO 2025', value: 'asco-2025', color: 'bg-rose-100 text-rose-800 border-rose-200 hover:bg-rose-200' },
+    { name: 'SITC 2025', value: 'sitc-2025', color: 'bg-teal-100 text-teal-800 border-teal-200 hover:bg-teal-200' },
+    { name: 'WCLC 2025', value: 'wclc-2025', color: 'bg-violet-100 text-violet-800 border-violet-200 hover:bg-violet-200' },
+    { name: 'ELCC 2025', value: 'elcc-2025', color: 'bg-indigo-100 text-indigo-800 border-indigo-200 hover:bg-indigo-200' },
   ];
 
   const categories = [
@@ -187,8 +186,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                 {recentConferences.map((conference) => (
                   <Button
                     key={conference.value}
+                    variant="outline"
                     onClick={() => handleFilterChange('conference', conference.value)}
-                    className={`${conference.color} text-xs h-8 px-2 ${
+                    className={`${conference.color} border text-xs h-8 px-2 transition-colors ${
                       filters.conference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
                     }`}
                   >
