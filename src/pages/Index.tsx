@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import Header from '@/components/Header';
-import ClinicalTrialFilters from '@/components/ClinicalTrialFilters';
+import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
 import DashboardStats from '@/components/DashboardStats';
 
@@ -44,7 +44,7 @@ const Index = () => {
         </div>
       ) : (
         <div className="flex flex-1">
-          <ClinicalTrialFilters onFiltersChange={handleFiltersChange} />
+          <FilterPanel onFiltersChange={handleFiltersChange} />
           <TrialDatabase filters={filters} />
         </div>
       )}
