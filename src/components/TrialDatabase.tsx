@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -225,7 +224,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Abstract Type</p>
-                  <Badge className={`${getAbstractTypeColor(trial.abstractType)} border text-xs`}>{trial.abstractType}</Badge>
+                  <p className="font-medium text-gray-900">{trial.abstractType}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Treatment</p>
