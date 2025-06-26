@@ -217,14 +217,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               
               <div className="grid grid-cols-3 gap-4 mb-4 mt-4">
                 <div>
-                  <p className="text-sm text-gray-500">NCT ID</p>
-                  <p className="font-medium text-gray-900 font-mono">{trial.id}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Company</p>
-                  <p className="font-medium text-gray-900">{trial.company}</p>
-                </div>
-                <div>
                   <p className="text-sm text-gray-500">Abstract Type</p>
                   <Badge className={`${getAbstractTypeColor(trial.abstractType)} border text-xs`}>{trial.abstractType}</Badge>
                 </div>
