@@ -18,7 +18,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       trialName: 'CHECKMATE-123',
       abstractTitle: 'Nivolumab plus ipilimumab versus chemotherapy as first-line treatment for advanced non-small-cell lung cancer with high PD-L1 expression: primary analysis of CHECKMATE-123',
       company: 'Bristol Myers Squibb',
-      companyLogo: 'BMS',
+      companyLogo: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=100&h=100&fit=crop&crop=center',
       phase: 'Phase 3',
       status: 'Active',
       enrollment: '487/500',
@@ -41,7 +41,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       trialName: 'KEYNOTE-456',
       abstractTitle: 'Pembrolizumab plus chemotherapy versus chemotherapy alone as first-line treatment in patients with advanced non-small-cell lung cancer: final overall survival analysis of KEYNOTE-456',
       company: 'Merck',
-      companyLogo: 'MRK',
+      companyLogo: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop&crop=center',
       phase: 'Phase 3',
       status: 'Completed',
       enrollment: '423/450',
@@ -64,7 +64,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       trialName: 'HIMALAYA-2',
       abstractTitle: 'Durvalumab plus tremelimumab versus sorafenib as first-line treatment for unresectable hepatocellular carcinoma: updated results from HIMALAYA-2',
       company: 'AstraZeneca',
-      companyLogo: 'AZN',
+      companyLogo: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=100&h=100&fit=crop&crop=center',
       phase: 'Phase 2',
       status: 'Recruiting',
       enrollment: '156/300',
@@ -135,8 +135,21 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   };
 
   const CompanyLogo = ({ company, logo }: { company: string; logo: string }) => (
-    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-      {logo}
+    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+      <img 
+        src={logo} 
+        alt={`${company} logo`}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          // Fallback to text if image fails to load
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+          target.nextElementSibling?.classList.remove('hidden');
+        }}
+      />
+      <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm hidden">
+        {company.split(' ').map(word => word[0]).join('').slice(0, 3)}
+      </div>
     </div>
   );
 
