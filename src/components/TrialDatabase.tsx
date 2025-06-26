@@ -437,32 +437,56 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     </div>
   );
 
+  const renderSelectedFilters = () => {
+    if (!filters || Object.keys(filters).length === 0) {
+      return <p className="text-gray-600 mt-1">No filters applied</p>;
+    }
+    
+    return (
+      <div className="flex flex-wrap gap-2 mt-2">
+        {Object.entries(filters).map(([key, value]) => {
+          if (value && (Array.isArray(value) ? value.length > 0 : true)) {
+            const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
+            return (
+              <Badge key={key} variant="secondary" className="text-xs">
+                {key}: {displayValue}
+              </Badge>
+            );
+          }
+          return null;
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="flex-1 bg-white">
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Clinical Trial Database</h1>
-            <p className="text-gray-600 mt-1">{trials.length} trials found</p>
+            <h1 className="text-2xl font-bold text-gray-900">Kognitic Outcomes</h1>
+            {renderSelectedFilters()}
           </div>
         </div>
 
         <Tabs defaultValue="overview" className="w-full">
           <div className="w-full border-b border-gray-200 mb-6">
-            <TabsList className="inline-flex h-12 items-center justify-start rounded-none bg-transparent p-0">
-              <TabsTrigger 
-                value="overview"
-                className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
-              >
-                Overview
-              </TabsTrigger>
-              <TabsTrigger 
-                value="clinical-data"
-                className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
-              >
-                Clinical Data
-              </TabsTrigger>
-            </TabsList>
+            <div className="border-b border-gray-200">
+              <TabsList className="inline-flex h-12 items-center justify-start rounded-none bg-transparent p-0">
+                <TabsTrigger 
+                  value="overview"
+                  className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
+                >
+                  Overview
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="clinical-data"
+                  className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
+                >
+                  Clinical Data
+                </TabsTrigger>
+              </TabsList>
+            </div>
           </div>
           
           <TabsContent value="overview" className="space-y-6">
