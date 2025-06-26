@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -472,10 +471,10 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
           
           <TabsContent value="clinical-data" className="space-y-4">
             <div className="flex justify-end space-x-3">
-              <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1">
+              <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
                     viewMode === 'list'
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
@@ -486,7 +485,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </button>
                 <button
                   onClick={() => setViewMode('card')}
-                  className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
                     viewMode === 'card'
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
@@ -496,11 +495,11 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   Cards
                 </button>
               </div>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="h-9">
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="h-9">
                 <GitCompare className="h-4 w-4 mr-2" />
                 Compare Selected
               </Button>
