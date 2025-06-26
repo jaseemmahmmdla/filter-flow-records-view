@@ -448,9 +448,19 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
         </div>
 
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="clinical-data">Clinical Data</TabsTrigger>
+          <TabsList className="inline-flex h-12 items-center justify-start rounded-none bg-transparent p-0 border-b border-gray-200 mb-6">
+            <TabsTrigger 
+              value="overview"
+              className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger 
+              value="clinical-data"
+              className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
+            >
+              Clinical Data
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview" className="space-y-6">
