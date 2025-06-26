@@ -385,27 +385,30 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <p className="text-gray-600 mt-1">{trials.length} trials found</p>
           </div>
           <div className="flex space-x-3">
-            <ToggleGroup 
-              type="single" 
-              value={viewMode} 
-              onValueChange={(value) => value && setViewMode(value as 'card' | 'list')}
-              className="bg-gray-50 border border-gray-200 rounded-lg p-1"
-            >
-              <ToggleGroupItem 
-                value="list" 
-                className="data-[state=on]:bg-white data-[state=on]:text-gray-900 data-[state=on]:shadow-sm text-gray-600 hover:text-gray-900 hover:bg-white/50 transition-all duration-200"
+            <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1">
+              <button
+                onClick={() => setViewMode('list')}
+                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  viewMode === 'list'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                }`}
               >
                 <List className="w-4 h-4 mr-2" />
                 List
-              </ToggleGroupItem>
-              <ToggleGroupItem 
-                value="card" 
-                className="data-[state=on]:bg-white data-[state=on]:text-gray-900 data-[state=on]:shadow-sm text-gray-600 hover:text-gray-900 hover:bg-white/50 transition-all duration-200"
+              </button>
+              <button
+                onClick={() => setViewMode('card')}
+                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  viewMode === 'card'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                }`}
               >
                 <LayoutGrid className="w-4 h-4 mr-2" />
                 Cards
-              </ToggleGroupItem>
-            </ToggleGroup>
+              </button>
+            </div>
             <Button variant="outline" size="sm">
               <Download className="h-4 w-4 mr-2" />
               Export
