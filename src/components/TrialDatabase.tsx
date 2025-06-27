@@ -165,9 +165,10 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   const paginatedTrials = trials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
+    console.log('Changing to page:', page);
     setCurrentPage(page);
     // Scroll to top when page changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelector('.main-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Reset to first page when filters change
@@ -490,7 +491,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     <div className="flex flex-col h-full bg-white">
       <div className="flex-1 overflow-hidden">
         <ScrollArea className="h-full">
-          <div className="p-6">
+          <div className="p-6 main-content">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Kognitic Outcomes</h1>
@@ -523,7 +524,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </TabsContent>
               
               <TabsContent value="clinical-data" className="space-y-4">
-                <div className="flex justify-end space-x-3">
+                <div className="flex justify-end space-x-3 mb-4">
                   <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
                     <button
                       onClick={() => setViewMode('list')}
@@ -556,13 +557,16 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   </Button>
                 </div>
 
-                <div className="mb-8">
+                <div className="space-y-6">
                   {viewMode === 'card' ? <CardView /> : <ListView />}
                 </div>
 
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <div className="flex justify-center mt-8 pb-6">
+                {/* Pagination - Always visible for debugging */}
+                <div className="flex justify-center py-8 border-t border-gray-100 bg-white">
+                  <div className="flex flex-col items-center gap-4">
+                    <p className="text-sm text-gray-500">
+                      Page {currentPage} of {totalPages} ({trials.length} total items)
+                    </p>
                     <Pagination>
                       <PaginationContent>
                         <PaginationItem>
@@ -592,7 +596,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                       </PaginationContent>
                     </Pagination>
                   </div>
-                )}
+                </div>
               </TabsContent>
             </Tabs>
           </div>
