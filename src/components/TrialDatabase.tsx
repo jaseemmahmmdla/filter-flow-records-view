@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -831,7 +832,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <h3 className="text-sm font-medium text-gray-900 mb-2 line-clamp-3 leading-snug" title={trial.abstractTitle}>
+                      <h3 className="text-base font-medium text-gray-900 mb-2 line-clamp-3 leading-snug" title={trial.abstractTitle}>
                         {trial.abstractTitle}
                       </h3>
                     </TooltipTrigger>
@@ -852,12 +853,15 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             
             <div className="grid grid-cols-3 gap-3 pt-2 border-t border-gray-100">
               <div>
-                <p className="text-xs text-gray-500 font-medium mb-1">Indication</p>
-                <p className="text-sm font-medium text-gray-900">{trial.indication}</p>
+                <p className="text-xs text-gray-500 font-medium mb-1">Enrollment</p>
+                <div className="flex items-center gap-1">
+                  <User className="h-3 w-3 text-gray-500" />
+                  <p className="text-sm font-medium text-gray-900">{trial.enrollment}</p>
+                </div>
               </div>
               <div>
-                <p className="text-xs text-gray-500 font-medium mb-1">Enrollment</p>
-                <p className="text-sm font-medium text-gray-900">{trial.enrollment}</p>
+                <p className="text-xs text-gray-500 font-medium mb-1">Indication</p>
+                <p className="text-sm font-medium text-gray-900">{trial.indication}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 font-medium mb-1">Drug</p>
