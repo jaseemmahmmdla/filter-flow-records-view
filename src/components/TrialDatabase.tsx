@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } from 'lucide-react';
+import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User, Grid3X3 } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -23,7 +23,7 @@ interface TrialDatabaseProps {
 const ITEMS_PER_PAGE = 5;
 
 const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
-  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
+  const [viewMode, setViewMode] = useState<'card' | 'list' | 'grid'>('card');
   const [currentPage, setCurrentPage] = useState(1);
   
   const [trials] = useState([
@@ -820,6 +820,91 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     </div>
   );
 
+  const GridView = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {paginatedTrials.map((trial) => (
+        <Card key={trial.id} className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow p-4">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <CompanyLogo company={trial.company} logo={trial.companyLogo} />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
+                  <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
+                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <h3 className="text-sm font-medium text-gray-900 mb-2 line-clamp-3 leading-snug" title={trial.abstractTitle}>
+                        {trial.abstractTitle}
+                      </h3>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-md">
+                      <p>{trial.abstractTitle}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500">Status</span>
+                <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500">Indication</span>
+                <span className="font-medium text-gray-900">{trial.indication}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500">Line</span>
+                <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-500">Conference</span>
+                <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-2 pt-2 border-t border-gray-100">
+              <div className="text-center bg-blue-50 px-2 py-1.5 rounded">
+                <p className="text-xs text-blue-600 font-medium">ORR</p>
+                <p className="text-sm font-semibold text-blue-900">{trial.orr}</p>
+              </div>
+              <div className="text-center bg-green-50 px-2 py-1.5 rounded">
+                <p className="text-xs text-green-600 font-medium">PFS</p>
+                <p className="text-sm font-semibold text-green-900">{trial.pfs}</p>
+              </div>
+              <div className="text-center bg-purple-50 px-2 py-1.5 rounded">
+                <p className="text-xs text-purple-600 font-medium">OS</p>
+                <p className="text-sm font-semibold text-purple-900">{trial.os}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between pt-2">
+              <a 
+                href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-gray-900 hover:text-blue-600 underline font-medium"
+              >
+                {trial.id}
+              </a>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                  <Eye className="h-3 w-3" />
+                </Button>
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                  <MoreHorizontal className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+  );
+
   const OverviewContent = () => (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -966,6 +1051,16 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     >
                       <LayoutGrid className="w-4 h-4" />
                     </button>
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                        viewMode === 'grid'
+                          ? 'bg-white text-gray-900 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                      }`}
+                    >
+                      <Grid3X3 className="w-4 h-4" />
+                    </button>
                   </div>
                   <Button variant="outline" size="sm" className="h-9">
                     <Download className="h-4 w-4 mr-2" />
@@ -978,10 +1073,10 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 </div>
 
                 <div className="space-y-6">
-                  {viewMode === 'card' ? <CardView /> : <ListView />}
+                  {viewMode === 'card' ? <CardView /> : viewMode === 'list' ? <ListView /> : <GridView />}
                 </div>
 
-                {/* Pagination - Always visible for debugging */}
+                {/* Pagination */}
                 <div className="flex justify-center py-8 border-t border-gray-100 bg-white">
                   <div className="flex flex-col items-center gap-4">
                     <p className="text-sm text-gray-500">
