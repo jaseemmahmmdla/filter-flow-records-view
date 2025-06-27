@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
@@ -46,11 +45,11 @@ const Index = () => {
       ) : (
         <div className="h-[calc(100vh-4rem)]">
           <ResizablePanelGroup direction="horizontal" className="h-full">
-            <ResizablePanel defaultSize={25} minSize={20} maxSize={40}>
+            <ResizablePanel defaultSize={18} minSize={15} maxSize={35}>
               <FilterPanel onFiltersChange={handleFiltersChange} />
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={75}>
+            <ResizablePanel defaultSize={82}>
               <TrialDatabase filters={filters} />
             </ResizablePanel>
           </ResizablePanelGroup>
