@@ -44,14 +44,14 @@ const Index = () => {
           </div>
         </div>
       ) : (
-        <SidebarProvider>
-          <div className="flex flex-1 min-h-screen w-full">
+        <div className="flex flex-1 w-full">
+          <SidebarProvider>
             <FilterPanel onFiltersChange={handleFiltersChange} />
-            <main className="flex-1 ml-80">
-              <TrialDatabase filters={filters} />
-            </main>
-          </div>
-        </SidebarProvider>
+          </SidebarProvider>
+          <main className="flex-1 ml-80">
+            <TrialDatabase filters={filters} />
+          </main>
+        </div>
       )}
     </div>
   );
