@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -881,25 +880,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               <div className="text-center bg-purple-50 px-2 py-1.5 rounded">
                 <p className="text-xs text-purple-600 font-medium">OS</p>
                 <p className="text-sm font-semibold text-purple-900">{trial.os}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between pt-2">
-              <a 
-                href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-xs text-gray-900 hover:text-blue-600 underline font-medium"
-              >
-                {trial.id}
-              </a>
-              <div className="flex items-center gap-1">
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <Eye className="h-3 w-3" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <MoreHorizontal className="h-3 w-3" />
-                </Button>
               </div>
             </div>
           </div>
