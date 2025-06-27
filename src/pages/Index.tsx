@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
 import DashboardStats from '@/components/DashboardStats';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { ResizablePanelGroup, ResizablePanel } from '@/components/ui/resizable';
 import { Button } from '@/components/ui/button';
 import { PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 
@@ -51,30 +51,37 @@ const Index = () => {
         </div>
       ) : (
         <div className="h-[calc(100vh-4rem)] relative">
-          {/* Toggle Button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleFilterPanel}
-            className="absolute top-4 left-4 z-10 bg-white shadow-md"
-          >
-            {filterPanelCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-          </Button>
-
           <ResizablePanelGroup direction="horizontal" className="h-full">
             {!filterPanelCollapsed && (
-              <>
-                <ResizablePanel 
-                  defaultSize={18} 
-                  minSize={15} 
-                  maxSize={35}
+              <ResizablePanel 
+                defaultSize={18} 
+                minSize={15} 
+                maxSize={35}
+                className="relative"
+              >
+                <FilterPanel onFiltersChange={handleFiltersChange} />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={toggleFilterPanel}
+                  className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
                 >
-                  <FilterPanel onFiltersChange={handleFiltersChange} />
-                </ResizablePanel>
-                <ResizableHandle withHandle />
-              </>
+                  <PanelLeftClose className="w-4 h-4" />
+                </Button>
+              </ResizablePanel>
             )}
-            <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82}>
+            
+            <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82} className="relative">
+              {filterPanelCollapsed && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={toggleFilterPanel}
+                  className="absolute top-4 left-4 z-10 bg-white shadow-md"
+                >
+                  <PanelLeftOpen className="w-4 h-4" />
+                </Button>
+              )}
               <TrialDatabase filters={filters} />
             </ResizablePanel>
           </ResizablePanelGroup>
