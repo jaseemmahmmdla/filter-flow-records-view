@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { 
   MoreHorizontal, 
@@ -456,7 +456,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
       </div>
 
       {/* Records Display */}
-      <div className="mb-6">
+      <div className="mb-8">
         {viewMode === 'card' ? <CardView /> : <ListView />}
       </div>
 
@@ -468,7 +468,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <PaginationItem>
                 <PaginationPrevious 
                   onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-purple-50 hover:text-purple-600'}
+                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                 />
               </PaginationItem>
               
@@ -477,7 +477,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                   <PaginationLink
                     onClick={() => handlePageChange(page)}
                     isActive={currentPage === page}
-                    className={`cursor-pointer ${currentPage === page ? 'bg-purple-500 text-white hover:bg-purple-600' : 'hover:bg-purple-50 hover:text-purple-600'}`}
+                    className="cursor-pointer"
                   >
                     {page}
                   </PaginationLink>
@@ -487,7 +487,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <PaginationItem>
                 <PaginationNext
                   onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-purple-50 hover:text-purple-600'}
+                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                 />
               </PaginationItem>
             </PaginationContent>

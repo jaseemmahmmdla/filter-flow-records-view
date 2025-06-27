@@ -6,13 +6,24 @@ import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User } fro
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 interface TrialDatabaseProps {
   filters: any;
 }
 
+const ITEMS_PER_PAGE = 5;
+
 const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
+  const [currentPage, setCurrentPage] = useState(1);
   
   const [trials] = useState([
     {
@@ -148,6 +159,14 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     }
   };
 
+  const totalPages = Math.ceil(trials.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedTrials = trials.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const CompanyLogo = ({ company, logo }: { company: string; logo: string }) => (
     <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
       <img 
@@ -168,7 +187,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
 
   const CardView = () => (
     <div className="grid gap-6">
-      {trials.map((trial) => (
+      {paginatedTrials.map((trial) => (
         <Card key={trial.id} className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow p-6">
           <div className="flex items-start gap-4">
             <CompanyLogo company={trial.company} logo={trial.companyLogo} />
@@ -304,7 +323,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {trials.map((trial) => (
+              {paginatedTrials.map((trial) => (
                 <TableRow key={trial.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
@@ -527,7 +546,44 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </Button>
             </div>
 
-            {viewMode === 'card' ? <CardView /> : <ListView />}
+            <div className="mb-8">
+              {viewMode === 'card' ? <CardView /> : <ListView />}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => handlePageChange(page)}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
