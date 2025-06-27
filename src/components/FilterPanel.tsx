@@ -176,7 +176,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                 key={conference.value}
                 variant="outline"
                 onClick={() => handleRecentConferenceChange(conference.value)}
-                className={`w-full justify-start ${conference.color} text-xs h-8 px-3 transition-colors ${
+                className={`w-full text-left ${conference.color} text-xs h-8 px-3 transition-colors ${
                   recentConference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
                 }`}
               >
