@@ -828,10 +828,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <div className="flex items-start gap-3">
               <CompanyLogo company={trial.company} logo={trial.companyLogo} />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
-                  <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
-                </div>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -848,21 +844,24 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             </div>
             
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Status</span>
-                <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Indication</span>
-                <span className="font-medium text-gray-900">{trial.indication}</span>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Line</span>
-                <Badge className={`${getLineTherapyColor(trial.lineTherapy)} border text-xs`}>{trial.lineTherapy}</Badge>
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Conference</span>
+              <div className="flex items-center gap-2">
+                <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
                 <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-3 pt-2 border-t border-gray-100">
+              <div>
+                <p className="text-xs text-gray-500 font-medium mb-1">Indication</p>
+                <p className="text-sm font-medium text-gray-900">{trial.indication}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 font-medium mb-1">Enrollment</p>
+                <p className="text-sm font-medium text-gray-900">{trial.enrollment}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 font-medium mb-1">Drug</p>
+                <p className="text-sm font-medium text-gray-900">{trial.drug}</p>
               </div>
             </div>
             
