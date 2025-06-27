@@ -16,7 +16,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50">
       <Header activeView={activeView} setActiveView={setActiveView} />
       
       {activeView === 'dashboard' ? (
@@ -44,14 +44,14 @@ const Index = () => {
           </div>
         </div>
       ) : (
-        <SidebarProvider>
-          <div className="flex flex-1 min-h-0">
+        <div className="flex h-[calc(100vh-4rem)]">
+          <SidebarProvider>
             <FilterPanel onFiltersChange={handleFiltersChange} />
             <main className="flex-1 overflow-hidden">
               <TrialDatabase filters={filters} />
             </main>
-          </div>
-        </SidebarProvider>
+          </SidebarProvider>
+        </div>
       )}
     </div>
   );
