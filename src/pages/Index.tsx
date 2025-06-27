@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
 import DashboardStats from '@/components/DashboardStats';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 
 const Index = () => {
   const [filters, setFilters] = useState({});
@@ -44,15 +44,16 @@ const Index = () => {
           </div>
         </div>
       ) : (
-        <div className="h-[calc(100vh-4rem)] overflow-hidden">
-          <SidebarProvider>
-            <div className="flex h-full w-full">
+        <div className="h-[calc(100vh-4rem)]">
+          <ResizablePanelGroup direction="horizontal" className="h-full">
+            <ResizablePanel defaultSize={25} minSize={20} maxSize={40}>
               <FilterPanel onFiltersChange={handleFiltersChange} />
-              <main className="flex-1 overflow-hidden bg-white">
-                <TrialDatabase filters={filters} />
-              </main>
-            </div>
-          </SidebarProvider>
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={75}>
+              <TrialDatabase filters={filters} />
+            </ResizablePanel>
+          </ResizablePanelGroup>
         </div>
       )}
     </div>
