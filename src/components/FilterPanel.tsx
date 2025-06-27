@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -165,7 +164,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
   };
 
   return (
-    <Sidebar className={state === 'collapsed' ? 'w-14' : 'w-80'} collapsible>
+    <Sidebar className={state === 'collapsed' ? 'w-14' : 'w-80'} collapsible="offcanvas">
       <SidebarHeader className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
