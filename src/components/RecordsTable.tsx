@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -207,7 +207,14 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
 
   const ActionDropdown = ({ record }: { record: Record }) => (
     <DropdownMenu>
@@ -462,13 +469,13 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-8">
           <Pagination>
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious 
                   onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                  className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  disabled={currentPage === 1}
                 />
               </PaginationItem>
               
@@ -477,7 +484,6 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
                   <PaginationLink
                     onClick={() => handlePageChange(page)}
                     isActive={currentPage === page}
-                    className="cursor-pointer"
                   >
                     {page}
                   </PaginationLink>
@@ -487,7 +493,7 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
               <PaginationItem>
                 <PaginationNext
                   onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                  className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  disabled={currentPage === totalPages}
                 />
               </PaginationItem>
             </PaginationContent>

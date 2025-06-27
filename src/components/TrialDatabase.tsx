@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -165,7 +165,14 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
 
   const CompanyLogo = ({ company, logo }: { company: string; logo: string }) => (
     <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
@@ -479,7 +486,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   };
 
   return (
-    <div className="flex-1 bg-white">
+    <div className="flex-1 bg-white overflow-auto">
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -552,13 +559,13 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex justify-center">
+              <div className="flex justify-center mt-8">
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious 
                         onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        disabled={currentPage === 1}
                       />
                     </PaginationItem>
                     
@@ -567,7 +574,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                         <PaginationLink
                           onClick={() => handlePageChange(page)}
                           isActive={currentPage === page}
-                          className="cursor-pointer"
                         >
                           {page}
                         </PaginationLink>
@@ -577,7 +583,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     <PaginationItem>
                       <PaginationNext
                         onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        disabled={currentPage === totalPages}
                       />
                     </PaginationItem>
                   </PaginationContent>
