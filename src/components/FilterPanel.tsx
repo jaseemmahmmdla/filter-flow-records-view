@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -382,7 +383,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
                                     <Badge variant="secondary" className="text-xs">
                                       +{condition.values.length - 3} more
                                     </Badge>
-                                  ))}
+                                  )}
                                 </div>
                               </div>
                             )}
