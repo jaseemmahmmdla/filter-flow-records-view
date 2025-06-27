@@ -62,15 +62,18 @@ const Index = () => {
           </Button>
 
           <ResizablePanelGroup direction="horizontal" className="h-full">
-            <ResizablePanel 
-              defaultSize={filterPanelCollapsed ? 0 : 18} 
-              minSize={0} 
-              maxSize={35}
-              collapsible={true}
-            >
-              {!filterPanelCollapsed && <FilterPanel onFiltersChange={handleFiltersChange} />}
-            </ResizablePanel>
-            <ResizableHandle withHandle />
+            {!filterPanelCollapsed && (
+              <>
+                <ResizablePanel 
+                  defaultSize={18} 
+                  minSize={15} 
+                  maxSize={35}
+                >
+                  <FilterPanel onFiltersChange={handleFiltersChange} />
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+              </>
+            )}
             <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82}>
               <TrialDatabase filters={filters} />
             </ResizablePanel>
