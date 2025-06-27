@@ -4,14 +4,21 @@ import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
 import DashboardStats from '@/components/DashboardStats';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { Button } from '@/components/ui/button';
+import { PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 
 const Index = () => {
   const [filters, setFilters] = useState({});
   const [activeView, setActiveView] = useState('dashboard');
+  const [filterPanelCollapsed, setFilterPanelCollapsed] = useState(false);
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
     console.log('Clinical trial filters applied:', newFilters);
+  };
+
+  const toggleFilterPanel = () => {
+    setFilterPanelCollapsed(!filterPanelCollapsed);
   };
 
   return (
@@ -43,13 +50,28 @@ const Index = () => {
           </div>
         </div>
       ) : (
-        <div className="h-[calc(100vh-4rem)]">
+        <div className="h-[calc(100vh-4rem)] relative">
+          {/* Toggle Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleFilterPanel}
+            className="absolute top-4 left-4 z-10 bg-white shadow-md"
+          >
+            {filterPanelCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+          </Button>
+
           <ResizablePanelGroup direction="horizontal" className="h-full">
-            <ResizablePanel defaultSize={18} minSize={15} maxSize={35}>
-              <FilterPanel onFiltersChange={handleFiltersChange} />
+            <ResizablePanel 
+              defaultSize={filterPanelCollapsed ? 0 : 18} 
+              minSize={0} 
+              maxSize={35}
+              collapsible={true}
+            >
+              {!filterPanelCollapsed && <FilterPanel onFiltersChange={handleFiltersChange} />}
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={82}>
+            <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82}>
               <TrialDatabase filters={filters} />
             </ResizablePanel>
           </ResizablePanelGroup>
