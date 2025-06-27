@@ -43,9 +43,9 @@ const Index = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-1 min-h-0">
+        <div className="flex flex-col flex-1">
           <FilterPanel onFiltersChange={handleFiltersChange} />
-          <div className="flex-1 min-w-0">
+          <div className="flex-1">
             <TrialDatabase filters={filters} />
           </div>
         </div>

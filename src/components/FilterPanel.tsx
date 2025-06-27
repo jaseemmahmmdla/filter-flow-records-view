@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,7 +24,7 @@ import {
   Filter, 
   X, 
   ChevronDown,
-  ChevronLeft,
+  ChevronUp,
   Calendar,
   Plus,
   Minus
@@ -43,7 +42,7 @@ interface FilterPanelProps {
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [recentConference, setRecentConference] = useState('');
   const [filterConditions, setFilterConditions] = useState<FilterCondition[]>([]);
   const [trialIdentifier, setTrialIdentifier] = useState('');
@@ -165,260 +164,267 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
   };
 
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <div className={`bg-white border-r border-gray-200 transition-all duration-300 ${isOpen ? 'w-80' : 'w-12'} overflow-hidden`}>
-        {/* Collapsible Trigger */}
-        <div className="p-3 border-b border-gray-200">
-          <CollapsibleTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-between hover:bg-gray-100"
-            >
-              {isOpen && (
-                <div className="flex items-center gap-2">
-                  <Filter className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm font-medium">Filters</span>
-                </div>
-              )}
-              {!isOpen && <Filter className="w-4 h-4 text-gray-600" />}
-              {isOpen ? (
-                <ChevronLeft className="w-4 h-4 text-gray-500" />
-              ) : (
-                <ChevronDown className="w-4 h-4 text-gray-500 transform -rotate-90" />
-              )}
-            </Button>
-          </CollapsibleTrigger>
-        </div>
-
-        <CollapsibleContent className="h-[calc(100vh-80px)] overflow-y-auto">
-          <div className="p-6">
-            {/* Recent Conferences */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Recent Conferences
-                </div>
-              </Label>
-              <div className="grid grid-cols-2 gap-2">
-                {recentConferences.map((conference) => (
-                  <Button
-                    key={conference.value}
-                    variant="outline"
-                    onClick={() => handleRecentConferenceChange(conference.value)}
-                    className={`${conference.color} border text-xs h-8 px-2 transition-colors ${
-                      recentConference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
-                    }`}
-                  >
-                    {conference.name}
-                  </Button>
-                ))}
+    <div className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="p-4">
+        {/* Always visible row with Recent Conferences and Trial Identifier */}
+        <div className="flex items-center gap-6 mb-4">
+          {/* Recent Conferences */}
+          <div className="flex items-center gap-3">
+            <Label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                Recent Conferences
               </div>
+            </Label>
+            <div className="flex gap-2">
+              {recentConferences.map((conference) => (
+                <Button
+                  key={conference.value}
+                  variant="outline"
+                  onClick={() => handleRecentConferenceChange(conference.value)}
+                  className={`${conference.color} border text-xs h-8 px-3 transition-colors ${
+                    recentConference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
+                  }`}
+                >
+                  {conference.name}
+                </Button>
+              ))}
             </div>
+          </div>
 
-            <Separator className="my-6 bg-gray-200" />
+          <Separator orientation="vertical" className="h-8" />
 
-            {/* Trial Identifier Search */}
-            <div className="mb-6">
-              <Label htmlFor="trial-identifier" className="text-sm font-medium text-gray-700 mb-2 block">
-                Trial Identifier
-              </Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  id="trial-identifier"
-                  placeholder="e.g., NCT03539536, CHECKMATE-123"
-                  value={trialIdentifier}
-                  onChange={(e) => handleTrialIdentifierChange(e.target.value)}
-                  className="pl-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                />
-              </div>
+          {/* Trial Identifier Search */}
+          <div className="flex items-center gap-3">
+            <Label htmlFor="trial-identifier" className="text-sm font-medium text-gray-700 whitespace-nowrap">
+              Trial ID
+            </Label>
+            <div className="relative w-64">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                id="trial-identifier"
+                placeholder="e.g., NCT03539536"
+                value={trialIdentifier}
+                onChange={(e) => handleTrialIdentifierChange(e.target.value)}
+                className="pl-10 h-8 bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              />
             </div>
+          </div>
 
-            <Separator className="my-6 bg-gray-200" />
+          <Separator orientation="vertical" className="h-8" />
 
-            {/* Filter Conditions */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <Label className="text-sm font-medium text-gray-700">
-                  Filter Conditions
-                </Label>
+          {/* Expand/Collapse Toggle */}
+          <div className="flex items-center gap-3 ml-auto">
+            <span className="text-sm text-gray-600">
+              {filterConditions.length} filter{filterConditions.length !== 1 ? 's' : ''} applied
+            </span>
+            <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+              <CollapsibleTrigger asChild>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={addFilterCondition}
-                  className="h-8 px-3"
+                  className="h-8"
                 >
-                  <Plus className="w-4 h-4 mr-1" />
-                  Add Filter
+                  <Filter className="w-4 h-4 mr-2" />
+                  Advanced Filters
+                  {isExpanded ? (
+                    <ChevronUp className="w-4 h-4 ml-2" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  )}
                 </Button>
-              </div>
+              </CollapsibleTrigger>
 
-              {filterConditions.length === 0 && (
-                <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-                  <Filter className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                  <p className="text-sm">No filters applied</p>
-                  <p className="text-xs text-gray-400 mt-1">Click "Add Filter" to start building your query</p>
-                </div>
-              )}
-
-              {filterConditions.map((condition, index) => (
-                <Card key={index} className="p-4 mb-4 border border-gray-200">
-                  <div className="space-y-4">
-                    {/* Logic Operator (except for first condition) */}
-                    {index > 0 && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Where</span>
-                        <ToggleGroup
-                          type="single"
-                          value={condition.logic}
-                          onValueChange={(value) => value && updateFilterCondition(index, { logic: value as 'and' | 'or' })}
-                          className="h-8"
-                        >
-                          <ToggleGroupItem value="and" className="px-3 py-1 text-xs">
-                            AND
-                          </ToggleGroupItem>
-                          <ToggleGroupItem value="or" className="px-3 py-1 text-xs">
-                            OR
-                          </ToggleGroupItem>
-                        </ToggleGroup>
-                      </div>
-                    )}
-
-                    {/* Field Selection */}
-                    <div className="flex items-center gap-2">
-                      <Select
-                        value={condition.field}
-                        onValueChange={(value) => updateFilterCondition(index, { field: value, values: [] })}
-                      >
-                        <SelectTrigger className="flex-1 bg-white border-gray-300">
-                          <SelectValue placeholder="Select field" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-200 shadow-lg">
-                          {Object.keys(filterOptions).map((field) => (
-                            <SelectItem key={field} value={field} className="hover:bg-gray-100">
-                              {getFieldDisplayName(field)}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <ToggleGroup
-                        type="single"
-                        value={condition.operator}
-                        onValueChange={(value) => value && updateFilterCondition(index, { operator: value as 'include' | 'exclude' })}
-                        className="h-10"
-                      >
-                        <ToggleGroupItem value="include" className="px-3 text-xs bg-green-50 data-[state=on]:bg-green-100 data-[state=on]:text-green-800">
-                          Include
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="exclude" className="px-3 text-xs bg-red-50 data-[state=on]:bg-red-100 data-[state=on]:text-red-800">
-                          Exclude
-                        </ToggleGroupItem>
-                      </ToggleGroup>
-
+              <CollapsibleContent>
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  {/* Filter Conditions */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <Label className="text-sm font-medium text-gray-700">
+                        Filter Conditions
+                      </Label>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
-                        onClick={() => removeFilterCondition(index)}
-                        className="p-1 h-8 w-8 text-gray-400 hover:text-red-600"
+                        onClick={addFilterCondition}
+                        className="h-8 px-3"
                       >
-                        <X className="w-4 h-4" />
+                        <Plus className="w-4 h-4 mr-1" />
+                        Add Filter
                       </Button>
                     </div>
 
-                    {/* Value Selection */}
-                    {condition.field && (
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs text-gray-500">Values:</span>
-                          <div className="flex gap-1">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => selectAllValues(index)}
-                              className="h-6 px-2 text-xs text-blue-600 hover:text-blue-800"
-                            >
-                              Select All
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => clearValues(index)}
-                              className="h-6 px-2 text-xs text-gray-600 hover:text-gray-800"
-                            >
-                              Clear
-                            </Button>
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto border border-gray-200 rounded-md p-2 bg-gray-50">
-                          {filterOptions[condition.field as keyof typeof filterOptions]?.map((option) => (
-                            <div key={option} className="flex items-center space-x-2">
-                              <Checkbox
-                                id={`${index}-${option}`}
-                                checked={condition.values.includes(option)}
-                                onCheckedChange={() => toggleValue(index, option)}
-                              />
-                              <Label 
-                                htmlFor={`${index}-${option}`} 
-                                className="text-sm cursor-pointer flex-1"
-                              >
-                                {option}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Selected Values Display */}
-                        {condition.values.length > 0 && (
-                          <div className="mt-2">
-                            <p className="text-xs text-gray-500 mb-1">Selected ({condition.values.length}):</p>
-                            <div className="flex flex-wrap gap-1">
-                              {condition.values.map((value) => (
-                                <Badge
-                                  key={value}
-                                  variant="secondary"
-                                  className={`text-xs ${
-                                    condition.operator === 'include' 
-                                      ? 'bg-green-100 text-green-700 border-green-200' 
-                                      : 'bg-red-100 text-red-700 border-red-200'
-                                  }`}
-                                >
-                                  {condition.operator === 'exclude' && <Minus className="w-3 h-3 mr-1" />}
-                                  {value}
-                                  <button
-                                    onClick={() => toggleValue(index, value)}
-                                    className="ml-1 hover:bg-opacity-50 rounded-full"
-                                  >
-                                    <X className="w-3 h-3" />
-                                  </button>
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                    {filterConditions.length === 0 && (
+                      <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                        <Filter className="w-6 h-6 mx-auto mb-2 text-gray-400" />
+                        <p className="text-sm">No advanced filters applied</p>
+                        <p className="text-xs text-gray-400 mt-1">Click "Add Filter" to start building your query</p>
                       </div>
                     )}
-                  </div>
-                </Card>
-              ))}
-            </div>
 
-            {/* Reset Button */}
-            <Button
-              variant="outline"
-              onClick={clearAllFilters}
-              className="w-full bg-white border-gray-300 hover:bg-red-50 hover:border-red-500 hover:text-red-600"
-            >
-              <X className="w-4 h-4 mr-2" />
-              Reset All Filters
-            </Button>
+                    <div className="grid gap-4">
+                      {filterConditions.map((condition, index) => (
+                        <Card key={index} className="p-4 border border-gray-200">
+                          <div className="space-y-4">
+                            {/* Logic Operator (except for first condition) */}
+                            {index > 0 && (
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm text-gray-500">Where</span>
+                                <ToggleGroup
+                                  type="single"
+                                  value={condition.logic}
+                                  onValueChange={(value) => value && updateFilterCondition(index, { logic: value as 'and' | 'or' })}
+                                  className="h-8"
+                                >
+                                  <ToggleGroupItem value="and" className="px-3 py-1 text-xs">
+                                    AND
+                                  </ToggleGroupItem>
+                                  <ToggleGroupItem value="or" className="px-3 py-1 text-xs">
+                                    OR
+                                  </ToggleGroupItem>
+                                </ToggleGroup>
+                              </div>
+                            )}
+
+                            {/* Field Selection */}
+                            <div className="flex items-center gap-2">
+                              <Select
+                                value={condition.field}
+                                onValueChange={(value) => updateFilterCondition(index, { field: value, values: [] })}
+                              >
+                                <SelectTrigger className="flex-1 bg-white border-gray-300">
+                                  <SelectValue placeholder="Select field" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-white border-gray-200 shadow-lg">
+                                  {Object.keys(filterOptions).map((field) => (
+                                    <SelectItem key={field} value={field} className="hover:bg-gray-100">
+                                      {getFieldDisplayName(field)}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+
+                              <ToggleGroup
+                                type="single"
+                                value={condition.operator}
+                                onValueChange={(value) => value && updateFilterCondition(index, { operator: value as 'include' | 'exclude' })}
+                                className="h-10"
+                              >
+                                <ToggleGroupItem value="include" className="px-3 text-xs bg-green-50 data-[state=on]:bg-green-100 data-[state=on]:text-green-800">
+                                  Include
+                                </ToggleGroupItem>
+                                <ToggleGroupItem value="exclude" className="px-3 text-xs bg-red-50 data-[state=on]:bg-red-100 data-[state=on]:text-red-800">
+                                  Exclude
+                                </ToggleGroupItem>
+                              </ToggleGroup>
+
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeFilterCondition(index)}
+                                className="p-1 h-8 w-8 text-gray-400 hover:text-red-600"
+                              >
+                                <X className="w-4 h-4" />
+                              </Button>
+                            </div>
+
+                            {/* Value Selection */}
+                            {condition.field && (
+                              <div>
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-xs text-gray-500">Values:</span>
+                                  <div className="flex gap-1">
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => selectAllValues(index)}
+                                      className="h-6 px-2 text-xs text-blue-600 hover:text-blue-800"
+                                    >
+                                      Select All
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => clearValues(index)}
+                                      className="h-6 px-2 text-xs text-gray-600 hover:text-gray-800"
+                                    >
+                                      Clear
+                                    </Button>
+                                  </div>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto border border-gray-200 rounded-md p-2 bg-gray-50">
+                                  {filterOptions[condition.field as keyof typeof filterOptions]?.map((option) => (
+                                    <div key={option} className="flex items-center space-x-2">
+                                      <Checkbox
+                                        id={`${index}-${option}`}
+                                        checked={condition.values.includes(option)}
+                                        onCheckedChange={() => toggleValue(index, option)}
+                                      />
+                                      <Label 
+                                        htmlFor={`${index}-${option}`} 
+                                        className="text-sm cursor-pointer flex-1"
+                                      >
+                                        {option}
+                                      </Label>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                {/* Selected Values Display */}
+                                {condition.values.length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="text-xs text-gray-500 mb-1">Selected ({condition.values.length}):</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {condition.values.map((value) => (
+                                        <Badge
+                                          key={value}
+                                          variant="secondary"
+                                          className={`text-xs ${
+                                            condition.operator === 'include' 
+                                              ? 'bg-green-100 text-green-700 border-green-200' 
+                                              : 'bg-red-100 text-red-700 border-red-200'
+                                          }`}
+                                        >
+                                          {condition.operator === 'exclude' && <Minus className="w-3 h-3 mr-1" />}
+                                          {value}
+                                          <button
+                                            onClick={() => toggleValue(index, value)}
+                                            className="ml-1 hover:bg-opacity-50 rounded-full"
+                                          >
+                                            <X className="w-3 h-3" />
+                                          </button>
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Reset Button */}
+                  <div className="flex justify-end">
+                    <Button
+                      variant="outline"
+                      onClick={clearAllFilters}
+                      className="bg-white border-gray-300 hover:bg-red-50 hover:border-red-500 hover:text-red-600"
+                    >
+                      <X className="w-4 h-4 mr-2" />
+                      Reset All Filters
+                    </Button>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </div>
-        </CollapsibleContent>
+        </div>
       </div>
-    </Collapsible>
+    </div>
   );
 };
 
