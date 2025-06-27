@@ -260,17 +260,17 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-6">
-                  <div className="text-center">
-                    <p className="text-sm text-gray-500">ORR</p>
-                    <p className="font-semibold text-gray-900">{trial.orr}</p>
+                  <div className="text-center bg-blue-50 px-3 py-2 rounded-lg">
+                    <p className="text-sm text-blue-600 font-medium">ORR</p>
+                    <p className="font-semibold text-blue-900">{trial.orr}</p>
                   </div>
-                  <div className="text-center">
-                    <p className="text-sm text-gray-500">PFS</p>
-                    <p className="font-semibold text-gray-900">{trial.pfs}</p>
+                  <div className="text-center bg-green-50 px-3 py-2 rounded-lg">
+                    <p className="text-sm text-green-600 font-medium">PFS</p>
+                    <p className="font-semibold text-green-900">{trial.pfs}</p>
                   </div>
-                  <div className="text-center">
-                    <p className="text-sm text-gray-500">OS</p>
-                    <p className="font-semibold text-gray-900">{trial.os}</p>
+                  <div className="text-center bg-purple-50 px-3 py-2 rounded-lg">
+                    <p className="text-sm text-purple-600 font-medium">OS</p>
+                    <p className="font-semibold text-purple-900">{trial.os}</p>
                   </div>
                 </div>
               </div>
