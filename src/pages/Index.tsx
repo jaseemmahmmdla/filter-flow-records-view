@@ -45,11 +45,11 @@ const Index = () => {
         </div>
       ) : (
         <SidebarProvider>
-          <div className="flex flex-1 w-full">
+          <div className="flex flex-1 min-h-screen w-full">
             <FilterPanel onFiltersChange={handleFiltersChange} />
-            <div className="flex-1">
+            <main className="flex-1 ml-80">
               <TrialDatabase filters={filters} />
-            </div>
+            </main>
           </div>
         </SidebarProvider>
       )}
