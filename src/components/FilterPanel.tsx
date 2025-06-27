@@ -170,13 +170,13 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
             <Calendar className="w-4 h-4" />
             Recent Conferences
           </Label>
-          <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-2">
             {recentConferences.map((conference) => (
               <Button
                 key={conference.value}
                 variant="outline"
                 onClick={() => handleRecentConferenceChange(conference.value)}
-                className={`w-full justify-start ${conference.color} text-xs h-8 px-3 transition-colors ${
+                className={`justify-start ${conference.color} text-xs h-8 px-3 transition-colors ${
                   recentConference === conference.value ? 'ring-2 ring-offset-1 ring-gray-400' : ''
                 }`}
               >
