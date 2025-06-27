@@ -14,6 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -486,112 +487,116 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   };
 
   return (
-    <div className="flex-1 bg-white overflow-auto">
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Kognitic Outcomes</h1>
-            {renderSelectedFilters()}
-          </div>
-        </div>
-
-        <Tabs defaultValue="overview" className="w-full">
-          <div className="w-full border-b border-gray-200 mb-6">
-            <div className="border-b border-gray-200">
-              <TabsList className="inline-flex h-12 items-center justify-start rounded-none bg-transparent p-0">
-                <TabsTrigger 
-                  value="overview"
-                  className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
-                >
-                  Overview
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="clinical-data"
-                  className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
-                >
-                  Clinical Data
-                </TabsTrigger>
-              </TabsList>
-            </div>
-          </div>
-          
-          <TabsContent value="overview" className="space-y-6">
-            <OverviewContent />
-          </TabsContent>
-          
-          <TabsContent value="clinical-data" className="space-y-4">
-            <div className="flex justify-end space-x-3">
-              <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
-                    viewMode === 'list'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                  }`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('card')}
-                  className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
-                    viewMode === 'card'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                  }`}
-                >
-                  <LayoutGrid className="w-4 h-4" />
-                </button>
+    <div className="flex flex-col h-full bg-white">
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full">
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Kognitic Outcomes</h1>
+                {renderSelectedFilters()}
               </div>
-              <Button variant="outline" size="sm" className="h-9">
-                <Download className="h-4 w-4 mr-2" />
-                Export
-              </Button>
-              <Button variant="outline" size="sm" className="h-9">
-                <GitCompare className="h-4 w-4 mr-2" />
-                Compare Selected
-              </Button>
             </div>
 
-            <div className="mb-8">
-              {viewMode === 'card' ? <CardView /> : <ListView />}
-            </div>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center mt-8">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      />
-                    </PaginationItem>
-                    
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <PaginationItem key={page}>
-                        <PaginationLink
-                          onClick={() => handlePageChange(page)}
-                          isActive={currentPage === page}
-                        >
-                          {page}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                    
-                    <PaginationItem>
-                      <PaginationNext
-                        onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+            <Tabs defaultValue="overview" className="w-full">
+              <div className="w-full border-b border-gray-200 mb-6">
+                <div className="border-b border-gray-200">
+                  <TabsList className="inline-flex h-12 items-center justify-start rounded-none bg-transparent p-0">
+                    <TabsTrigger 
+                      value="overview"
+                      className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
+                    >
+                      Overview
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="clinical-data"
+                      className="inline-flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 data-[state=active]:bg-transparent rounded-none bg-transparent shadow-none"
+                    >
+                      Clinical Data
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
               </div>
-            )}
-          </TabsContent>
-        </Tabs>
+              
+              <TabsContent value="overview" className="space-y-6">
+                <OverviewContent />
+              </TabsContent>
+              
+              <TabsContent value="clinical-data" className="space-y-4">
+                <div className="flex justify-end space-x-3">
+                  <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                        viewMode === 'list'
+                          ? 'bg-white text-gray-900 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                      }`}
+                    >
+                      <List className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('card')}
+                      className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                        viewMode === 'card'
+                          ? 'bg-white text-gray-900 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                      }`}
+                    >
+                      <LayoutGrid className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <Button variant="outline" size="sm" className="h-9">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export
+                  </Button>
+                  <Button variant="outline" size="sm" className="h-9">
+                    <GitCompare className="h-4 w-4 mr-2" />
+                    Compare Selected
+                  </Button>
+                </div>
+
+                <div className="mb-8">
+                  {viewMode === 'card' ? <CardView /> : <ListView />}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8 pb-6">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          />
+                        </PaginationItem>
+                        
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => handlePageChange(page)}
+                              isActive={currentPage === page}
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        
+                        <PaginationItem>
+                          <PaginationNext
+                            onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
