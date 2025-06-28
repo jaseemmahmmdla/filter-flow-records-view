@@ -415,51 +415,34 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-4 gap-6 mb-8">
-        {[
-          { 
-            label: 'Total Records', 
-            value: records.length, 
-            change: '+12%', 
-            positive: true,
-            iconColor: 'text-purple-600'
-          },
-          { 
-            label: 'Active Models', 
-            value: records.filter(r => r.status === 'active').length, 
-            change: '+8%', 
-            positive: true,
-            iconColor: 'text-purple-600'
-          },
-          { 
-            label: 'Avg Score', 
-            value: `${Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%`, 
-            change: '+2.1%', 
-            positive: true,
-            iconColor: 'text-purple-600'
-          },
-          { 
-            label: 'This Month', 
-            value: records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length, 
-            change: '-3%', 
-            positive: false,
-            iconColor: 'text-purple-600'
-          }
-        ].map((stat, index) => (
-          <Card key={index} className="p-6 bg-white shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200 hover:scale-105">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-600 mb-1 font-body">{stat.label}</p>
-                <p className={`text-2xl font-bold ${stat.iconColor} font-display`}>{stat.value}</p>
-              </div>
-              <div className={`flex items-center gap-1 text-sm ${stat.positive ? 'text-emerald-600' : 'text-rose-600'}`}>
-                {stat.positive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                <span className="font-body">{stat.change}</span>
-              </div>
+      {/* Simple Stats with Badges */}
+      <div className="mb-8">
+        <Card className="p-4 bg-white shadow-sm border border-slate-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <Badge variant="outline" className="px-3 py-2 text-sm border-purple-200 text-purple-700 bg-purple-50">
+                <span className="font-semibold">{records.length}</span>
+                <span className="ml-1">Total Records</span>
+              </Badge>
+              <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
+                <span className="font-semibold">{records.filter(r => r.status === 'active').length}</span>
+                <span className="ml-1">Active Models</span>
+              </Badge>
+              <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
+                <span className="font-semibold">{Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%</span>
+                <span className="ml-1">Avg Score</span>
+              </Badge>
+              <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50">
+                <span className="font-semibold">{records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length}</span>
+                <span className="ml-1">Recent Updates</span>
+              </Badge>
             </div>
-          </Card>
-        ))}
+            <div className="flex items-center gap-2 text-sm text-slate-600">
+              <TrendingUp className="w-4 h-4 text-green-600" />
+              <span>Overall performance trending up</span>
+            </div>
+          </div>
+        </Card>
       </div>
 
       {/* Records Display */}
