@@ -111,59 +111,11 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           </p>
         </div>
 
-        {/* Top Section - Indications and Hot Targets */}
-        <div className="grid grid-cols-2 gap-6 mb-6">
-          {/* Indications */}
-          <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
-              <Search className="w-5 h-5 mr-2 text-status-success" />
-              Indications
-            </h2>
-            <div className="grid grid-cols-2 gap-3">
-              {therapeuticAreas.map((area, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
-                  <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
-                    {area.hot && (
-                      <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
-                    )}
-                  </div>
-                  <div className="flex items-center ml-2 flex-shrink-0">
-                    <span className="text-xs text-neutral-500 mr-2">{area.count}</span>
-                    <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-primary-500" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Hot Targets */}
-          <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
-              <TrendingUp className="w-5 h-5 mr-2 text-accent-500" />
-              Hot Targets & Modalities
-            </h2>
-            <div className="grid grid-cols-2 gap-3">
-              {hotTargets.map((target, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
-                  <div className="flex items-center min-w-0 flex-1">
-                    <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
-                    <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
-                  </div>
-                  <div className="flex items-center ml-2 flex-shrink-0">
-                    <span className="text-xs text-neutral-500 mr-2">{target.count}</span>
-                    <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-accent-500" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Section - 60/40 Split: Conferences (Left) and News (Right) */}
-        <div className="grid grid-cols-10 gap-6">
-          {/* Left Side - Recent Conferences (60%) */}
-          <div className="col-span-6">
+        {/* Main Content Layout - News Sidebar on Right */}
+        <div className="grid grid-cols-4 gap-6">
+          {/* Left Side - Main Content (75%) */}
+          <div className="col-span-3 space-y-6">
+            {/* Recent Conferences - Full Width on Top */}
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
               <h2 className="text-2xl font-bold text-primary-500 mb-6 flex items-center">
                 <Calendar className="w-6 h-6 mr-3 text-primary-500" />
@@ -191,11 +143,60 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                 ))}
               </div>
             </div>
+
+            {/* Bottom Section - 50/50 Split: Indications and Hot Targets */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* Indications */}
+              <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
+                  <Search className="w-5 h-5 mr-2 text-status-success" />
+                  Indications
+                </h2>
+                <div className="space-y-3">
+                  {therapeuticAreas.map((area, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
+                      <div className="flex items-center min-w-0 flex-1">
+                        <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
+                        {area.hot && (
+                          <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
+                        )}
+                      </div>
+                      <div className="flex items-center ml-2 flex-shrink-0">
+                        <span className="text-xs text-neutral-500 mr-2">{area.count}</span>
+                        <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-primary-500" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Hot Targets */}
+              <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
+                <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
+                  <TrendingUp className="w-5 h-5 mr-2 text-accent-500" />
+                  Hot Targets & Modalities
+                </h2>
+                <div className="space-y-3">
+                  {hotTargets.map((target, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
+                      <div className="flex items-center min-w-0 flex-1">
+                        <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
+                        <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
+                      </div>
+                      <div className="flex items-center ml-2 flex-shrink-0">
+                        <span className="text-xs text-neutral-500 mr-2">{target.count}</span>
+                        <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-accent-500" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Right Side - Latest Updates (40%) */}
-          <div className="col-span-4">
-            <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
+          {/* Right Sidebar - Latest Updates (25%) */}
+          <div className="col-span-1">
+            <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm sticky top-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3">
@@ -243,7 +244,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
               {/* Stats */}
               <div className="mt-6 pt-6 border-t border-neutral-300">
-                <div className="grid grid-cols-2 gap-4 text-center">
+                <div className="grid grid-cols-1 gap-4 text-center">
                   <div>
                     <div className="text-2xl font-bold text-primary-500">47</div>
                     <div className="text-xs text-neutral-700">Today's Updates</div>
