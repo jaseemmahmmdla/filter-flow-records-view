@@ -24,15 +24,15 @@ interface TrialDatabaseProps {
 const ITEMS_PER_PAGE = 5;
 
 const MetricsCards = ({ trialsCount }: { trialsCount: number }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-    <Card className="p-4">
-      <h3 className="text-lg font-semibold text-primary-500 mb-2">Number of Abstracts</h3>
-      <p className="text-2xl font-bold text-primary-700">{trialsCount}</p>
-    </Card>
-    <Card className="p-4">
-      <h3 className="text-lg font-semibold text-primary-500 mb-2">Number of Trials</h3>
-      <p className="text-2xl font-bold text-primary-700">{trialsCount}</p>
-    </Card>
+  <div className="flex items-center gap-6 mb-6">
+    <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
+      <span className="font-semibold">{trialsCount}</span>
+      <span className="ml-1">Abstracts</span>
+    </Badge>
+    <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
+      <span className="font-semibold">{trialsCount}</span>
+      <span className="ml-1">Trials</span>
+    </Badge>
   </div>
 );
 
