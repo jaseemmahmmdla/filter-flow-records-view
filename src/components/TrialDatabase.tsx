@@ -23,6 +23,114 @@ interface TrialDatabaseProps {
 
 const ITEMS_PER_PAGE = 5;
 
+const MetricsCards = ({ trialsCount }: { trialsCount: number }) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <Card className="p-6">
+      <h3 className="text-lg font-semibold text-primary-500 mb-2">Number of Abstracts</h3>
+      <p className="text-3xl font-bold text-primary-700">{trialsCount}</p>
+      <p className="text-sm text-gray-500 mt-1">Total abstracts available</p>
+    </Card>
+    <Card className="p-6">
+      <h3 className="text-lg font-semibold text-primary-500 mb-2">Number of Trials</h3>
+      <p className="text-3xl font-bold text-primary-700">{trialsCount}</p>
+      <p className="text-sm text-gray-500 mt-1">Unique clinical trials</p>
+    </Card>
+  </div>
+);
+
+const OverviewContent = ({ trials }: { trials: any[] }) => (
+  <div className="space-y-6">
+    <div className="space-y-6">
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Trial Distribution by Phase</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {['Phase 1', 'Phase 2', 'Phase 3'].map(phase => {
+            const count = trials.filter(t => t.phase === phase).length;
+            const percentage = Math.round((count / trials.length) * 100);
+            return (
+              <div key={phase} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="font-medium text-gray-900">{phase}</p>
+                  <p className="text-sm text-gray-500">{count} trials</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-semibold text-gray-900">{percentage}%</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+      
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+            <p className="text-gray-700">Most trials are focused on NSCLC (Non-Small Cell Lung Cancer) treatment</p>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+            <p className="text-gray-700">PD-1/PD-L1 inhibitors remain the most common treatment approach</p>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+            <p className="text-gray-700">First-line therapy trials show promising efficacy outcomes</p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  </div>
+);
+
+const PaginationControls = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalItems,
+}: {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  totalItems: number;
+}) => (
+  <div className="flex justify-center py-8 border-t border-gray-100 bg-white">
+    <div className="flex flex-col items-center gap-4">
+      <p className="text-sm text-gray-500">
+        Page {currentPage} of {totalPages} ({totalItems} total items)
+      </p>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious 
+              onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                onClick={() => onPageChange(page)}
+                isActive={currentPage === page}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
+  </div>
+);
+
 const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   const [viewMode, setViewMode] = useState<'card' | 'list' | 'grid'>('card');
   const [currentPage, setCurrentPage] = useState(1);
@@ -933,71 +1041,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     </div>
   );
 
-  const OverviewContent = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Trials</h3>
-          <p className="text-3xl font-bold text-blue-600">{trials.length}</p>
-          <p className="text-sm text-gray-500 mt-1">Active clinical trials</p>
-        </Card>
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Completed Trials</h3>
-          <p className="text-3xl font-bold text-green-600">
-            {trials.filter(t => t.status === 'Completed').length}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">Trials with results</p>
-        </Card>
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Active Trials</h3>
-          <p className="text-3xl font-bold text-orange-600">
-            {trials.filter(t => t.status === 'Active' || t.status === 'Recruiting').length}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">Ongoing recruitment</p>
-        </Card>
-      </div>
-      
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Trial Distribution by Phase</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {['Phase 1', 'Phase 2', 'Phase 3'].map(phase => {
-            const count = trials.filter(t => t.phase === phase).length;
-            const percentage = Math.round((count / trials.length) * 100);
-            return (
-              <div key={phase} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div>
-                  <p className="font-medium text-gray-900">{phase}</p>
-                  <p className="text-sm text-gray-500">{count} trials</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-900">{percentage}%</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </Card>
-      
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-            <p className="text-gray-700">Most trials are focused on NSCLC (Non-Small Cell Lung Cancer) treatment</p>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-            <p className="text-gray-700">PD-1/PD-L1 inhibitors remain the most common treatment approach</p>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
-            <p className="text-gray-700">First-line therapy trials show promising efficacy outcomes</p>
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
-
   const renderSelectedFilters = () => {
     if (!filters || Object.keys(filters).length === 0) {
       return <p className="text-gray-600 mt-1">No filters applied</p>;
@@ -1032,6 +1075,9 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </div>
             </div>
 
+            {/* Results Metrics at the top - applies to both tabs */}
+            <MetricsCards trialsCount={trials.length} />
+
             <Tabs defaultValue="overview" className="w-full">
               <div className="w-full border-b border-gray-200 mb-6">
                 <div className="border-b border-gray-200">
@@ -1053,7 +1099,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </div>
               
               <TabsContent value="overview" className="space-y-6">
-                <OverviewContent />
+                <OverviewContent trials={trials} />
               </TabsContent>
               
               <TabsContent value="clinical-data" className="space-y-4">
@@ -1118,41 +1164,12 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   {viewMode === 'card' ? <CardView /> : viewMode === 'list' ? <ListView /> : <GridView />}
                 </div>
 
-                <div className="flex justify-center py-8 border-t border-gray-100 bg-white">
-                  <div className="flex flex-col items-center gap-4">
-                    <p className="text-sm text-gray-500">
-                      Page {currentPage} of {totalPages} ({trials.length} total items)
-                    </p>
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious 
-                            onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          />
-                        </PaginationItem>
-                        
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                          <PaginationItem key={page}>
-                            <PaginationLink
-                              onClick={() => handlePageChange(page)}
-                              isActive={currentPage === page}
-                            >
-                              {page}
-                            </PaginationLink>
-                          </PaginationItem>
-                        ))}
-                        
-                        <PaginationItem>
-                          <PaginationNext
-                            onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </div>
-                </div>
+                <PaginationControls
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalItems={trials.length}
+                />
               </TabsContent>
             </Tabs>
           </div>
