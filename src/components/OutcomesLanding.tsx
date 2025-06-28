@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight, Send, User, Lightbulb } from 'lucide-react';
@@ -178,7 +177,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-neutral-100">
+    <div className="min-h-[calc(100vh-4rem)] bg-white">
       <div className="w-full px-6 py-12">
         {/* Header */}
         <div className="mb-8 text-center">
