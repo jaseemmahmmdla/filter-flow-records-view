@@ -127,7 +127,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="font-bold text-primary-500 group-hover:text-primary-700 text-lg">{conf.name}</h3>
                       <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        conf.status === 'upcoming' ? 'bg-accent-50 text-accent-500 border border-accent-300/20' : 'bg-status-success/10 text-status-success border border-status-success/20'
+                        conf.status === 'upcoming' ? 'bg-accent-100 text-accent-500 border border-accent-300/20' : 'bg-status-success/10 text-status-success border border-status-success/20'
                       }`}>
                         {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
                       </span>
