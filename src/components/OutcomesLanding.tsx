@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight, Send, User, Lightbulb } from 'lucide-react';
@@ -79,9 +78,10 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   ];
 
   const recentConferences = [
-    { name: 'ASCO 2025', date: 'May 30 - Jun 3', location: 'Chicago', status: 'upcoming', abstracts: '6,200+' },
-    { name: 'ESMO 2024', date: 'Sep 13-17', location: 'Barcelona', status: 'recent', abstracts: '3,847' },
-    { name: 'ASH 2024', date: 'Dec 7-10', location: 'San Diego', status: 'recent', abstracts: '2,156' }
+    { name: 'ASCO 2025', date: 'May 30', status: 'upcoming', abstracts: '6,200+' },
+    { name: 'ESMO 2024', date: 'Sep 13', status: 'recent', abstracts: '3,847' },
+    { name: 'ASH 2024', date: 'Dec 7', status: 'recent', abstracts: '2,156' },
+    { name: 'AACR 2025', date: 'Mar 15', status: 'upcoming', abstracts: '4,200+' }
   ];
 
   const latestUpdates = [
@@ -178,7 +178,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full px-6 py-12">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">AI-Powered Abstract Intelligence</h1>
@@ -324,25 +324,19 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                 <Calendar className="w-5 h-5 mr-2 text-indigo-600" />
                 Recent Conferences
               </h2>
-              <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-2">
                 {recentConferences.map((conf, index) => (
                   <div key={index} className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors cursor-pointer group">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 text-sm">{conf.name}</h3>
-                      <div className="flex items-center">
-                        <span className={`text-xs px-2 py-1 rounded-md ${
-                          conf.status === 'upcoming' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'
-                        }`}>
-                          {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
-                        </span>
-                        <ChevronRight className="w-3 h-3 ml-2 text-gray-400 group-hover:text-indigo-600" />
-                      </div>
+                      <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 text-xs">{conf.name}</h3>
+                      <span className={`text-xs px-2 py-1 rounded-md ${
+                        conf.status === 'upcoming' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'
+                      }`}>
+                        {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
+                      </span>
                     </div>
                     <div className="space-y-1 text-xs text-gray-600">
-                      <div className="flex items-center justify-between">
-                        <span>{conf.date}</span>
-                        <span>{conf.location}</span>
-                      </div>
+                      <div className="text-gray-900">{conf.date}</div>
                       <div className="text-indigo-600 font-medium">{conf.abstracts} abstracts</div>
                     </div>
                   </div>
