@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin } from 'lucide-react';
+import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, Sparkles, Brain, Zap } from 'lucide-react';
 
 interface OutcomesLandingProps {
   onGetStarted: () => void;
@@ -11,28 +11,70 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Clinical Abstract Outcomes
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Premium AI-powered analysis and benchmarking of oncology clinical abstracts with intelligent filtering, 
-            comparison tools, and trend analysis to accelerate your research decisions.
-          </p>
-          <Button 
-            onClick={onGetStarted}
-            size="lg"
-            className="bg-[#1A237E] hover:bg-[#1A237E]/90 text-white px-8 py-3 text-lg"
-          >
-            Get Started
-          </Button>
+        {/* AI Insights Hero Section */}
+        <div className="mb-16">
+          <div className="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 rounded-2xl p-8 border border-purple-100">
+            <div className="flex items-center justify-center mb-6">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                  <Brain className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">AI Conference Insights</h1>
+                  <p className="text-purple-600 font-medium">Real-time intelligence from oncology conferences</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50">
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Sparkles className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">ASCO 2025 Preview</h3>
+                    <p className="text-sm text-gray-600">AI analysis predicts 40% increase in immunotherapy abstracts, with breakthrough CAR-T cell therapy presentations expected from 15+ pharma companies.</p>
+                    <div className="mt-3 text-xs text-green-600 font-medium">🔥 Trending: PD-1/PD-L1 combinations</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/50">
+                <div className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Zap className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">ESMO Impact Analysis</h3>
+                    <p className="text-sm text-gray-600">Recent ESMO abstracts show 65% efficacy improvement in solid tumors. AI identifies key biomarkers driving next-generation targeted therapies.</p>
+                    <div className="mt-3 text-xs text-blue-600 font-medium">📊 Key Insight: Precision medicine surge</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <Button 
+                onClick={onGetStarted}
+                size="lg"
+                className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-8 py-3 text-lg shadow-lg"
+              >
+                Explore AI Insights
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-12 mb-16">
           {/* Features Section - Left Side */}
           <div className="lg:col-span-2">
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Premium AI Analysis Platform</h2>
+              <p className="text-gray-600">Advanced intelligence for oncology abstract analysis and benchmarking</p>
+            </div>
+            
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-purple-50 rounded-lg shadow-sm p-8 text-center border border-purple-100">
                 <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
