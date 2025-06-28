@@ -9,7 +9,7 @@ interface OutcomesLandingProps {
 
 const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-[calc(100vh-4rem)] bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -31,39 +31,39 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Database className="w-8 h-8 text-[#1A237E]" />
+          <div className="bg-purple-50 rounded-lg shadow-sm p-8 text-center border border-purple-100">
+            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Database className="w-8 h-8 text-purple-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">Trial Database</h3>
-            <p className="text-gray-600">
+            <h3 className="text-xl font-semibold mb-3 text-purple-800">Trial Database</h3>
+            <p className="text-purple-600">
               Access comprehensive clinical trial data with advanced search and filtering capabilities.
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+          <div className="bg-blue-50 rounded-lg shadow-sm p-8 text-center border border-blue-100">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <BarChart3 className="w-8 h-8 text-[#1A237E]" />
+              <BarChart3 className="w-8 h-8 text-blue-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">Compare Trials</h3>
-            <p className="text-gray-600">
+            <h3 className="text-xl font-semibold mb-3 text-blue-800">Compare Trials</h3>
+            <p className="text-blue-600">
               Side-by-side comparison of trial outcomes, endpoints, and efficacy data.
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <TrendingUp className="w-8 h-8 text-[#1A237E]" />
+          <div className="bg-green-50 rounded-lg shadow-sm p-8 text-center border border-green-100">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <TrendingUp className="w-8 h-8 text-green-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">Trend Analysis</h3>
-            <p className="text-gray-600">
+            <h3 className="text-xl font-semibold mb-3 text-green-800">Trend Analysis</h3>
+            <p className="text-green-600">
               Identify patterns and trends in oncology treatment outcomes over time.
             </p>
           </div>
         </div>
 
         {/* Stats Section */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-gray-50 rounded-lg shadow-sm p-8 border border-gray-100">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-3xl font-bold text-[#1A237E] mb-2">2,847</div>
