@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap } from 'lucide-react';
+import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight } from 'lucide-react';
 
 interface OutcomesLandingProps {
   onGetStarted: () => void;
@@ -115,6 +116,91 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Navigate through thousands of oncology abstracts with advanced AI insights. Find breakthrough therapies, emerging targets, and clinical outcomes instantly.
           </p>
+        </div>
+
+        {/* AI Chatbot Section */}
+        <div className="mb-12">
+          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-2xl p-8">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mr-4">
+                    <Bot className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                      AI Research Assistant
+                      <Sparkles className="w-5 h-5 ml-2 text-purple-600" />
+                    </h2>
+                    <p className="text-indigo-600 font-medium">Powered by advanced AI models</p>
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-6 text-lg">
+                  Ask natural language questions about clinical trials, drug mechanisms, patient outcomes, and research trends. 
+                  Get instant, context-aware insights from our comprehensive database.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  <div className="bg-white rounded-lg p-4 border border-indigo-100">
+                    <MessageCircle className="w-5 h-5 text-indigo-600 mb-2" />
+                    <h3 className="font-semibold text-gray-900 mb-1">Natural Conversations</h3>
+                    <p className="text-sm text-gray-600">Ask complex questions in plain English</p>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 border border-indigo-100">
+                    <Database className="w-5 h-5 text-purple-600 mb-2" />
+                    <h3 className="font-semibold text-gray-900 mb-1">Deep Knowledge</h3>
+                    <p className="text-sm text-gray-600">Trained on thousands of abstracts and trials</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                    "What are the latest ADC trials for HER2-low breast cancer?"
+                  </span>
+                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                    "Compare CAR-T outcomes in multiple myeloma"
+                  </span>
+                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                    "Show me EGFR inhibitor resistance mechanisms"
+                  </span>
+                </div>
+
+                <Button 
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                  size="lg"
+                >
+                  Try AI Assistant
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+
+              <div className="hidden lg:block ml-8">
+                <div className="w-64 h-48 bg-white rounded-xl shadow-lg border border-indigo-100 p-4 relative overflow-hidden">
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <div className="space-y-3">
+                    <div className="flex items-start space-x-2">
+                      <Bot className="w-4 h-4 text-indigo-600 mt-0.5" />
+                      <div className="bg-gray-100 text-xs p-2 rounded-lg flex-1">
+                        Based on recent DESTINY trials, Enhertu shows promising activity in HER2-low patients...
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className="bg-indigo-600 text-white text-xs p-2 rounded-lg max-w-[70%]">
+                        What about resistance patterns?
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <Bot className="w-4 h-4 text-indigo-600 mt-0.5" />
+                      <div className="bg-gray-100 text-xs p-2 rounded-lg flex-1">
+                        Key resistance mechanisms include...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
