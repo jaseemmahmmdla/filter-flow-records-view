@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -30,7 +31,10 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
+					DEFAULT: '#1A237E',
+					100: '#E8EFF3',
+					500: '#1A237E',
+					700: '#0F154C',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
@@ -47,6 +51,10 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
+					100: '#FCE4EC',
+					300: '#EC407A',
+					500: '#D81B60',
+					700: '#B71C5B',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
@@ -66,6 +74,28 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				neutral: {
+					100: '#F5F7FA',
+					300: '#CFD8DC',
+					500: '#90A4AE',
+					700: '#37474F',
+					900: '#263238'
+				},
+				status: {
+					success: '#4CAF50',
+					warning: '#FFC107',
+					error: '#F44336',
+					info: '#64B5F6'
+				},
+				pastel: {
+					blue: '#D0E2FF',
+					green: '#D1FADF',
+					pink: '#FDD0E8',
+					purple: '#E9D8FD',
+					yellow: '#FFF4D0',
+					teal: '#D0F5F1',
+					indigo: '#D4DBF9'
 				},
 				brand: {
 					50: '#f0f9ff',
