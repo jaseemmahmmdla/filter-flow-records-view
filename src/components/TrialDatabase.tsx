@@ -645,28 +645,27 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1 min-w-0 pr-4">
-                  <div className="flex items-start gap-3 mb-3">
-                    <Checkbox
-                      checked={selectedTrials.includes(trial.id)}
-                      onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
-                      className="mt-1"
-                    />
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <h3 className="text-xl font-medium text-gray-900 line-clamp-2 leading-relaxed" title={trial.abstractTitle}>
-                            {trial.abstractTitle}
-                          </h3>
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-md">
-                          <p>{trial.abstractTitle}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <h3 className="text-xl font-medium text-gray-900 line-clamp-2 leading-relaxed mb-3" title={trial.abstractTitle}>
+                          {trial.abstractTitle}
+                        </h3>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-md">
+                        <p>{trial.abstractTitle}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   
-                  <div className="flex items-center gap-3 flex-wrap ml-7">
-                    <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        checked={selectedTrials.includes(trial.id)}
+                        onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
+                      />
+                      <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
+                    </div>
                     <Badge className={`${getPhaseColor(trial.phase)} border text-xs`}>{trial.phase}</Badge>
                     <Badge className={`${getStatusColor(trial.status)} border text-xs`}>{trial.status}</Badge>
                     <div className="flex items-center gap-1 text-sm text-gray-600">
@@ -798,7 +797,9 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                     <div className="flex items-center gap-3">
                       <CompanyLogo company={trial.company} logo={trial.companyLogo} />
                       <div>
-                        <div className="font-medium text-gray-900">{trial.trialName}</div>
+                        <div className="flex items-center gap-2">
+                          <div className="font-medium text-gray-900">{trial.trialName}</div>
+                        </div>
                         <a 
                           href={`https://clinicaltrials.gov/ct2/show/${trial.id}`} 
                           target="_blank" 
@@ -868,30 +869,27 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <div className="flex items-start gap-3">
               <CompanyLogo company={trial.company} logo={trial.companyLogo} />
               <div className="flex-1 min-w-0">
-                <div className="flex items-start gap-3 mb-2">
-                  <Checkbox
-                    checked={selectedTrials.includes(trial.id)}
-                    onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
-                    className="mt-1"
-                  />
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <h3 className="text-lg font-medium text-gray-900 line-clamp-3 leading-snug" title={trial.abstractTitle}>
-                          {trial.abstractTitle}
-                        </h3>
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-md">
-                        <p>{trial.abstractTitle}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <h3 className="text-lg font-medium text-gray-900 line-clamp-3 leading-snug mb-2" title={trial.abstractTitle}>
+                        {trial.abstractTitle}
+                      </h3>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-md">
+                      <p>{trial.abstractTitle}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
             
             <div className="space-y-2">
-              <div className="flex items-center gap-2 ml-12">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  checked={selectedTrials.includes(trial.id)}
+                  onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
+                />
                 <Badge className="bg-slate-100 text-slate-800 border-slate-200 border text-xs font-medium">{trial.trialName}</Badge>
                 <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>{trial.conference}</Badge>
               </div>
