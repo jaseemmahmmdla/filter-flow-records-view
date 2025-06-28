@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, TrendingUp, Calendar, ChevronRight, Clock, ExternalLink, Zap } from 'lucide-react';
@@ -122,11 +123,11 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               </h2>
               <div className="grid grid-cols-2 gap-4">
                 {recentConferences.map((conf, index) => (
-                  <div key={index} className="bg-neutral-50 rounded-lg p-4 hover:bg-primary-100 transition-colors cursor-pointer group border border-neutral-200">
+                  <div key={index} className="bg-neutral-100 rounded-lg p-4 hover:bg-primary-100 transition-colors cursor-pointer group border border-neutral-200">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="font-bold text-primary-500 group-hover:text-primary-700 text-lg">{conf.name}</h3>
                       <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        conf.status === 'upcoming' ? 'bg-accent-50 text-accent-500 border border-accent-300/20' : 'bg-status-success/10 text-status-success border border-status-success/20'
+                        conf.status === 'upcoming' ? 'bg-accent-100 text-accent-500 border border-accent-300/20' : 'bg-status-success/10 text-status-success border border-status-success/20'
                       }`}>
                         {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
                       </span>
@@ -153,7 +154,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                 </h2>
                 <div className="space-y-3">
                   {therapeuticAreas.map((area, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
+                    <div key={index} className="flex items-center justify-between p-3 bg-neutral-100 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
                       <div className="flex items-center min-w-0 flex-1">
                         <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
                         {area.hot && (
@@ -177,7 +178,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                 </h2>
                 <div className="space-y-3">
                   {hotTargets.map((target, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
+                    <div key={index} className="flex items-center justify-between p-3 bg-neutral-100 rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
                       <div className="flex items-center min-w-0 flex-1">
                         <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
                         <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
