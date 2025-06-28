@@ -1,5 +1,3 @@
-
-
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { Check } from "lucide-react"
@@ -13,7 +11,7 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      "peer h-5 w-5 shrink-0 rounded-lg border-2 border-gray-300 bg-white shadow-sm ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 hover:border-gray-400 hover:shadow-md data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 data-[state=checked]:text-white data-[state=checked]:shadow-lg",
+      "peer h-5 w-5 shrink-0 rounded-sm border-2 border-gray-300 bg-white shadow-sm ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 hover:border-gray-400 hover:shadow-md data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 data-[state=checked]:text-white data-[state=checked]:shadow-lg",
       className
     )}
     {...props}
@@ -28,4 +26,3 @@ const Checkbox = React.forwardRef<
 Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
 export { Checkbox }
-
