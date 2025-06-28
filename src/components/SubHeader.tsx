@@ -32,6 +32,16 @@ const SubHeader = ({ activeView, setActiveView }: SubHeaderProps) => {
             Abstracts
           </button>
           <button 
+            onClick={() => setActiveView('ai-assistant')}
+            className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
+              activeView === 'ai-assistant' 
+                ? 'text-gray-900 border-gray-900 bg-gray-50' 
+                : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
+            }`}
+          >
+            AI Assistant
+          </button>
+          <button 
             onClick={() => setActiveView('compare')}
             className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
               activeView === 'compare' 
