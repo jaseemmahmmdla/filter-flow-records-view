@@ -111,9 +111,9 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           </p>
         </div>
 
-        {/* Main Content Layout - News Sidebar on Right */}
-        <div className="grid grid-cols-4 gap-6">
-          {/* Left Side - Main Content (75%) */}
+        {/* Main Content Layout - 60/40 Split */}
+        <div className="grid grid-cols-5 gap-6">
+          {/* Left Side - Main Content (60%) */}
           <div className="col-span-3 space-y-6">
             {/* Recent Conferences - Full Width on Top */}
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
@@ -194,8 +194,8 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             </div>
           </div>
 
-          {/* Right Sidebar - Latest Updates (25%) */}
-          <div className="col-span-1">
+          {/* Right Sidebar - Latest Updates (40%) */}
+          <div className="col-span-2">
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm sticky top-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
