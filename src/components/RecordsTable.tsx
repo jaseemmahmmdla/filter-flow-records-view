@@ -415,34 +415,24 @@ const RecordsTable: React.FC<RecordsTableProps> = ({ filters }) => {
         </div>
       </div>
 
-      {/* Simple Stats with Badges */}
-      <div className="mb-8">
-        <Card className="p-4 bg-white shadow-sm border border-slate-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <Badge variant="outline" className="px-3 py-2 text-sm border-purple-200 text-purple-700 bg-purple-50">
-                <span className="font-semibold">{records.length}</span>
-                <span className="ml-1">Total Records</span>
-              </Badge>
-              <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
-                <span className="font-semibold">{records.filter(r => r.status === 'active').length}</span>
-                <span className="ml-1">Active Models</span>
-              </Badge>
-              <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
-                <span className="font-semibold">{Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%</span>
-                <span className="ml-1">Avg Score</span>
-              </Badge>
-              <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50">
-                <span className="font-semibold">{records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length}</span>
-                <span className="ml-1">Recent Updates</span>
-              </Badge>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-slate-600">
-              <TrendingUp className="w-4 h-4 text-green-600" />
-              <span>Overall performance trending up</span>
-            </div>
-          </div>
-        </Card>
+      {/* Simple Stats Row */}
+      <div className="flex items-center gap-6 mb-8">
+        <Badge variant="outline" className="px-3 py-2 text-sm border-purple-200 text-purple-700 bg-purple-50">
+          <span className="font-semibold">{records.length}</span>
+          <span className="ml-1">Total Records</span>
+        </Badge>
+        <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
+          <span className="font-semibold">{records.filter(r => r.status === 'active').length}</span>
+          <span className="ml-1">Active Models</span>
+        </Badge>
+        <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
+          <span className="font-semibold">{Math.round(records.reduce((acc, r) => acc + r.score, 0) / records.length)}%</span>
+          <span className="ml-1">Avg Score</span>
+        </Badge>
+        <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50">
+          <span className="font-semibold">{records.filter(r => r.lastUpdated.includes('hours') || r.lastUpdated.includes('minutes')).length}</span>
+          <span className="ml-1">Recent Updates</span>
+        </Badge>
       </div>
 
       {/* Records Display */}
