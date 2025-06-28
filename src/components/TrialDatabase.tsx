@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User, Grid3X3 } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -25,6 +26,7 @@ const ITEMS_PER_PAGE = 5;
 const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   const [viewMode, setViewMode] = useState<'card' | 'list' | 'grid'>('card');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTrials, setSelectedTrials] = useState<string[]>([]);
   
   const [trials] = useState([
     {
@@ -596,6 +598,25 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     setCurrentPage(1);
   }, [filters]);
 
+  const handleTrialSelection = (trialId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedTrials(prev => [...prev, trialId]);
+    } else {
+      setSelectedTrials(prev => prev.filter(id => id !== trialId));
+    }
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedTrials(paginatedTrials.map(trial => trial.id));
+    } else {
+      setSelectedTrials([]);
+    }
+  };
+
+  const isAllSelected = paginatedTrials.length > 0 && paginatedTrials.every(trial => selectedTrials.includes(trial.id));
+  const isSomeSelected = selectedTrials.length > 0 && !isAllSelected;
+
   const CompanyLogo = ({ company, logo }: { company: string; logo: string }) => (
     <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
       <img 
@@ -619,7 +640,14 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
       {paginatedTrials.map((trial) => (
         <Card key={trial.id} className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow p-6">
           <div className="flex items-start gap-4">
-            <CompanyLogo company={trial.company} logo={trial.companyLogo} />
+            <div className="flex items-start gap-3">
+              <Checkbox
+                checked={selectedTrials.includes(trial.id)}
+                onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
+                className="mt-1"
+              />
+              <CompanyLogo company={trial.company} logo={trial.companyLogo} />
+            </div>
             
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between mb-3">
@@ -736,6 +764,13 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox
+                    checked={isAllSelected}
+                    indeterminate={isSomeSelected}
+                    onCheckedChange={handleSelectAll}
+                  />
+                </TableHead>
                 <TableHead className="min-w-[200px]">Trial</TableHead>
                 <TableHead className="min-w-[300px] max-w-[400px]">Abstract Title</TableHead>
                 <TableHead className="min-w-[120px]">Company</TableHead>
@@ -754,6 +789,12 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
             <TableBody>
               {paginatedTrials.map((trial) => (
                 <TableRow key={trial.id}>
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedTrials.includes(trial.id)}
+                      onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
+                    />
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <CompanyLogo company={trial.company} logo={trial.companyLogo} />
@@ -826,12 +867,17 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
         <Card key={trial.id} className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow p-4">
           <div className="space-y-3">
             <div className="flex items-start gap-3">
+              <Checkbox
+                checked={selectedTrials.includes(trial.id)}
+                onCheckedChange={(checked) => handleTrialSelection(trial.id, checked as boolean)}
+                className="mt-1"
+              />
               <CompanyLogo company={trial.company} logo={trial.companyLogo} />
               <div className="flex-1 min-w-0">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <h3 className="text-base font-medium text-gray-900 mb-2 line-clamp-3 leading-snug" title={trial.abstractTitle}>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2 line-clamp-3 leading-snug" title={trial.abstractTitle}>
                         {trial.abstractTitle}
                       </h3>
                     </TooltipTrigger>
@@ -1012,54 +1058,67 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
               </TabsContent>
               
               <TabsContent value="clinical-data" className="space-y-4">
-                <div className="flex justify-end space-x-3 mb-4">
-                  <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
-                    <button
-                      onClick={() => setViewMode('card')}
-                      className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
-                        viewMode === 'card'
-                          ? 'bg-white text-gray-900 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                      }`}
-                    >
-                      <LayoutGrid className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('grid')}
-                      className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
-                        viewMode === 'grid'
-                          ? 'bg-white text-gray-900 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                      }`}
-                    >
-                      <Grid3X3 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
-                        viewMode === 'list'
-                          ? 'bg-white text-gray-900 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
-                      }`}
-                    >
-                      <List className="w-4 h-4" />
-                    </button>
+                <div className="flex justify-between items-center mb-4">
+                  <div className="flex items-center gap-4">
+                    {selectedTrials.length > 0 && (
+                      <p className="text-sm text-gray-600">
+                        {selectedTrials.length} trial{selectedTrials.length !== 1 ? 's' : ''} selected
+                      </p>
+                    )}
                   </div>
-                  <Button variant="outline" size="sm" className="h-9">
-                    <Download className="h-4 w-4 mr-2" />
-                    Export
-                  </Button>
-                  <Button variant="outline" size="sm" className="h-9">
-                    <GitCompare className="h-4 w-4 mr-2" />
-                    Compare Selected
-                  </Button>
+                  <div className="flex space-x-3">
+                    <div className="inline-flex items-center bg-gray-100 rounded-xl p-1 gap-1 h-9">
+                      <button
+                        onClick={() => setViewMode('card')}
+                        className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                          viewMode === 'card'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                        }`}
+                      >
+                        <LayoutGrid className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setViewMode('grid')}
+                        className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                          viewMode === 'grid'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                        }`}
+                      >
+                        <Grid3X3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setViewMode('list')}
+                        className={`inline-flex items-center px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 h-7 ${
+                          viewMode === 'list'
+                            ? 'bg-white text-gray-900 shadow-sm'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+                        }`}
+                      >
+                        <List className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <Button variant="outline" size="sm" className="h-9">
+                      <Download className="h-4 w-4 mr-2" />
+                      Export
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-9"
+                      disabled={selectedTrials.length === 0}
+                    >
+                      <GitCompare className="h-4 w-4 mr-2" />
+                      Compare Selected ({selectedTrials.length})
+                    </Button>
+                  </div>
                 </div>
 
                 <div className="space-y-6">
                   {viewMode === 'card' ? <CardView /> : viewMode === 'list' ? <ListView /> : <GridView />}
                 </div>
 
-                {/* Pagination */}
                 <div className="flex justify-center py-8 border-t border-gray-100 bg-white">
                   <div className="flex flex-col items-center gap-4">
                     <p className="text-sm text-gray-500">
