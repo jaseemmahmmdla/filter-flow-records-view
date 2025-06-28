@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight, Send, User, Lightbulb } from 'lucide-react';
@@ -275,22 +274,22 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               </div>
             </div>
 
-            {/* Therapeutic Areas */}
+            {/* Indications */}
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
                 <Search className="w-5 h-5 mr-2 text-emerald-600" />
-                Therapeutic Areas
+                Indications
               </h2>
-              <div className="space-y-2">
+              <div className="grid grid-cols-3 gap-3">
                 {therapeuticAreas.map((area, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-900 group-hover:text-emerald-600">{area.name}</span>
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div className="flex items-center min-w-0 flex-1">
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-emerald-600 truncate">{area.name}</span>
                       {area.hot && (
-                        <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">🔥</span>
+                        <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
                       )}
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center ml-2 flex-shrink-0">
                       <span className="text-xs text-gray-500 mr-2">{area.count}</span>
                       <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-emerald-600" />
                     </div>
@@ -305,14 +304,14 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                 <TrendingUp className="w-5 h-5 mr-2 text-rose-600" />
                 Hot Targets & Modalities
               </h2>
-              <div className="space-y-2">
+              <div className="grid grid-cols-3 gap-3">
                 {hotTargets.map((target, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-900 group-hover:text-rose-600">{target.name}</span>
-                      <span className="ml-2 text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-md">{target.trend}</span>
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div className="flex items-center min-w-0 flex-1">
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-rose-600 truncate">{target.name}</span>
+                      <span className="ml-2 text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center ml-2 flex-shrink-0">
                       <span className="text-xs text-gray-500 mr-2">{target.count}</span>
                       <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-rose-600" />
                     </div>
