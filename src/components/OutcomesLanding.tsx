@@ -187,9 +187,9 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-6">
-          {/* Left Side - AI Chat Interface */}
-          <div className="lg:col-span-2 space-y-6">
+        <div className="grid grid-cols-10 gap-6">
+          {/* Left Side - AI Chat Interface (70%) */}
+          <div className="col-span-7 space-y-6">
             {/* Chat Interface */}
             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
               <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
@@ -316,9 +316,9 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             </div>
           </div>
 
-          {/* Right Side - Conferences and News */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Recent Conferences - Smaller */}
+          {/* Right Side - Conferences and News (30%) */}
+          <div className="col-span-3 space-y-6">
+            {/* Recent Conferences - Compact */}
             <div className="bg-white border border-gray-200 rounded-xl p-4">
               <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 <Calendar className="w-5 h-5 mr-2 text-indigo-600" />
