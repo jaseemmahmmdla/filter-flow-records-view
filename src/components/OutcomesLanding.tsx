@@ -1,13 +1,65 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight } from 'lucide-react';
+import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight, Send, User, Lightbulb } from 'lucide-react';
 
 interface OutcomesLandingProps {
   onGetStarted: () => void;
 }
 
 const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
+  const [chatMessage, setChatMessage] = useState('');
+  const [chatHistory, setChatHistory] = useState([
+    {
+      type: 'bot',
+      message: 'Hello! I\'m your AI research assistant. I can help you explore clinical trials, drug outcomes, and research trends. What would you like to know?',
+      timestamp: new Date()
+    }
+  ]);
+
+  const suggestedQuestions = [
+    {
+      category: 'Drug Discovery',
+      icon: '🔬',
+      questions: [
+        'What are the latest ADC trials for HER2-low breast cancer?',
+        'Compare CAR-T outcomes in multiple myeloma vs ALL',
+        'Show me EGFR inhibitor resistance mechanisms',
+        'Latest KRAS G12C inhibitor trial results'
+      ]
+    },
+    {
+      category: 'Clinical Outcomes',
+      icon: '📊',
+      questions: [
+        'Survival rates for immunotherapy combinations in NSCLC',
+        'Biomarker-driven treatment responses in melanoma',
+        'Real-world evidence for Keytruda + chemotherapy',
+        'Adverse events comparison across PD-1 inhibitors'
+      ]
+    },
+    {
+      category: 'Market Trends',
+      icon: '📈',
+      questions: [
+        'Emerging targets in oncology 2024-2025',
+        'BiTE therapy development pipeline',
+        'Claudin 18.2 targeting landscape',
+        'Next-generation ADC technologies'
+      ]
+    },
+    {
+      category: 'Conference Insights',
+      icon: '🎯',
+      questions: [
+        'ASCO 2024 breakthrough presentations',
+        'ESMO highlights in precision medicine',
+        'ASH late-breaking abstracts summary',
+        'Regulatory trends from recent conferences'
+      ]
+    }
+  ];
+
   const therapeuticAreas = [
     { name: 'Non-small cell lung cancer', count: '2,847', hot: true },
     { name: 'Breast cancer', count: '1,923', hot: false },
@@ -27,10 +79,9 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   ];
 
   const recentConferences = [
-    { name: 'ASCO 2025', date: 'May 30 - June 3', location: 'Chicago, IL', status: 'upcoming', abstracts: '6,200+' },
+    { name: 'ASCO 2025', date: 'May 30 - Jun 3', location: 'Chicago', status: 'upcoming', abstracts: '6,200+' },
     { name: 'ESMO 2024', date: 'Sep 13-17', location: 'Barcelona', status: 'recent', abstracts: '3,847' },
-    { name: 'ASH 2024', date: 'Dec 7-10', location: 'San Diego', status: 'recent', abstracts: '2,156' },
-    { name: 'SABCS 2024', date: 'Dec 10-13', location: 'San Antonio', status: 'recent', abstracts: '1,234' }
+    { name: 'ASH 2024', date: 'Dec 7-10', location: 'San Diego', status: 'recent', abstracts: '2,156' }
   ];
 
   const latestUpdates = [
@@ -69,17 +120,35 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
       source: 'Blood Journal',
       type: 'results',
       summary: 'Updated Kymriah data shows durable responses in pediatric and young adult patients.'
-    },
-    {
-      title: 'Claudin 18.2 ADC Demonstrates Promising Activity in Gastric Cancer',
-      company: 'Astellas',
-      indication: 'Gastric cancer',
-      timeAgo: '12 hours ago',
-      source: 'Journal of Clinical Oncology',
-      type: 'results',
-      summary: 'Phase I/II trial shows 45% objective response rate with manageable safety profile.'
     }
   ];
+
+  const handleSendMessage = () => {
+    if (!chatMessage.trim()) return;
+    
+    const newMessage = {
+      type: 'user',
+      message: chatMessage,
+      timestamp: new Date()
+    };
+    
+    setChatHistory([...chatHistory, newMessage]);
+    setChatMessage('');
+    
+    // Simulate AI response
+    setTimeout(() => {
+      const aiResponse = {
+        type: 'bot',
+        message: 'I\'m analyzing your question and searching through our clinical database. This would be where I provide detailed insights based on the latest research data...',
+        timestamp: new Date()
+      };
+      setChatHistory(prev => [...prev, aiResponse]);
+    }, 1000);
+  };
+
+  const handleSuggestedQuestion = (question: string) => {
+    setChatMessage(question);
+  };
 
   const getNewsTypeColor = (type: string) => {
     switch (type) {
@@ -111,134 +180,89 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
     <div className="min-h-[calc(100vh-4rem)] bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">AI-Powered Abstract Intelligence</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Navigate through thousands of oncology abstracts with advanced AI insights. Find breakthrough therapies, emerging targets, and clinical outcomes instantly.
+            Navigate through thousands of oncology abstracts with advanced AI insights. Ask questions in natural language.
           </p>
         </div>
 
-        {/* AI Chatbot Section */}
-        <div className="mb-12">
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-2xl p-8">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mr-4">
-                    <Bot className="w-6 h-6 text-white" />
-                  </div>
+        <div className="grid lg:grid-cols-4 gap-6">
+          {/* Left Side - AI Chat Interface */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Chat Interface */}
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
+                <div className="flex items-center text-white">
+                  <Bot className="w-6 h-6 mr-3" />
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                      AI Research Assistant
-                      <Sparkles className="w-5 h-5 ml-2 text-purple-600" />
-                    </h2>
-                    <p className="text-indigo-600 font-medium">Powered by advanced AI models</p>
+                    <h2 className="text-xl font-bold">AI Research Assistant</h2>
+                    <p className="text-indigo-200 text-sm">Powered by advanced AI models</p>
                   </div>
+                  <div className="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 </div>
-                
-                <p className="text-gray-700 mb-6 text-lg">
-                  Ask natural language questions about clinical trials, drug mechanisms, patient outcomes, and research trends. 
-                  Get instant, context-aware insights from our comprehensive database.
-                </p>
-
-                <div className="grid md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-white rounded-lg p-4 border border-indigo-100">
-                    <MessageCircle className="w-5 h-5 text-indigo-600 mb-2" />
-                    <h3 className="font-semibold text-gray-900 mb-1">Natural Conversations</h3>
-                    <p className="text-sm text-gray-600">Ask complex questions in plain English</p>
-                  </div>
-                  <div className="bg-white rounded-lg p-4 border border-indigo-100">
-                    <Database className="w-5 h-5 text-purple-600 mb-2" />
-                    <h3 className="font-semibold text-gray-900 mb-1">Deep Knowledge</h3>
-                    <p className="text-sm text-gray-600">Trained on thousands of abstracts and trials</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
-                    "What are the latest ADC trials for HER2-low breast cancer?"
-                  </span>
-                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
-                    "Compare CAR-T outcomes in multiple myeloma"
-                  </span>
-                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
-                    "Show me EGFR inhibitor resistance mechanisms"
-                  </span>
-                </div>
-
-                <Button 
-                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
-                  size="lg"
-                >
-                  Try AI Assistant
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
               </div>
-
-              <div className="hidden lg:block ml-8">
-                <div className="w-64 h-48 bg-white rounded-xl shadow-lg border border-indigo-100 p-4 relative overflow-hidden">
-                  <div className="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <div className="space-y-3">
-                    <div className="flex items-start space-x-2">
-                      <Bot className="w-4 h-4 text-indigo-600 mt-0.5" />
-                      <div className="bg-gray-100 text-xs p-2 rounded-lg flex-1">
-                        Based on recent DESTINY trials, Enhertu shows promising activity in HER2-low patients...
-                      </div>
-                    </div>
-                    <div className="flex justify-end">
-                      <div className="bg-indigo-600 text-white text-xs p-2 rounded-lg max-w-[70%]">
-                        What about resistance patterns?
-                      </div>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <Bot className="w-4 h-4 text-indigo-600 mt-0.5" />
-                      <div className="bg-gray-100 text-xs p-2 rounded-lg flex-1">
-                        Key resistance mechanisms include...
+              
+              {/* Chat History */}
+              <div className="h-96 overflow-y-auto p-4 space-y-4">
+                {chatHistory.map((chat, index) => (
+                  <div key={index} className={`flex ${chat.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[80%] p-3 rounded-lg ${
+                      chat.type === 'user' 
+                        ? 'bg-indigo-600 text-white' 
+                        : 'bg-gray-100 text-gray-900'
+                    }`}>
+                      <div className="flex items-start space-x-2">
+                        {chat.type === 'bot' && <Bot className="w-4 h-4 mt-0.5 text-indigo-600" />}
+                        {chat.type === 'user' && <User className="w-4 h-4 mt-0.5" />}
+                        <div className="text-sm">{chat.message}</div>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+              
+              {/* Chat Input */}
+              <div className="border-t border-gray-200 p-4">
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={chatMessage}
+                    onChange={(e) => setChatMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    placeholder="Ask about clinical trials, outcomes, or trends..."
+                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                  <Button onClick={handleSendMessage} className="bg-indigo-600 hover:bg-indigo-700">
+                    <Send className="w-4 h-4" />
+                  </Button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Navigation - Left Side */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Recent Conferences */}
+            {/* Suggested Questions */}
             <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <Calendar className="w-6 h-6 mr-3 text-indigo-600" />
-                Recent Conferences
-              </h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {recentConferences.map((conf, index) => (
-                  <div key={index} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer group">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600">{conf.name}</h3>
-                      <div className="flex items-center">
-                        <span className={`text-xs px-2 py-1 rounded-md ${
-                          conf.status === 'upcoming' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'
-                        }`}>
-                          {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
-                        </span>
-                        <ChevronRight className="w-4 h-4 ml-2 text-gray-400 group-hover:text-indigo-600" />
-                      </div>
-                    </div>
-                    <div className="space-y-1 text-sm text-gray-600">
-                      <div className="flex items-center">
-                        <Calendar className="w-3 h-3 mr-2" />
-                        {conf.date}
-                      </div>
-                      <div className="flex items-center">
-                        <MapPin className="w-3 h-3 mr-2" />
-                        {conf.location}
-                      </div>
-                      <div className="flex items-center">
-                        <Database className="w-3 h-3 mr-2" />
-                        {conf.abstracts} abstracts
-                      </div>
+              <div className="flex items-center mb-4">
+                <Lightbulb className="w-5 h-5 mr-2 text-yellow-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Suggested Questions</h3>
+              </div>
+              <div className="space-y-4">
+                {suggestedQuestions.map((category, index) => (
+                  <div key={index}>
+                    <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
+                      <span className="mr-2">{category.icon}</span>
+                      {category.category}
+                    </h4>
+                    <div className="space-y-1">
+                      {category.questions.map((question, qIndex) => (
+                        <button
+                          key={qIndex}
+                          onClick={() => handleSuggestedQuestion(question)}
+                          className="w-full text-left text-xs text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 p-2 rounded-md transition-colors"
+                        >
+                          {question}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 ))}
@@ -247,65 +271,87 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
             {/* Therapeutic Areas */}
             <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <Search className="w-6 h-6 mr-3 text-emerald-600" />
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <Search className="w-5 h-5 mr-2 text-emerald-600" />
                 Therapeutic Areas
               </h2>
-              <div className="grid md:grid-cols-2 gap-3">
+              <div className="space-y-2">
                 {therapeuticAreas.map((area, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
                     <div className="flex items-center">
-                      <span className="font-medium text-gray-900 group-hover:text-emerald-600">{area.name}</span>
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-emerald-600">{area.name}</span>
                       {area.hot && (
-                        <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">🔥 Hot</span>
+                        <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">🔥</span>
                       )}
                     </div>
                     <div className="flex items-center">
-                      <span className="text-sm text-gray-500 mr-2">{area.count}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-emerald-600" />
+                      <span className="text-xs text-gray-500 mr-2">{area.count}</span>
+                      <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-emerald-600" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Hot Targets & Modalities */}
+            {/* Hot Targets */}
             <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <TrendingUp className="w-6 h-6 mr-3 text-rose-600" />
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <TrendingUp className="w-5 h-5 mr-2 text-rose-600" />
                 Hot Targets & Modalities
               </h2>
-              <div className="grid md:grid-cols-2 gap-3">
+              <div className="space-y-2">
                 {hotTargets.map((target, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
                     <div className="flex items-center">
-                      <span className="font-medium text-gray-900 group-hover:text-rose-600">{target.name}</span>
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-rose-600">{target.name}</span>
                       <span className="ml-2 text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-md">{target.trend}</span>
                     </div>
                     <div className="flex items-center">
-                      <span className="text-sm text-gray-500 mr-2">{target.count}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-rose-600" />
+                      <span className="text-xs text-gray-500 mr-2">{target.count}</span>
+                      <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-rose-600" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Conferences and News */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Recent Conferences - Smaller */}
+            <div className="bg-white border border-gray-200 rounded-xl p-4">
+              <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <Calendar className="w-5 h-5 mr-2 text-indigo-600" />
+                Recent Conferences
+              </h2>
+              <div className="space-y-3">
+                {recentConferences.map((conf, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600 text-sm">{conf.name}</h3>
+                      <div className="flex items-center">
+                        <span className={`text-xs px-2 py-1 rounded-md ${
+                          conf.status === 'upcoming' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'
+                        }`}>
+                          {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
+                        </span>
+                        <ChevronRight className="w-3 h-3 ml-2 text-gray-400 group-hover:text-indigo-600" />
+                      </div>
+                    </div>
+                    <div className="space-y-1 text-xs text-gray-600">
+                      <div className="flex items-center justify-between">
+                        <span>{conf.date}</span>
+                        <span>{conf.location}</span>
+                      </div>
+                      <div className="text-indigo-600 font-medium">{conf.abstracts} abstracts</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="text-center pt-4">
-              <Button 
-                onClick={onGetStarted}
-                size="lg"
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 text-lg"
-              >
-                Start Exploring with AI
-              </Button>
-            </div>
-          </div>
-
-          {/* Latest Updates Feed - Right Side */}
-          <div className="lg:col-span-1">
-            <div className="bg-white border border-gray-200 rounded-xl p-6 sticky top-6">
+            {/* Latest Updates Feed */}
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center mr-3">
@@ -366,6 +412,17 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center pt-8">
+          <Button 
+            onClick={onGetStarted}
+            size="lg"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 text-lg"
+          >
+            Start Exploring with AI
+          </Button>
         </div>
       </div>
     </div>
