@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, TrendingUp, Calendar, ChevronRight, Clock, ExternalLink, Zap } from 'lucide-react';
@@ -30,9 +29,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
     { name: 'ASCO 2025', date: 'May 30', status: 'upcoming', abstracts: '6,200+', description: 'Annual Meeting of the American Society of Clinical Oncology' },
     { name: 'ESMO 2024', date: 'Sep 13', status: 'recent', abstracts: '3,847', description: 'European Society for Medical Oncology Congress' },
     { name: 'ASH 2024', date: 'Dec 7', status: 'recent', abstracts: '2,156', description: 'American Society of Hematology Annual Meeting' },
-    { name: 'AACR 2025', date: 'Mar 15', status: 'upcoming', abstracts: '4,200+', description: 'American Association for Cancer Research Annual Meeting' },
-    { name: 'SITC 2024', date: 'Nov 6', status: 'recent', abstracts: '1,890', description: 'Society for Immunotherapy of Cancer Annual Meeting' },
-    { name: 'EHA 2025', date: 'Jun 12', status: 'upcoming', abstracts: '2,800+', description: 'European Hematology Association Congress' }
+    { name: 'AACR 2025', date: 'Mar 15', status: 'upcoming', abstracts: '4,200+', description: 'American Association for Cancer Research Annual Meeting' }
   ];
 
   const latestUpdates = [
