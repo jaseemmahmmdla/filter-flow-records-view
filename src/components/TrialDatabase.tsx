@@ -25,14 +25,14 @@ const ITEMS_PER_PAGE = 5;
 
 const MetricsCards = ({ trialsCount }: { trialsCount: number }) => (
   <div className="flex items-center gap-6 mb-6">
-    <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
-      <span className="font-semibold">{trialsCount}</span>
+    <div className="text-sm text-gray-700">
+      <span className="font-bold">{trialsCount}</span>
       <span className="ml-1">Abstracts</span>
-    </Badge>
-    <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
-      <span className="font-semibold">{trialsCount}</span>
+    </div>
+    <div className="text-sm text-gray-700">
+      <span className="font-bold">{trialsCount}</span>
       <span className="ml-1">Trials</span>
-    </Badge>
+    </div>
   </div>
 );
 
