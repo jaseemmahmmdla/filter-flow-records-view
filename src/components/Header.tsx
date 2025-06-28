@@ -19,20 +19,20 @@ const Header = ({ activeView, setActiveView }: HeaderProps) => {
               className="h-10 w-auto"
             />
             <div className="ml-4 text-white">
-              <h1 className="text-lg font-semibold">Clinical Trial Benchmarking</h1>
+              <h1 className="text-lg font-semibold">Clinical Trial Outcomes</h1>
             </div>
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
             <button 
-              onClick={() => setActiveView('dashboard')}
+              onClick={() => setActiveView('home')}
               className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
-                activeView === 'dashboard' 
+                activeView === 'home' 
                   ? 'text-white bg-white/20' 
                   : 'text-[#e8eff3] hover:text-white'
               }`}
             >
-              Dashboard
+              Home
             </button>
             <button 
               onClick={() => setActiveView('trials')}
@@ -42,7 +42,7 @@ const Header = ({ activeView, setActiveView }: HeaderProps) => {
                   : 'text-[#e8eff3] hover:text-white'
               }`}
             >
-              Trial Database
+              Search Trials
             </button>
             <button 
               onClick={() => setActiveView('compare')}
