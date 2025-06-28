@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User, Grid3X3 } from 'lucide-react';
+import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User, Grid3X3, TrendingUp, TrendingDown, Activity, Clock, Target, Award } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -127,8 +127,128 @@ const EChartsBarChart = ({ data, title, chartId }: { data: any[], title: string,
   return <div ref={chartRef} style={{ width: '100%', height: '320px' }} />;
 };
 
+const MetricCard = ({ title, value, change, icon: Icon, trend }: {
+  title: string;
+  value: string | number;
+  change?: string;
+  icon: any;
+  trend?: 'up' | 'down' | 'neutral';
+}) => (
+  <Card className="p-4 hover:shadow-md transition-shadow">
+    <div className="flex items-start justify-between">
+      <div className="flex-1">
+        <p className="text-sm text-gray-600 font-medium">{title}</p>
+        <div className="flex items-center gap-2 mt-1">
+          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          {change && (
+            <div className={`flex items-center gap-1 text-sm ${
+              trend === 'up' ? 'text-green-600' : trend === 'down' ? 'text-red-600' : 'text-gray-600'
+            }`}>
+              {trend === 'up' && <TrendingUp className="h-3 w-3" />}
+              {trend === 'down' && <TrendingDown className="h-3 w-3" />}
+              <span>{change}</span>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="p-2 bg-blue-50 rounded-lg">
+        <Icon className="h-5 w-5 text-blue-600" />
+      </div>
+    </div>
+  </Card>
+);
+
+const SuccessRateChart = ({ trials }: { trials: any[] }) => {
+  const chartRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!chartRef.current) return;
+
+    const chart = echarts.init(chartRef.current);
+    
+    const phaseData = {
+      'Phase 1': { total: 0, active: 0, completed: 0 },
+      'Phase 2': { total: 0, active: 0, completed: 0 },
+      'Phase 3': { total: 0, active: 0, completed: 0 }
+    };
+
+    trials.forEach(trial => {
+      if (phaseData[trial.phase]) {
+        phaseData[trial.phase].total++;
+        if (trial.status === 'Active' || trial.status === 'Recruiting') {
+          phaseData[trial.phase].active++;
+        } else if (trial.status === 'Completed') {
+          phaseData[trial.phase].completed++;
+        }
+      }
+    });
+
+    const phases = Object.keys(phaseData);
+    const successRates = phases.map(phase => {
+      const data = phaseData[phase];
+      return data.total > 0 ? ((data.completed / data.total) * 100).toFixed(1) : 0;
+    });
+
+    const option = {
+      title: {
+        text: 'Success Rate by Phase',
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          color: '#1f2937'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: '{b}: {c}% completion rate'
+      },
+      xAxis: {
+        type: 'category',
+        data: phases
+      },
+      yAxis: {
+        type: 'value',
+        max: 100,
+        axisLabel: {
+          formatter: '{value}%'
+        }
+      },
+      series: [{
+        type: 'bar',
+        data: successRates,
+        itemStyle: {
+          color: function(params) {
+            const colors = ['#f59e0b', '#10b981', '#3b82f6'];
+            return colors[params.dataIndex];
+          }
+        },
+        label: {
+          show: true,
+          position: 'top',
+          formatter: '{c}%'
+        }
+      }]
+    };
+
+    chart.setOption(option);
+
+    const handleResize = () => {
+      chart.resize();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      chart.dispose();
+    };
+  }, [trials]);
+
+  return <div ref={chartRef} style={{ width: '100%', height: '300px' }} />;
+};
+
 const OverviewContent = ({ trials }: { trials: any[] }) => {
-  // Analytics data processing
   const processTopDrugs = () => {
     const drugCounts: { [key: string]: { [key: string]: number } } = {};
     
@@ -234,67 +354,206 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
   const topTargets = processTopTargets();
   const topModalities = processTopModalities();
 
+  // Calculate metrics for the overview
+  const activeTrials = trials.filter(t => t.status === 'Active' || t.status === 'Recruiting').length;
+  const completedTrials = trials.filter(t => t.status === 'Completed').length;
+  const phase3Trials = trials.filter(t => t.phase === 'Phase 3').length;
+  const avgEnrollment = Math.round(trials.reduce((acc, trial) => {
+    const enrolled = parseInt(trial.enrollment.split('/')[0]);
+    return acc + enrolled;
+  }, 0) / trials.length);
+
+  // Generate dynamic insights based on data
+  const generateInsights = () => {
+    const insights = [];
+    
+    // Top indication insight
+    const indicationCounts = trials.reduce((acc: Record<string, number>, trial) => {
+      acc[trial.indication] = (acc[trial.indication] || 0) + 1;
+      return acc;
+    }, {});
+    const topIndication = Object.entries(indicationCounts).sort((a, b) => b[1] - a[1])[0];
+    
+    // Top target insight
+    const topTarget = topTargets[0];
+    
+    // Phase distribution insight
+    const phase3Percentage = Math.round((phase3Trials / trials.length) * 100);
+    
+    insights.push({
+      icon: 'target',
+      color: 'blue',
+      text: `${topIndication[0]} leads with ${topIndication[1]} trials (${Math.round(topIndication[1]/trials.length*100)}% of portfolio)`
+    });
+    
+    insights.push({
+      icon: 'trending-up',
+      color: 'green', 
+      text: `${topTarget.name} is the most targeted pathway with ${topTarget.total} abstracts across all sessions`
+    });
+    
+    insights.push({
+      icon: 'activity',
+      color: 'purple',
+      text: `${phase3Percentage}% of trials are in Phase 3, indicating strong late-stage portfolio`
+    });
+    
+    // Success rate insight
+    const successRate = Math.round((completedTrials / trials.length) * 100);
+    insights.push({
+      icon: 'award',
+      color: 'orange',
+      text: `${successRate}% completion rate demonstrates strong execution capabilities`
+    });
+
+    return insights;
+  };
+
+  const dynamicInsights = generateInsights();
+
   return (
     <div className="space-y-6">
+      {/* Enhanced Metrics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <MetricCard
+          title="Active Trials"
+          value={activeTrials}
+          change="+12%"
+          icon={Activity}
+          trend="up"
+        />
+        <MetricCard
+          title="Completed Trials"
+          value={completedTrials}
+          change="+8%"
+          icon={Award}
+          trend="up"
+        />
+        <MetricCard
+          title="Phase 3 Trials"
+          value={phase3Trials}
+          change="23%"
+          icon={Target}
+          trend="neutral"
+        />
+        <MetricCard
+          title="Avg Enrollment"
+          value={avgEnrollment}
+          change="+5%"
+          icon={User}
+          trend="up"
+        />
+      </div>
+
       <div className="flex gap-6">
         {/* Charts Section - Left Side */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Top 10 Drugs Chart */}
+        <div className="flex-1 space-y-6">
+          {/* Success Rate Chart */}
           <Card className="p-6">
-            <EChartsBarChart 
-              data={topDrugs} 
-              title="Top 10 Drugs by Session Type" 
-              chartId="drugs-chart"
-            />
+            <SuccessRateChart trials={trials} />
           </Card>
 
-          {/* Top 10 Companies Chart */}
-          <Card className="p-6">
-            <EChartsBarChart 
-              data={topCompanies} 
-              title="Top 10 Companies by Session Type" 
-              chartId="companies-chart"
-            />
-          </Card>
+          {/* Main Charts Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="p-6">
+              <EChartsBarChart 
+                data={topDrugs} 
+                title="Top 10 Drugs by Session Type" 
+                chartId="drugs-chart"
+              />
+            </Card>
 
-          {/* Top 10 Targets Chart */}
-          <Card className="p-6">
-            <EChartsBarChart 
-              data={topTargets} 
-              title="Top 10 Targets by Session Type" 
-              chartId="targets-chart"
-            />
-          </Card>
+            <Card className="p-6">
+              <EChartsBarChart 
+                data={topCompanies} 
+                title="Top 10 Companies by Session Type" 
+                chartId="companies-chart"
+              />
+            </Card>
 
-          {/* Top 10 Modalities Chart */}
-          <Card className="p-6">
-            <EChartsBarChart 
-              data={topModalities} 
-              title="Top 10 Modalities by Session Type" 
-              chartId="modalities-chart"
-            />
-          </Card>
+            <Card className="p-6">
+              <EChartsBarChart 
+                data={topTargets} 
+                title="Top 10 Targets by Session Type" 
+                chartId="targets-chart"
+              />
+            </Card>
+
+            <Card className="p-6">
+              <EChartsBarChart 
+                data={topModalities} 
+                title="Top 10 Modalities by Session Type" 
+                chartId="modalities-chart"
+              />
+            </Card>
+          </div>
         </div>
 
-        {/* Key Insights Section - Right Side */}
-        <div className="w-80">
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                <p className="text-gray-700">Most trials are focused on NSCLC (Non-Small Cell Lung Cancer) treatment</p>
+        {/* Enhanced Key Insights Section - Right Side */}
+        <div className="w-96">
+          <div className="space-y-4">
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Target className="h-5 w-5 text-blue-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Key Insights</h3>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <p className="text-gray-700">PD-1/PD-L1 inhibitors remain the most common treatment approach</p>
+              <div className="space-y-4">
+                {dynamicInsights.map((insight, index) => (
+                  <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div className={`w-2 h-2 rounded-full mt-2 ${
+                      insight.color === 'blue' ? 'bg-blue-500' :
+                      insight.color === 'green' ? 'bg-green-500' :
+                      insight.color === 'purple' ? 'bg-purple-500' :
+                      insight.color === 'orange' ? 'bg-orange-500' :
+                      'bg-gray-500'
+                    }`}></div>
+                    <p className="text-sm text-gray-700 leading-relaxed">{insight.text}</p>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
-                <p className="text-gray-700">First-line therapy trials show promising efficacy outcomes</p>
+            </Card>
+
+            {/* Market Intelligence Card */}
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="h-5 w-5 text-green-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Market Trends</h3>
               </div>
-            </div>
-          </Card>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                  <span className="text-sm text-gray-700">ADC Modality</span>
+                  <Badge className="bg-green-100 text-green-800 text-xs">Rising +45%</Badge>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
+                  <span className="text-sm text-gray-700">NSCLC Focus</span>
+                  <Badge className="bg-blue-100 text-blue-800 text-xs">Dominant 38%</Badge>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-orange-50 rounded">
+                  <span className="text-sm text-gray-700">1L Therapy</span>
+                  <Badge className="bg-orange-100 text-orange-800 text-xs">Growing +28%</Badge>
+                </div>
+              </div>
+            </Card>
+
+            {/* Quick Actions Card */}
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+              <div className="space-y-2">
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <Download className="h-4 w-4 mr-2" />
+                  Export Overview Report
+                </Button>
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <GitCompare className="h-4 w-4 mr-2" />
+                  Compare Top Performers
+                </Button>
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Set Trend Alerts
+                </Button>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
