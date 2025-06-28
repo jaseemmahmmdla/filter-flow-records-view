@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin } from 'lucide-react';
@@ -13,11 +14,11 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Clinical Trial Outcomes
+            Clinical Abstract Outcomes
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Analyze and benchmark oncology clinical trial data with powerful filtering, 
-            comparison tools, and trend analysis to make informed decisions.
+            Premium AI-powered analysis and benchmarking of oncology clinical abstracts with intelligent filtering, 
+            comparison tools, and trend analysis to accelerate your research decisions.
           </p>
           <Button 
             onClick={onGetStarted}
@@ -28,120 +29,120 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           </Button>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-purple-50 rounded-lg shadow-sm p-8 text-center border border-purple-100">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Database className="w-8 h-8 text-purple-600" />
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-12 mb-16">
+          {/* Features Section - Left Side */}
+          <div className="lg:col-span-2">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-purple-50 rounded-lg shadow-sm p-8 text-center border border-purple-100">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Database className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-purple-800">Abstract Intelligence</h3>
+                <p className="text-purple-600">
+                  AI-powered analysis of comprehensive clinical abstract data with advanced search and filtering capabilities.
+                </p>
+              </div>
+
+              <div className="bg-blue-50 rounded-lg shadow-sm p-8 text-center border border-blue-100">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BarChart3 className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-blue-800">Compare Abstracts</h3>
+                <p className="text-blue-600">
+                  Side-by-side comparison of abstract outcomes, endpoints, and efficacy data with AI insights.
+                </p>
+              </div>
+
+              <div className="bg-green-50 rounded-lg shadow-sm p-8 text-center border border-green-100">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-green-800">Trend Analysis</h3>
+                <p className="text-green-600">
+                  Identify patterns and trends in oncology treatment outcomes with predictive AI analytics.
+                </p>
+              </div>
+
+              <div className="bg-rose-50 rounded-lg shadow-sm p-8 text-center border border-rose-100">
+                <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-rose-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-rose-800">Smart Search</h3>
+                <p className="text-rose-600">
+                  Natural language queries powered by AI to find relevant abstracts and insights instantly.
+                </p>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold mb-3 text-purple-800">Trial Database</h3>
-            <p className="text-purple-600">
-              Access comprehensive clinical trial data with advanced search and filtering capabilities.
-            </p>
           </div>
 
-          <div className="bg-blue-50 rounded-lg shadow-sm p-8 text-center border border-blue-100">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <BarChart3 className="w-8 h-8 text-blue-600" />
-            </div>
-            <h3 className="text-xl font-semibold mb-3 text-blue-800">Compare Trials</h3>
-            <p className="text-blue-600">
-              Side-by-side comparison of trial outcomes, endpoints, and efficacy data.
-            </p>
-          </div>
+          {/* Conferences List - Right Side */}
+          <div className="lg:col-span-1">
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Calendar className="w-5 h-5 mr-2 text-[#1A237E]" />
+                Recent Conferences
+              </h3>
+              
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-shadow">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="font-semibold text-gray-900">ASCO 2025</h4>
+                    <span className="text-xs bg-[#1A237E] text-white px-2 py-1 rounded-full">Upcoming</span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">American Society of Clinical Oncology</p>
+                  <div className="space-y-1 text-xs text-gray-500">
+                    <div className="flex items-center">
+                      <Calendar className="w-3 h-3 mr-2" />
+                      May 30 - June 3, 2025
+                    </div>
+                    <div className="flex items-center">
+                      <MapPin className="w-3 h-3 mr-2" />
+                      Chicago, IL
+                    </div>
+                  </div>
+                </div>
 
-          <div className="bg-green-50 rounded-lg shadow-sm p-8 text-center border border-green-100">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <TrendingUp className="w-8 h-8 text-green-600" />
-            </div>
-            <h3 className="text-xl font-semibold mb-3 text-green-800">Trend Analysis</h3>
-            <p className="text-green-600">
-              Identify patterns and trends in oncology treatment outcomes over time.
-            </p>
-          </div>
-        </div>
+                <div className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-shadow">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="font-semibold text-gray-900">ESMO 2024</h4>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Recent</span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">European Society for Medical Oncology</p>
+                  <div className="space-y-1 text-xs text-gray-500">
+                    <div className="flex items-center">
+                      <Calendar className="w-3 h-3 mr-2" />
+                      September 13-17, 2024
+                    </div>
+                    <div className="flex items-center">
+                      <MapPin className="w-3 h-3 mr-2" />
+                      Barcelona, Spain
+                    </div>
+                  </div>
+                </div>
 
-        {/* Recent Conferences Section */}
-        <div className="mb-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Recent Conferences</h2>
-            <p className="text-lg text-gray-600">Stay updated with the latest oncology conference data and insights</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-rose-50 rounded-lg shadow-sm p-6 border border-rose-100">
-              <div className="flex items-center mb-3">
-                <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mr-3">
-                  <Calendar className="w-6 h-6 text-rose-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-rose-800">ASCO 2025</h3>
-                  <p className="text-sm text-rose-600">American Society of Clinical Oncology</p>
-                </div>
-              </div>
-              <div className="mb-3">
-                <div className="flex items-center text-sm text-rose-600 mb-1">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  May 30 - June 3, 2025
-                </div>
-                <div className="flex items-center text-sm text-rose-600">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  Chicago, IL
+                <div className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-shadow">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="font-semibold text-gray-900">ASH 2024</h4>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Recent</span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">American Society of Hematology</p>
+                  <div className="space-y-1 text-xs text-gray-500">
+                    <div className="flex items-center">
+                      <Calendar className="w-3 h-3 mr-2" />
+                      December 7-10, 2024
+                    </div>
+                    <div className="flex items-center">
+                      <MapPin className="w-3 h-3 mr-2" />
+                      San Diego, CA
+                    </div>
+                  </div>
                 </div>
               </div>
-              <p className="text-rose-700 text-sm">
-                The premier global oncology conference featuring breakthrough research, clinical trial data, and innovative treatment approaches.
-              </p>
-            </div>
 
-            <div className="bg-teal-50 rounded-lg shadow-sm p-6 border border-teal-100">
-              <div className="flex items-center mb-3">
-                <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-3">
-                  <Calendar className="w-6 h-6 text-teal-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-teal-800">ESMO 2024</h3>
-                  <p className="text-sm text-teal-600">European Society for Medical Oncology</p>
-                </div>
-              </div>
-              <div className="mb-3">
-                <div className="flex items-center text-sm text-teal-600 mb-1">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  September 13-17, 2024
-                </div>
-                <div className="flex items-center text-sm text-teal-600">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  Barcelona, Spain
-                </div>
-              </div>
-              <p className="text-teal-700 text-sm">
-                Europe's leading oncology congress presenting cutting-edge research and clinical practice updates across all cancer types.
-              </p>
-            </div>
-
-            <div className="bg-amber-50 rounded-lg shadow-sm p-6 border border-amber-100">
-              <div className="flex items-center mb-3">
-                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-3">
-                  <Calendar className="w-6 h-6 text-amber-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-amber-800">ASH 2024</h3>
-                  <p className="text-sm text-amber-600">American Society of Hematology</p>
-                </div>
-              </div>
-              <div className="mb-3">
-                <div className="flex items-center text-sm text-amber-600 mb-1">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  December 7-10, 2024
-                </div>
-                <div className="flex items-center text-sm text-amber-600">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  San Diego, CA
-                </div>
-              </div>
-              <p className="text-amber-700 text-sm">
-                The world's largest hematology conference showcasing advances in blood cancer research and treatment innovations.
-              </p>
+              <button className="w-full mt-4 text-sm text-[#1A237E] hover:text-[#1A237E]/80 font-medium">
+                View all conferences →
+              </button>
             </div>
           </div>
         </div>
@@ -150,20 +151,20 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
         <div className="bg-gray-50 rounded-lg shadow-sm p-8 border border-gray-100">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-[#1A237E] mb-2">2,847</div>
-              <div className="text-gray-600">Clinical Trials</div>
+              <div className="text-3xl font-bold text-[#1A237E] mb-2">12,847</div>
+              <div className="text-gray-600">Clinical Abstracts</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-[#1A237E] mb-2">15+</div>
+              <div className="text-3xl font-bold text-[#1A237E] mb-2">25+</div>
               <div className="text-gray-600">Cancer Types</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-[#1A237E] mb-2">127</div>
+              <div className="text-3xl font-bold text-[#1A237E] mb-2">180+</div>
               <div className="text-gray-600">Drug Classes</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-[#1A237E] mb-2">98%</div>
-              <div className="text-gray-600">Data Accuracy</div>
+              <div className="text-3xl font-bold text-[#1A237E] mb-2">AI-Powered</div>
+              <div className="text-gray-600">Analysis</div>
             </div>
           </div>
         </div>
