@@ -32,7 +32,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: '#1A237E',
-					100: '#E8EFF3',
+					50: '#EBECFB',
+					100: '#D4DBF9',
 					500: '#1A237E',
 					700: '#0F154C',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -50,8 +51,9 @@ export default {
 					foreground: 'hsl(var(--muted-foreground))'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					100: '#FCE4EC',
+					DEFAULT: '#D81B60',
+					50: '#FCE4EC',
+					100: '#F8BBD0',
 					300: '#EC407A',
 					500: '#D81B60',
 					700: '#B71C5B',
@@ -76,6 +78,7 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				neutral: {
+					50: '#FFFFFF',
 					100: '#F5F7FA',
 					300: '#CFD8DC',
 					500: '#90A4AE',
@@ -89,13 +92,14 @@ export default {
 					info: '#64B5F6'
 				},
 				pastel: {
+					aqua: '#28C3D7',
+					pink: '#FCE4EC',
+					lavender: '#EBECFB',
 					blue: '#D0E2FF',
-					green: '#D1FADF',
-					pink: '#FDD0E8',
-					purple: '#E9D8FD',
-					yellow: '#FFF4D0',
 					teal: '#D0F5F1',
-					indigo: '#D4DBF9'
+					yellow: '#FFF4D0',
+					green: '#D1FADF',
+					purple: '#E9D8FD'
 				},
 				brand: {
 					50: '#f0f9ff',
@@ -108,18 +112,6 @@ export default {
 					700: '#0369a1',
 					800: '#075985',
 					900: '#0c4a6e',
-				},
-				purple: {
-					50: '#faf5ff',
-					100: '#f3e8ff',
-					200: '#e9d5ff',
-					300: '#d8b4fe',
-					400: '#c084fc',
-					500: '#a855f7',
-					600: '#9333ea',
-					700: '#7c3aed',
-					800: '#6b21a8',
-					900: '#581c87',
 				}
 			},
 			borderRadius: {

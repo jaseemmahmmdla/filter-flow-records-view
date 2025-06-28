@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight, Send, User, Lightbulb } from 'lucide-react';
@@ -181,7 +182,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
       <div className="w-full px-6 py-12">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">AI-Powered Abstract Intelligence</h1>
+          <h1 className="text-4xl font-bold text-primary-500 mb-4">AI-Powered Abstract Intelligence</h1>
           <p className="text-xl text-neutral-700 max-w-3xl mx-auto">
             Navigate through thousands of oncology abstracts with advanced AI insights. Ask questions in natural language.
           </p>
@@ -206,15 +207,15 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               {/* Chat Content with Suggested Questions on Left */}
               <div className="flex h-80">
                 {/* Suggested Questions - Left Side */}
-                <div className="w-1/3 border-r border-neutral-300 p-4 bg-neutral-100 overflow-y-auto">
+                <div className="w-1/3 border-r border-neutral-300 p-4 bg-pastel-lavender overflow-y-auto">
                   <div className="flex items-center mb-3">
                     <Lightbulb className="w-4 h-4 mr-2 text-status-warning" />
-                    <h3 className="text-sm font-semibold text-neutral-900">Suggested Questions</h3>
+                    <h3 className="text-sm font-bold text-primary-500">Suggested Questions</h3>
                   </div>
                   <div className="space-y-4">
                     {suggestedQuestions.map((category, index) => (
                       <div key={index}>
-                        <h4 className="text-xs font-medium text-neutral-700 mb-2 flex items-center">
+                        <h4 className="text-xs font-bold text-primary-500 mb-2 flex items-center">
                           <span className="mr-1">{category.icon}</span>
                           {category.category}
                         </h4>
@@ -223,7 +224,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                             <button
                               key={qIndex}
                               onClick={() => handleSuggestedQuestion(question)}
-                              className="w-full text-left text-xs text-neutral-700 bg-white hover:bg-pastel-indigo hover:text-primary-500 p-3 rounded-lg border border-neutral-300 hover:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                              className="w-full text-left text-xs text-neutral-700 bg-white hover:bg-primary-100 hover:text-primary-500 p-3 rounded-lg border border-neutral-300 hover:border-primary-500 transition-all duration-200 shadow-sm hover:shadow-md"
                             >
                               {question}
                             </button>
@@ -242,7 +243,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                         <div className={`max-w-[80%] p-3 rounded-lg ${
                           chat.type === 'user' 
                             ? 'bg-primary-500 text-white' 
-                            : 'bg-neutral-100 text-neutral-900'
+                            : 'bg-pastel-lavender text-neutral-900'
                         }`}>
                           <div className="flex items-start space-x-2">
                             {chat.type === 'bot' && <Bot className="w-4 h-4 mt-0.5 text-primary-500" />}
@@ -276,17 +277,17 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
             {/* Indications */}
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-bold text-neutral-900 mb-4 flex items-center">
+              <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
                 <Search className="w-5 h-5 mr-2 text-status-success" />
                 Indications
               </h2>
               <div className="grid grid-cols-3 gap-3">
                 {therapeuticAreas.map((area, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-neutral-100 rounded-lg hover:bg-pastel-blue transition-colors cursor-pointer group">
+                  <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
                     <div className="flex items-center min-w-0 flex-1">
                       <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
                       {area.hot && (
-                        <span className="ml-2 text-xs bg-accent-100 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
+                        <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
                       )}
                     </div>
                     <div className="flex items-center ml-2 flex-shrink-0">
@@ -300,16 +301,16 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
             {/* Hot Targets */}
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-bold text-neutral-900 mb-4 flex items-center">
+              <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2 text-accent-500" />
                 Hot Targets & Modalities
               </h2>
               <div className="grid grid-cols-3 gap-3">
                 {hotTargets.map((target, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-neutral-100 rounded-lg hover:bg-pastel-pink transition-colors cursor-pointer group">
+                  <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
                     <div className="flex items-center min-w-0 flex-1">
                       <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
-                      <span className="ml-2 text-xs bg-accent-100 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
+                      <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
                     </div>
                     <div className="flex items-center ml-2 flex-shrink-0">
                       <span className="text-xs text-neutral-500 mr-2">{target.count}</span>
@@ -325,15 +326,15 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           <div className="col-span-3 space-y-6">
             {/* Recent Conferences - Compact */}
             <div className="bg-white border border-neutral-300 rounded-xl p-4 shadow-sm">
-              <h2 className="text-lg font-bold text-neutral-900 mb-4 flex items-center">
+              <h2 className="text-lg font-bold text-primary-500 mb-4 flex items-center">
                 <Calendar className="w-5 h-5 mr-2 text-primary-500" />
                 Recent Conferences
               </h2>
               <div className="grid grid-cols-2 gap-2">
                 {recentConferences.map((conf, index) => (
-                  <div key={index} className="bg-neutral-100 rounded-lg p-3 hover:bg-pastel-indigo transition-colors cursor-pointer group">
+                  <div key={index} className="bg-pastel-lavender rounded-lg p-3 hover:bg-primary-100 transition-colors cursor-pointer group">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-neutral-900 group-hover:text-primary-500 text-xs">{conf.name}</h3>
+                      <h3 className="font-bold text-primary-500 group-hover:text-primary-700 text-xs">{conf.name}</h3>
                       <span className={`text-xs px-2 py-1 rounded-md ${
                         conf.status === 'upcoming' ? 'bg-status-info/10 text-status-info' : 'bg-status-success/10 text-status-success'
                       }`}>
@@ -342,7 +343,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                     </div>
                     <div className="space-y-1 text-xs text-neutral-500">
                       <div className="text-neutral-900">{conf.date}</div>
-                      <div className="text-primary-500 font-medium">{conf.abstracts} abstracts</div>
+                      <div className="text-primary-500 font-bold">{conf.abstracts} abstracts</div>
                     </div>
                   </div>
                 ))}
@@ -357,7 +358,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                     <Zap className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-neutral-900">Latest Updates</h3>
+                    <h3 className="text-xl font-bold text-primary-500">Latest Updates</h3>
                     <p className="text-sm text-primary-500">Real-time feed</p>
                   </div>
                 </div>
@@ -378,12 +379,12 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                       </div>
                     </div>
                     
-                    <h4 className="font-semibold text-neutral-900 mb-3 text-sm leading-tight">{update.title}</h4>
+                    <h4 className="font-bold text-primary-500 mb-3 text-sm leading-tight">{update.title}</h4>
                     
                     <div className="space-y-2 text-xs text-neutral-700 mb-3">
                       <div className="flex items-center justify-between">
-                        <span className="font-medium">{update.company}</span>
-                        <span className="text-primary-500 font-medium">{update.indication}</span>
+                        <span className="font-bold text-primary-500">{update.company}</span>
+                        <span className="text-primary-500 font-bold">{update.indication}</span>
                       </div>
                       <div className="flex items-center text-neutral-500">
                         <ExternalLink className="w-3 h-3 mr-1" />
