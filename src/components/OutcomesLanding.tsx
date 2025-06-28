@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, BarChart3, TrendingUp, Database } from 'lucide-react';
+import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin } from 'lucide-react';
 
 interface OutcomesLandingProps {
   onGetStarted: () => void;
@@ -59,6 +58,91 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             <p className="text-green-600">
               Identify patterns and trends in oncology treatment outcomes over time.
             </p>
+          </div>
+        </div>
+
+        {/* Recent Conferences Section */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Recent Conferences</h2>
+            <p className="text-lg text-gray-600">Stay updated with the latest oncology conference data and insights</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-rose-50 rounded-lg shadow-sm p-6 border border-rose-100">
+              <div className="flex items-center mb-3">
+                <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mr-3">
+                  <Calendar className="w-6 h-6 text-rose-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-rose-800">ASCO 2025</h3>
+                  <p className="text-sm text-rose-600">American Society of Clinical Oncology</p>
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className="flex items-center text-sm text-rose-600 mb-1">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  May 30 - June 3, 2025
+                </div>
+                <div className="flex items-center text-sm text-rose-600">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Chicago, IL
+                </div>
+              </div>
+              <p className="text-rose-700 text-sm">
+                The premier global oncology conference featuring breakthrough research, clinical trial data, and innovative treatment approaches.
+              </p>
+            </div>
+
+            <div className="bg-teal-50 rounded-lg shadow-sm p-6 border border-teal-100">
+              <div className="flex items-center mb-3">
+                <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mr-3">
+                  <Calendar className="w-6 h-6 text-teal-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-teal-800">ESMO 2024</h3>
+                  <p className="text-sm text-teal-600">European Society for Medical Oncology</p>
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className="flex items-center text-sm text-teal-600 mb-1">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  September 13-17, 2024
+                </div>
+                <div className="flex items-center text-sm text-teal-600">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Barcelona, Spain
+                </div>
+              </div>
+              <p className="text-teal-700 text-sm">
+                Europe's leading oncology congress presenting cutting-edge research and clinical practice updates across all cancer types.
+              </p>
+            </div>
+
+            <div className="bg-amber-50 rounded-lg shadow-sm p-6 border border-amber-100">
+              <div className="flex items-center mb-3">
+                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-3">
+                  <Calendar className="w-6 h-6 text-amber-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-amber-800">ASH 2024</h3>
+                  <p className="text-sm text-amber-600">American Society of Hematology</p>
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className="flex items-center text-sm text-amber-600 mb-1">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  December 7-10, 2024
+                </div>
+                <div className="flex items-center text-sm text-amber-600">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  San Diego, CA
+                </div>
+              </div>
+              <p className="text-amber-700 text-sm">
+                The world's largest hematology conference showcasing advances in blood cancer research and treatment innovations.
+              </p>
+            </div>
           </div>
         </div>
 
