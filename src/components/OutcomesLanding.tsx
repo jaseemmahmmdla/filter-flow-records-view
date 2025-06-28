@@ -11,7 +11,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   const [chatHistory, setChatHistory] = useState([
     {
       type: 'bot',
-      message: 'Hello! I\'m your AI research assistant. I can help you explore clinical trials, drug outcomes, and research trends. What would you like to know?',
+      message: 'Hello! I\'m your Kogntic AI research assistant. I can help you explore clinical trials, drug outcomes, and research trends. What would you like to know?',
       timestamp: new Date()
     }
   ]);
@@ -192,11 +192,11 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           <div className="col-span-7 space-y-6">
             {/* Chat Interface */}
             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
+              <div className="bg-indigo-600 p-4">
                 <div className="flex items-center text-white">
                   <Bot className="w-6 h-6 mr-3" />
                   <div>
-                    <h2 className="text-xl font-bold">AI Research Assistant</h2>
+                    <h2 className="text-xl font-bold">Kogntic AI Assistant</h2>
                     <p className="text-indigo-200 text-sm">Powered by advanced AI models</p>
                   </div>
                   <div className="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
