@@ -40,7 +40,8 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
       indication: 'Non-small cell lung cancer',
       timeAgo: '2 hours ago',
       source: 'FDA Press Release',
-      type: 'breakthrough'
+      type: 'breakthrough',
+      summary: 'Phase III KEYNOTE-189 trial demonstrates significant overall survival benefit in first-line treatment.'
     },
     {
       title: 'Enhertu Receives FDA Approval for HER2-Low Breast Cancer',
@@ -48,7 +49,8 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
       indication: 'Breast cancer',
       timeAgo: '4 hours ago',
       source: 'Company Press Release',
-      type: 'approval'
+      type: 'approval',
+      summary: 'First ADC approved for HER2-low population based on DESTINY-Breast04 results.'
     },
     {
       title: 'Teclistamab Shows 63% ORR in Relapsed/Refractory Multiple Myeloma',
@@ -56,71 +58,143 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
       indication: 'Multiple myeloma',
       timeAgo: '6 hours ago',
       source: 'New England Journal of Medicine',
-      type: 'results'
+      type: 'results',
+      summary: 'MajesTEC-1 trial results support BCMA-targeting bispecific approach.'
+    },
+    {
+      title: 'CAR-T Therapy Achieves 94% Complete Response Rate in B-ALL',
+      company: 'Novartis',
+      indication: 'Acute lymphoblastic leukemia',
+      timeAgo: '8 hours ago',
+      source: 'Blood Journal',
+      type: 'results',
+      summary: 'Updated Kymriah data shows durable responses in pediatric and young adult patients.'
+    },
+    {
+      title: 'Claudin 18.2 ADC Demonstrates Promising Activity in Gastric Cancer',
+      company: 'Astellas',
+      indication: 'Gastric cancer',
+      timeAgo: '12 hours ago',
+      source: 'Journal of Clinical Oncology',
+      type: 'results',
+      summary: 'Phase I/II trial shows 45% objective response rate with manageable safety profile.'
     }
   ];
 
+  const getNewsTypeColor = (type: string) => {
+    switch (type) {
+      case 'breakthrough':
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'approval':
+        return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'results':
+        return 'bg-purple-50 text-purple-700 border-purple-200';
+      default:
+        return 'bg-gray-50 text-gray-700 border-gray-200';
+    }
+  };
+
+  const getNewsTypeIcon = (type: string) => {
+    switch (type) {
+      case 'breakthrough':
+        return '🚀';
+      case 'approval':
+        return '✅';
+      case 'results':
+        return '📊';
+      default:
+        return '📰';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        
+    <div className="min-h-[calc(100vh-4rem)] bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-12 text-center border-b border-gray-200 pb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">AI-Powered Abstract Intelligence</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Navigate through thousands of oncology abstracts with advanced AI insights
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">AI-Powered Abstract Intelligence</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Navigate through thousands of oncology abstracts with advanced AI insights. Find breakthrough therapies, emerging targets, and clinical outcomes instantly.
           </p>
         </div>
 
         {/* AI Chatbot Section */}
-        <div className="mb-12 border border-gray-300 p-8">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 border-2 border-gray-400 flex items-center justify-center mr-4">
-                  <Bot className="w-6 h-6 text-gray-600" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900">AI Research Assistant</h2>
-                  <p className="text-gray-600">Powered by advanced AI models</p>
-                </div>
-              </div>
-              
-              <p className="text-gray-700 mb-6">
-                Ask natural language questions about clinical trials, drug mechanisms, patient outcomes, and research trends.
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="border border-gray-300 p-4">
-                  <MessageCircle className="w-5 h-5 text-gray-600 mb-2" />
-                  <h3 className="font-semibold text-gray-900 mb-1">Natural Conversations</h3>
-                  <p className="text-sm text-gray-600">Ask complex questions in plain English</p>
-                </div>
-                <div className="border border-gray-300 p-4">
-                  <Database className="w-5 h-5 text-gray-600 mb-2" />
-                  <h3 className="font-semibold text-gray-900 mb-1">Deep Knowledge</h3>
-                  <p className="text-sm text-gray-600">Trained on thousands of abstracts and trials</p>
-                </div>
-              </div>
-
-              <Button className="border border-gray-400 bg-white text-gray-900 hover:bg-gray-50">
-                Try AI Assistant
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
-
-            <div className="hidden lg:block ml-8">
-              <div className="w-64 h-48 border-2 border-gray-300 p-4">
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-2">
-                    <Bot className="w-4 h-4 text-gray-600 mt-1" />
-                    <div className="border border-gray-200 text-xs p-2 flex-1">
-                      Based on recent DESTINY trials...
-                    </div>
+        <div className="mb-12">
+          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-2xl p-8">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mr-4">
+                    <Bot className="w-6 h-6 text-white" />
                   </div>
-                  <div className="flex justify-end">
-                    <div className="border border-gray-400 text-xs p-2 max-w-[70%]">
-                      What about resistance patterns?
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                      AI Research Assistant
+                      <Sparkles className="w-5 h-5 ml-2 text-purple-600" />
+                    </h2>
+                    <p className="text-indigo-600 font-medium">Powered by advanced AI models</p>
+                  </div>
+                </div>
+                
+                <p className="text-gray-700 mb-6 text-lg">
+                  Ask natural language questions about clinical trials, drug mechanisms, patient outcomes, and research trends. 
+                  Get instant, context-aware insights from our comprehensive database.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  <div className="bg-white rounded-lg p-4 border border-indigo-100">
+                    <MessageCircle className="w-5 h-5 text-indigo-600 mb-2" />
+                    <h3 className="font-semibold text-gray-900 mb-1">Natural Conversations</h3>
+                    <p className="text-sm text-gray-600">Ask complex questions in plain English</p>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 border border-indigo-100">
+                    <Database className="w-5 h-5 text-purple-600 mb-2" />
+                    <h3 className="font-semibold text-gray-900 mb-1">Deep Knowledge</h3>
+                    <p className="text-sm text-gray-600">Trained on thousands of abstracts and trials</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                    "What are the latest ADC trials for HER2-low breast cancer?"
+                  </span>
+                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                    "Compare CAR-T outcomes in multiple myeloma"
+                  </span>
+                  <span className="text-xs bg-white text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                    "Show me EGFR inhibitor resistance mechanisms"
+                  </span>
+                </div>
+
+                <Button 
+                  className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                  size="lg"
+                >
+                  Try AI Assistant
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+
+              <div className="hidden lg:block ml-8">
+                <div className="w-64 h-48 bg-white rounded-xl shadow-lg border border-indigo-100 p-4 relative overflow-hidden">
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <div className="space-y-3">
+                    <div className="flex items-start space-x-2">
+                      <Bot className="w-4 h-4 text-indigo-600 mt-0.5" />
+                      <div className="bg-gray-100 text-xs p-2 rounded-lg flex-1">
+                        Based on recent DESTINY trials, Enhertu shows promising activity in HER2-low patients...
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <div className="bg-indigo-600 text-white text-xs p-2 rounded-lg max-w-[70%]">
+                        What about resistance patterns?
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <Bot className="w-4 h-4 text-indigo-600 mt-0.5" />
+                      <div className="bg-gray-100 text-xs p-2 rounded-lg flex-1">
+                        Key resistance mechanisms include...
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -130,27 +204,41 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          
-          {/* Main Content - Left Side */}
+          {/* Main Navigation - Left Side */}
           <div className="lg:col-span-2 space-y-8">
-            
             {/* Recent Conferences */}
-            <div className="border border-gray-300 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                <Calendar className="w-5 h-5 mr-3" />
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <Calendar className="w-6 h-6 mr-3 text-indigo-600" />
                 Recent Conferences
               </h2>
               <div className="grid md:grid-cols-2 gap-4">
                 {recentConferences.map((conf, index) => (
-                  <div key={index} className="border border-gray-200 p-4 hover:border-gray-400 cursor-pointer">
+                  <div key={index} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer group">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900">{conf.name}</h3>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                      <h3 className="font-semibold text-gray-900 group-hover:text-indigo-600">{conf.name}</h3>
+                      <div className="flex items-center">
+                        <span className={`text-xs px-2 py-1 rounded-md ${
+                          conf.status === 'upcoming' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'
+                        }`}>
+                          {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
+                        </span>
+                        <ChevronRight className="w-4 h-4 ml-2 text-gray-400 group-hover:text-indigo-600" />
+                      </div>
                     </div>
                     <div className="space-y-1 text-sm text-gray-600">
-                      <div>{conf.date}</div>
-                      <div>{conf.location}</div>
-                      <div>{conf.abstracts} abstracts</div>
+                      <div className="flex items-center">
+                        <Calendar className="w-3 h-3 mr-2" />
+                        {conf.date}
+                      </div>
+                      <div className="flex items-center">
+                        <MapPin className="w-3 h-3 mr-2" />
+                        {conf.location}
+                      </div>
+                      <div className="flex items-center">
+                        <Database className="w-3 h-3 mr-2" />
+                        {conf.abstracts} abstracts
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -158,45 +246,45 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             </div>
 
             {/* Therapeutic Areas */}
-            <div className="border border-gray-300 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                <Search className="w-5 h-5 mr-3" />
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <Search className="w-6 h-6 mr-3 text-emerald-600" />
                 Therapeutic Areas
               </h2>
               <div className="grid md:grid-cols-2 gap-3">
                 {therapeuticAreas.map((area, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border border-gray-200 hover:border-gray-400 cursor-pointer">
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
                     <div className="flex items-center">
-                      <span className="font-medium text-gray-900">{area.name}</span>
+                      <span className="font-medium text-gray-900 group-hover:text-emerald-600">{area.name}</span>
                       {area.hot && (
-                        <span className="ml-2 text-xs border border-gray-300 px-2 py-1">Hot</span>
+                        <span className="ml-2 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">🔥 Hot</span>
                       )}
                     </div>
                     <div className="flex items-center">
                       <span className="text-sm text-gray-500 mr-2">{area.count}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-emerald-600" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Hot Targets */}
-            <div className="border border-gray-300 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                <TrendingUp className="w-5 h-5 mr-3" />
+            {/* Hot Targets & Modalities */}
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <TrendingUp className="w-6 h-6 mr-3 text-rose-600" />
                 Hot Targets & Modalities
               </h2>
               <div className="grid md:grid-cols-2 gap-3">
                 {hotTargets.map((target, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border border-gray-200 hover:border-gray-400 cursor-pointer">
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
                     <div className="flex items-center">
-                      <span className="font-medium text-gray-900">{target.name}</span>
-                      <span className="ml-2 text-xs border border-gray-300 px-2 py-1">{target.trend}</span>
+                      <span className="font-medium text-gray-900 group-hover:text-rose-600">{target.name}</span>
+                      <span className="ml-2 text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-md">{target.trend}</span>
                     </div>
                     <div className="flex items-center">
                       <span className="text-sm text-gray-500 mr-2">{target.count}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-rose-600" />
                     </div>
                   </div>
                 ))}
@@ -207,7 +295,8 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             <div className="text-center pt-4">
               <Button 
                 onClick={onGetStarted}
-                className="border-2 border-gray-900 bg-white text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3"
+                size="lg"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 text-lg"
               >
                 Start Exploring with AI
               </Button>
@@ -216,25 +305,26 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
           {/* Latest Updates Feed - Right Side */}
           <div className="lg:col-span-1">
-            <div className="border border-gray-300 p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 sticky top-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <div className="w-8 h-8 border-2 border-gray-400 flex items-center justify-center mr-3">
-                    <Zap className="w-4 h-4 text-gray-600" />
+                  <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center mr-3">
+                    <Zap className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900">Latest Updates</h3>
-                    <p className="text-sm text-gray-600">Real-time feed</p>
+                    <h3 className="text-xl font-bold text-gray-900">Latest Updates</h3>
+                    <p className="text-sm text-indigo-600">Real-time feed</p>
                   </div>
                 </div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[600px] overflow-y-auto">
                 {latestUpdates.map((update, index) => (
-                  <div key={index} className="border border-gray-200 p-4 hover:border-gray-400 cursor-pointer">
+                  <div key={index} className="border border-gray-200 rounded-lg p-4 hover:border-indigo-300 transition-colors cursor-pointer">
                     <div className="flex items-start justify-between mb-3">
-                      <div className="text-xs border border-gray-300 px-2 py-1">
+                      <div className={`text-xs px-2 py-1 rounded-md border ${getNewsTypeColor(update.type)} flex items-center`}>
+                        <span className="mr-1">{getNewsTypeIcon(update.type)}</span>
                         {update.type.toUpperCase()}
                       </div>
                       <div className="flex items-center text-xs text-gray-500">
@@ -243,18 +333,20 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                       </div>
                     </div>
                     
-                    <h4 className="font-semibold text-gray-900 mb-3 text-sm">{update.title}</h4>
+                    <h4 className="font-semibold text-gray-900 mb-3 text-sm leading-tight">{update.title}</h4>
                     
-                    <div className="space-y-2 text-xs text-gray-600">
+                    <div className="space-y-2 text-xs text-gray-600 mb-3">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">{update.company}</span>
-                        <span className="font-medium">{update.indication}</span>
+                        <span className="text-indigo-600 font-medium">{update.indication}</span>
                       </div>
                       <div className="flex items-center text-gray-500">
                         <ExternalLink className="w-3 h-3 mr-1" />
                         {update.source}
                       </div>
                     </div>
+                    
+                    <p className="text-xs text-gray-600 leading-relaxed">{update.summary}</p>
                   </div>
                 ))}
               </div>
@@ -263,11 +355,11 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div>
-                    <div className="text-xl font-bold text-gray-900">47</div>
+                    <div className="text-2xl font-bold text-indigo-600">47</div>
                     <div className="text-xs text-gray-600">Today's Updates</div>
                   </div>
                   <div>
-                    <div className="text-xl font-bold text-gray-900">Live</div>
+                    <div className="text-2xl font-bold text-indigo-600">Live</div>
                     <div className="text-xs text-gray-600">Real-time Feed</div>
                   </div>
                 </div>
