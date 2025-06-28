@@ -219,12 +219,12 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                           <span className="mr-1">{category.icon}</span>
                           {category.category}
                         </h4>
-                        <div className="space-y-1">
+                        <div className="space-y-2">
                           {category.questions.slice(0, 2).map((question, qIndex) => (
                             <button
                               key={qIndex}
                               onClick={() => handleSuggestedQuestion(question)}
-                              className="w-full text-left text-xs text-gray-600 hover:text-indigo-600 hover:bg-white p-2 rounded-md transition-colors"
+                              className="w-full text-left text-xs text-gray-700 bg-white hover:bg-indigo-50 hover:text-indigo-700 p-3 rounded-lg border border-gray-200 hover:border-indigo-200 transition-all duration-200 shadow-sm hover:shadow-md"
                             >
                               {question}
                             </button>
