@@ -16,8 +16,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import * as echarts from 'echarts';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -37,6 +36,97 @@ const MetricsCards = ({ trialsCount }: { trialsCount: number }) => (
     </div>
   </div>
 );
+
+const EChartsBarChart = ({ data, title, chartId }: { data: any[], title: string, chartId: string }) => {
+  const chartRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!chartRef.current || !data.length) return;
+
+    const chart = echarts.init(chartRef.current);
+    
+    const categories = data.map(item => item.name);
+    const oralData = data.map(item => item['Oral Presentation'] || 0);
+    const posterData = data.map(item => item['Poster'] || 0);
+    const miniOralData = data.map(item => item['Mini Oral'] || 0);
+
+    const option = {
+      title: {
+        text: title,
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          color: '#1f2937'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {
+        data: ['Oral Presentation', 'Poster', 'Mini Oral'],
+        top: 30,
+        itemGap: 20
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '20%',
+        top: '15%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: categories,
+        axisLabel: {
+          rotate: 45,
+          fontSize: 10
+        }
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: 'Oral Presentation',
+          type: 'bar',
+          data: oralData,
+          color: '#6366f1' // indigo
+        },
+        {
+          name: 'Poster',
+          type: 'bar',
+          data: posterData,
+          color: '#d946ef' // fuchsia
+        },
+        {
+          name: 'Mini Oral',
+          type: 'bar',
+          data: miniOralData,
+          color: '#8b5cf6' // purple (mix of indigo and fuchsia)
+        }
+      ]
+    };
+
+    chart.setOption(option);
+
+    const handleResize = () => {
+      chart.resize();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      chart.dispose();
+    };
+  }, [data, title]);
+
+  return <div ref={chartRef} style={{ width: '100%', height: '320px' }} />;
+};
 
 const OverviewContent = ({ trials }: { trials: any[] }) => {
   // Analytics data processing
@@ -140,21 +230,6 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
       .slice(0, 10);
   };
 
-  const chartConfig = {
-    'Oral Presentation': {
-      label: 'Oral Presentation',
-      color: '#10b981',
-    },
-    'Poster': {
-      label: 'Poster',
-      color: '#f59e0b',
-    },
-    'Mini Oral': {
-      label: 'Mini Oral',
-      color: '#3b82f6',
-    },
-  };
-
   const topDrugs = processTopDrugs();
   const topCompanies = processTopCompanies();
   const topTargets = processTopTargets();
@@ -165,90 +240,38 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top 10 Drugs Chart */}
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Drugs by Session Type</h3>
-          <ChartContainer config={chartConfig} className="h-80">
-            <BarChart data={topDrugs} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
-              />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
-              <Bar dataKey="Poster" fill="var(--color-Poster)" />
-              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
-            </BarChart>
-          </ChartContainer>
+          <EChartsBarChart 
+            data={topDrugs} 
+            title="Top 10 Drugs by Session Type" 
+            chartId="drugs-chart"
+          />
         </Card>
 
         {/* Top 10 Companies Chart */}
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Companies by Session Type</h3>
-          <ChartContainer config={chartConfig} className="h-80">
-            <BarChart data={topCompanies} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
-              />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
-              <Bar dataKey="Poster" fill="var(--color-Poster)" />
-              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
-            </BarChart>
-          </ChartContainer>
+          <EChartsBarChart 
+            data={topCompanies} 
+            title="Top 10 Companies by Session Type" 
+            chartId="companies-chart"
+          />
         </Card>
 
         {/* Top 10 Targets Chart */}
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Targets by Session Type</h3>
-          <ChartContainer config={chartConfig} className="h-80">
-            <BarChart data={topTargets} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
-              />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
-              <Bar dataKey="Poster" fill="var(--color-Poster)" />
-              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
-            </BarChart>
-          </ChartContainer>
+          <EChartsBarChart 
+            data={topTargets} 
+            title="Top 10 Targets by Session Type" 
+            chartId="targets-chart"
+          />
         </Card>
 
         {/* Top 10 Modalities Chart */}
         <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Modalities by Session Type</h3>
-          <ChartContainer config={chartConfig} className="h-80">
-            <BarChart data={topModalities} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
-              />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
-              <Bar dataKey="Poster" fill="var(--color-Poster)" />
-              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
-            </BarChart>
-          </ChartContainer>
+          <EChartsBarChart 
+            data={topModalities} 
+            title="Top 10 Modalities by Session Type" 
+            chartId="modalities-chart"
+          />
         </Card>
       </div>
 
