@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, BarChart3, TrendingUp, Database, Calendar, MapPin, ChevronRight, Clock, ExternalLink, Zap, MessageCircle, Bot, Sparkles, ArrowRight, Send, User, Lightbulb } from 'lucide-react';
@@ -204,7 +205,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               </div>
               
               {/* Chat History */}
-              <div className="h-96 overflow-y-auto p-4 space-y-4">
+              <div className="h-64 overflow-y-auto p-4 space-y-4">
                 {chatHistory.map((chat, index) => (
                   <div key={index} className={`flex ${chat.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div className={`max-w-[80%] p-3 rounded-lg ${
@@ -222,6 +223,35 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                 ))}
               </div>
               
+              {/* Suggested Questions */}
+              <div className="border-t border-gray-200 p-4 bg-gray-50">
+                <div className="flex items-center mb-3">
+                  <Lightbulb className="w-4 h-4 mr-2 text-yellow-600" />
+                  <h3 className="text-sm font-semibold text-gray-900">Suggested Questions</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {suggestedQuestions.map((category, index) => (
+                    <div key={index}>
+                      <h4 className="text-xs font-medium text-gray-700 mb-2 flex items-center">
+                        <span className="mr-1">{category.icon}</span>
+                        {category.category}
+                      </h4>
+                      <div className="space-y-1">
+                        {category.questions.slice(0, 2).map((question, qIndex) => (
+                          <button
+                            key={qIndex}
+                            onClick={() => handleSuggestedQuestion(question)}
+                            className="w-full text-left text-xs text-gray-600 hover:text-indigo-600 hover:bg-white p-2 rounded-md transition-colors"
+                          >
+                            {question}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
               {/* Chat Input */}
               <div className="border-t border-gray-200 p-4">
                 <div className="flex space-x-2">
@@ -237,35 +267,6 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
                     <Send className="w-4 h-4" />
                   </Button>
                 </div>
-              </div>
-            </div>
-
-            {/* Suggested Questions */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <div className="flex items-center mb-4">
-                <Lightbulb className="w-5 h-5 mr-2 text-yellow-600" />
-                <h3 className="text-lg font-semibold text-gray-900">Suggested Questions</h3>
-              </div>
-              <div className="space-y-4">
-                {suggestedQuestions.map((category, index) => (
-                  <div key={index}>
-                    <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                      <span className="mr-2">{category.icon}</span>
-                      {category.category}
-                    </h4>
-                    <div className="space-y-1">
-                      {category.questions.map((question, qIndex) => (
-                        <button
-                          key={qIndex}
-                          onClick={() => handleSuggestedQuestion(question)}
-                          className="w-full text-left text-xs text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 p-2 rounded-md transition-colors"
-                        >
-                          {question}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
 
