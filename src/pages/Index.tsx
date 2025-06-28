@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -35,18 +36,7 @@ const Index = () => {
       {activeView === 'home' ? (
         <OutcomesLanding onGetStarted={handleGetStarted} />
       ) : activeView === 'ai-assistant' ? (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-primary-500 mb-4">AI Research Assistant</h1>
-            <p className="text-xl text-neutral-700">
-              Ask questions about clinical trials, drug outcomes, and research trends in natural language.
-            </p>
-          </div>
-
-          <div className="bg-white border border-neutral-300 rounded-xl overflow-hidden shadow-sm">
-            
-          </div>
-        </div>
+        <AIAssistant />
       ) : activeView === 'trials' ? (
         <div className="h-[calc(100vh-7rem)] relative">
           <ResizablePanelGroup direction="horizontal" className="h-full">
