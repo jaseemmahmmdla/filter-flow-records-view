@@ -2,12 +2,7 @@
 import React from 'react';
 import { Search, Bell, User } from 'lucide-react';
 
-interface HeaderProps {
-  activeView: string;
-  setActiveView: (view: string) => void;
-}
-
-const Header = ({ activeView, setActiveView }: HeaderProps) => {
+const Header = () => {
   return (
     <header className="w-full bg-[#1A237E] shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,52 +14,9 @@ const Header = ({ activeView, setActiveView }: HeaderProps) => {
               className="h-10 w-auto"
             />
             <div className="ml-4 text-white">
-              <h1 className="text-lg font-semibold">Clinical Trial Outcomes</h1>
+              <h1 className="text-lg font-semibold">Outcomes</h1>
             </div>
           </div>
-          
-          <nav className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => setActiveView('home')}
-              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
-                activeView === 'home' 
-                  ? 'text-white bg-white/20' 
-                  : 'text-[#e8eff3] hover:text-white'
-              }`}
-            >
-              Home
-            </button>
-            <button 
-              onClick={() => setActiveView('trials')}
-              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
-                activeView === 'trials' 
-                  ? 'text-white bg-white/20' 
-                  : 'text-[#e8eff3] hover:text-white'
-              }`}
-            >
-              Search Trials
-            </button>
-            <button 
-              onClick={() => setActiveView('compare')}
-              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
-                activeView === 'compare' 
-                  ? 'text-white bg-white/20' 
-                  : 'text-[#e8eff3] hover:text-white'
-              }`}
-            >
-              Compare
-            </button>
-            <button 
-              onClick={() => setActiveView('trends')}
-              className={`transition-colors duration-200 font-medium px-3 py-2 rounded ${
-                activeView === 'trends' 
-                  ? 'text-white bg-white/20' 
-                  : 'text-[#e8eff3] hover:text-white'
-              }`}
-            >
-              Trends
-            </button>
-          </nav>
           
           <div className="flex items-center space-x-4">
             <div className="relative">

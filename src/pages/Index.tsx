@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import Header from '@/components/Header';
+import SubHeader from '@/components/SubHeader';
 import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
 import OutcomesLanding from '@/components/OutcomesLanding';
@@ -28,12 +29,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header activeView={activeView} setActiveView={setActiveView} />
+      <Header />
+      <SubHeader activeView={activeView} setActiveView={setActiveView} />
       
       {activeView === 'home' ? (
         <OutcomesLanding onGetStarted={handleGetStarted} />
       ) : activeView === 'trials' ? (
-        <div className="h-[calc(100vh-4rem)] relative">
+        <div className="h-[calc(100vh-7rem)] relative">
           <ResizablePanelGroup direction="horizontal" className="h-full">
             {!filterPanelCollapsed && (
               <ResizablePanel 
