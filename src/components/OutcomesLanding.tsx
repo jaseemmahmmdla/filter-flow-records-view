@@ -27,10 +27,12 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   ];
 
   const recentConferences = [
-    { name: 'ASCO 2025', date: 'May 30', status: 'upcoming', abstracts: '6,200+' },
-    { name: 'ESMO 2024', date: 'Sep 13', status: 'recent', abstracts: '3,847' },
-    { name: 'ASH 2024', date: 'Dec 7', status: 'recent', abstracts: '2,156' },
-    { name: 'AACR 2025', date: 'Mar 15', status: 'upcoming', abstracts: '4,200+' }
+    { name: 'ASCO 2025', date: 'May 30', status: 'upcoming', abstracts: '6,200+', description: 'Annual Meeting of the American Society of Clinical Oncology' },
+    { name: 'ESMO 2024', date: 'Sep 13', status: 'recent', abstracts: '3,847', description: 'European Society for Medical Oncology Congress' },
+    { name: 'ASH 2024', date: 'Dec 7', status: 'recent', abstracts: '2,156', description: 'American Society of Hematology Annual Meeting' },
+    { name: 'AACR 2025', date: 'Mar 15', status: 'upcoming', abstracts: '4,200+', description: 'American Association for Cancer Research Annual Meeting' },
+    { name: 'SITC 2024', date: 'Nov 6', status: 'recent', abstracts: '1,890', description: 'Society for Immunotherapy of Cancer Annual Meeting' },
+    { name: 'EHA 2025', date: 'Jun 12', status: 'upcoming', abstracts: '2,800+', description: 'European Hematology Association Congress' }
   ];
 
   const latestUpdates = [
@@ -109,49 +111,81 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-10 gap-6">
-          {/* Left Side - Content (70%) */}
-          <div className="col-span-7 space-y-6">
-            {/* Indications */}
-            <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
-                <Search className="w-5 h-5 mr-2 text-status-success" />
-                Indications
-              </h2>
-              <div className="grid grid-cols-3 gap-3">
-                {therapeuticAreas.map((area, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
-                    <div className="flex items-center min-w-0 flex-1">
-                      <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
-                      {area.hot && (
-                        <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
-                      )}
-                    </div>
-                    <div className="flex items-center ml-2 flex-shrink-0">
-                      <span className="text-xs text-neutral-500 mr-2">{area.count}</span>
-                      <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-primary-500" />
-                    </div>
+        {/* Top Section - Indications and Hot Targets */}
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          {/* Indications */}
+          <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
+            <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
+              <Search className="w-5 h-5 mr-2 text-status-success" />
+              Indications
+            </h2>
+            <div className="grid grid-cols-2 gap-3">
+              {therapeuticAreas.map((area, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
+                    {area.hot && (
+                      <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
+                    )}
                   </div>
-                ))}
-              </div>
+                  <div className="flex items-center ml-2 flex-shrink-0">
+                    <span className="text-xs text-neutral-500 mr-2">{area.count}</span>
+                    <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-primary-500" />
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Hot Targets */}
+          {/* Hot Targets */}
+          <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
+            <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
+              <TrendingUp className="w-5 h-5 mr-2 text-accent-500" />
+              Hot Targets & Modalities
+            </h2>
+            <div className="grid grid-cols-2 gap-3">
+              {hotTargets.map((target, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
+                  <div className="flex items-center min-w-0 flex-1">
+                    <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
+                    <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
+                  </div>
+                  <div className="flex items-center ml-2 flex-shrink-0">
+                    <span className="text-xs text-neutral-500 mr-2">{target.count}</span>
+                    <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-accent-500" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Section - 60/40 Split: Conferences (Left) and News (Right) */}
+        <div className="grid grid-cols-10 gap-6">
+          {/* Left Side - Recent Conferences (60%) */}
+          <div className="col-span-6">
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
-                <TrendingUp className="w-5 h-5 mr-2 text-accent-500" />
-                Hot Targets & Modalities
+              <h2 className="text-2xl font-bold text-primary-500 mb-6 flex items-center">
+                <Calendar className="w-6 h-6 mr-3 text-primary-500" />
+                Recent & Upcoming Conferences
               </h2>
-              <div className="grid grid-cols-3 gap-3">
-                {hotTargets.map((target, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-pastel-lavender rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
-                    <div className="flex items-center min-w-0 flex-1">
-                      <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
-                      <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
+              <div className="grid grid-cols-2 gap-4">
+                {recentConferences.map((conf, index) => (
+                  <div key={index} className="bg-pastel-lavender rounded-lg p-4 hover:bg-primary-100 transition-colors cursor-pointer group border border-neutral-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-bold text-primary-500 group-hover:text-primary-700 text-lg">{conf.name}</h3>
+                      <span className={`text-xs px-3 py-1 rounded-full font-medium ${
+                        conf.status === 'upcoming' ? 'bg-status-info/10 text-status-info border border-status-info/20' : 'bg-status-success/10 text-status-success border border-status-success/20'
+                      }`}>
+                        {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
+                      </span>
                     </div>
-                    <div className="flex items-center ml-2 flex-shrink-0">
-                      <span className="text-xs text-neutral-500 mr-2">{target.count}</span>
-                      <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-accent-500" />
+                    <div className="space-y-2">
+                      <div className="text-sm text-neutral-700 font-medium">{conf.description}</div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-neutral-900 font-bold">{conf.date}</div>
+                        <div className="text-sm text-primary-500 font-bold">{conf.abstracts} abstracts</div>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -159,35 +193,8 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             </div>
           </div>
 
-          {/* Right Side - Conferences and News (30%) */}
-          <div className="col-span-3 space-y-6">
-            {/* Recent Conferences - Compact */}
-            <div className="bg-white border border-neutral-300 rounded-xl p-4 shadow-sm">
-              <h2 className="text-lg font-bold text-primary-500 mb-4 flex items-center">
-                <Calendar className="w-5 h-5 mr-2 text-primary-500" />
-                Recent Conferences
-              </h2>
-              <div className="grid grid-cols-2 gap-2">
-                {recentConferences.map((conf, index) => (
-                  <div key={index} className="bg-pastel-lavender rounded-lg p-3 hover:bg-primary-100 transition-colors cursor-pointer group">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-primary-500 group-hover:text-primary-700 text-xs">{conf.name}</h3>
-                      <span className={`text-xs px-2 py-1 rounded-md ${
-                        conf.status === 'upcoming' ? 'bg-status-info/10 text-status-info' : 'bg-status-success/10 text-status-success'
-                      }`}>
-                        {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
-                      </span>
-                    </div>
-                    <div className="space-y-1 text-xs text-neutral-500">
-                      <div className="text-neutral-900">{conf.date}</div>
-                      <div className="text-primary-500 font-bold">{conf.abstracts} abstracts</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Latest Updates Feed */}
+          {/* Right Side - Latest Updates (40%) */}
+          <div className="col-span-4">
             <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
