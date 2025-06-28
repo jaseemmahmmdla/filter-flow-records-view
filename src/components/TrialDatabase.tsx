@@ -236,61 +236,67 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top 10 Drugs Chart */}
-        <Card className="p-6">
-          <EChartsBarChart 
-            data={topDrugs} 
-            title="Top 10 Drugs by Session Type" 
-            chartId="drugs-chart"
-          />
-        </Card>
+      <div className="flex gap-6">
+        {/* Charts Section - Left Side */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Top 10 Drugs Chart */}
+          <Card className="p-6">
+            <EChartsBarChart 
+              data={topDrugs} 
+              title="Top 10 Drugs by Session Type" 
+              chartId="drugs-chart"
+            />
+          </Card>
 
-        {/* Top 10 Companies Chart */}
-        <Card className="p-6">
-          <EChartsBarChart 
-            data={topCompanies} 
-            title="Top 10 Companies by Session Type" 
-            chartId="companies-chart"
-          />
-        </Card>
+          {/* Top 10 Companies Chart */}
+          <Card className="p-6">
+            <EChartsBarChart 
+              data={topCompanies} 
+              title="Top 10 Companies by Session Type" 
+              chartId="companies-chart"
+            />
+          </Card>
 
-        {/* Top 10 Targets Chart */}
-        <Card className="p-6">
-          <EChartsBarChart 
-            data={topTargets} 
-            title="Top 10 Targets by Session Type" 
-            chartId="targets-chart"
-          />
-        </Card>
+          {/* Top 10 Targets Chart */}
+          <Card className="p-6">
+            <EChartsBarChart 
+              data={topTargets} 
+              title="Top 10 Targets by Session Type" 
+              chartId="targets-chart"
+            />
+          </Card>
 
-        {/* Top 10 Modalities Chart */}
-        <Card className="p-6">
-          <EChartsBarChart 
-            data={topModalities} 
-            title="Top 10 Modalities by Session Type" 
-            chartId="modalities-chart"
-          />
-        </Card>
-      </div>
-
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-            <p className="text-gray-700">Most trials are focused on NSCLC (Non-Small Cell Lung Cancer) treatment</p>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-            <p className="text-gray-700">PD-1/PD-L1 inhibitors remain the most common treatment approach</p>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
-            <p className="text-gray-700">First-line therapy trials show promising efficacy outcomes</p>
-          </div>
+          {/* Top 10 Modalities Chart */}
+          <Card className="p-6">
+            <EChartsBarChart 
+              data={topModalities} 
+              title="Top 10 Modalities by Session Type" 
+              chartId="modalities-chart"
+            />
+          </Card>
         </div>
-      </Card>
+
+        {/* Key Insights Section - Right Side */}
+        <div className="w-80">
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                <p className="text-gray-700">Most trials are focused on NSCLC (Non-Small Cell Lung Cancer) treatment</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                <p className="text-gray-700">PD-1/PD-L1 inhibitors remain the most common treatment approach</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                <p className="text-gray-700">First-line therapy trials show promising efficacy outcomes</p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };
