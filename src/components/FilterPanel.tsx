@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -156,9 +157,9 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
   };
 
   return (
-    <div className="h-full bg-gray-100 border-r border-gray-200 flex flex-col">
+    <div className="h-full bg-white border-r border-gray-200 flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 bg-white">
+      <div className="p-4 border-b border-gray-200">
         <div className="flex items-center gap-2">
           <Filter className="w-5 h-5 text-gray-600" />
           <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
@@ -167,7 +168,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 bg-white">
+        <div className="p-6 border-b border-gray-200">
           {/* Recent Conferences */}
           <div className="mb-6">
             <Label className="text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
@@ -244,7 +245,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ onFiltersChange }) => {
           ) : (
             <div className="space-y-4">
               {filterConditions.map((condition, index) => (
-                <Card key={index} className="p-4 border border-gray-200 bg-white">
+                <Card key={index} className="p-4 border border-gray-200">
                   <div className="space-y-4">
                     {/* Logic Operator */}
                     {index > 0 && (
