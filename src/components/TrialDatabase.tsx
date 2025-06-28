@@ -767,7 +767,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 <TableHead className="w-12">
                   <Checkbox
                     checked={isAllSelected}
-                    indeterminate={isSomeSelected}
                     onCheckedChange={handleSelectAll}
                   />
                 </TableHead>
