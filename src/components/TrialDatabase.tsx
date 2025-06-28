@@ -16,6 +16,8 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 interface TrialDatabaseProps {
   filters: any;
@@ -36,30 +38,220 @@ const MetricsCards = ({ trialsCount }: { trialsCount: number }) => (
   </div>
 );
 
-const OverviewContent = ({ trials }: { trials: any[] }) => (
-  <div className="space-y-6">
-    <div className="space-y-6">
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Trial Distribution by Phase</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {['Phase 1', 'Phase 2', 'Phase 3'].map(phase => {
-            const count = trials.filter(t => t.phase === phase).length;
-            const percentage = Math.round((count / trials.length) * 100);
-            return (
-              <div key={phase} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div>
-                  <p className="font-medium text-gray-900">{phase}</p>
-                  <p className="text-sm text-gray-500">{count} trials</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-900">{percentage}%</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </Card>
+const OverviewContent = ({ trials }: { trials: any[] }) => {
+  // Analytics data processing
+  const processTopDrugs = () => {
+    const drugCounts: { [key: string]: { [key: string]: number } } = {};
+    
+    trials.forEach(trial => {
+      const drug = trial.drug;
+      const sessionType = trial.abstractType;
       
+      if (!drugCounts[drug]) {
+        drugCounts[drug] = { 'Oral Presentation': 0, 'Poster': 0, 'Mini Oral': 0 };
+      }
+      drugCounts[drug][sessionType] = (drugCounts[drug][sessionType] || 0) + 1;
+    });
+    
+    return Object.entries(drugCounts)
+      .map(([drug, counts]) => ({
+        name: drug,
+        'Oral Presentation': counts['Oral Presentation'] || 0,
+        'Poster': counts['Poster'] || 0,
+        'Mini Oral': counts['Mini Oral'] || 0,
+        total: Object.values(counts).reduce((a, b) => a + b, 0)
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+  };
+
+  const processTopCompanies = () => {
+    const companyCounts: { [key: string]: { [key: string]: number } } = {};
+    
+    trials.forEach(trial => {
+      const company = trial.company;
+      const sessionType = trial.abstractType;
+      
+      if (!companyCounts[company]) {
+        companyCounts[company] = { 'Oral Presentation': 0, 'Poster': 0, 'Mini Oral': 0 };
+      }
+      companyCounts[company][sessionType] = (companyCounts[company][sessionType] || 0) + 1;
+    });
+    
+    return Object.entries(companyCounts)
+      .map(([company, counts]) => ({
+        name: company,
+        'Oral Presentation': counts['Oral Presentation'] || 0,
+        'Poster': counts['Poster'] || 0,
+        'Mini Oral': counts['Mini Oral'] || 0,
+        total: Object.values(counts).reduce((a, b) => a + b, 0)
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+  };
+
+  const processTopTargets = () => {
+    const targetCounts: { [key: string]: { [key: string]: number } } = {};
+    
+    trials.forEach(trial => {
+      const target = trial.target;
+      const sessionType = trial.abstractType;
+      
+      if (!targetCounts[target]) {
+        targetCounts[target] = { 'Oral Presentation': 0, 'Poster': 0, 'Mini Oral': 0 };
+      }
+      targetCounts[target][sessionType] = (targetCounts[target][sessionType] || 0) + 1;
+    });
+    
+    return Object.entries(targetCounts)
+      .map(([target, counts]) => ({
+        name: target,
+        'Oral Presentation': counts['Oral Presentation'] || 0,
+        'Poster': counts['Poster'] || 0,
+        'Mini Oral': counts['Mini Oral'] || 0,
+        total: Object.values(counts).reduce((a, b) => a + b, 0)
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+  };
+
+  const processTopModalities = () => {
+    const modalityCounts: { [key: string]: { [key: string]: number } } = {};
+    
+    trials.forEach(trial => {
+      const modality = trial.modality;
+      const sessionType = trial.abstractType;
+      
+      if (!modalityCounts[modality]) {
+        modalityCounts[modality] = { 'Oral Presentation': 0, 'Poster': 0, 'Mini Oral': 0 };
+      }
+      modalityCounts[modality][sessionType] = (modalityCounts[modality][sessionType] || 0) + 1;
+    });
+    
+    return Object.entries(modalityCounts)
+      .map(([modality, counts]) => ({
+        name: modality,
+        'Oral Presentation': counts['Oral Presentation'] || 0,
+        'Poster': counts['Poster'] || 0,
+        'Mini Oral': counts['Mini Oral'] || 0,
+        total: Object.values(counts).reduce((a, b) => a + b, 0)
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+  };
+
+  const chartConfig = {
+    'Oral Presentation': {
+      label: 'Oral Presentation',
+      color: '#10b981',
+    },
+    'Poster': {
+      label: 'Poster',
+      color: '#f59e0b',
+    },
+    'Mini Oral': {
+      label: 'Mini Oral',
+      color: '#3b82f6',
+    },
+  };
+
+  const topDrugs = processTopDrugs();
+  const topCompanies = processTopCompanies();
+  const topTargets = processTopTargets();
+  const topModalities = processTopModalities();
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Top 10 Drugs Chart */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Drugs by Session Type</h3>
+          <ChartContainer config={chartConfig} className="h-80">
+            <BarChart data={topDrugs} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <XAxis 
+                dataKey="name" 
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                fontSize={12}
+              />
+              <YAxis />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
+              <Bar dataKey="Poster" fill="var(--color-Poster)" />
+              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
+            </BarChart>
+          </ChartContainer>
+        </Card>
+
+        {/* Top 10 Companies Chart */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Companies by Session Type</h3>
+          <ChartContainer config={chartConfig} className="h-80">
+            <BarChart data={topCompanies} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <XAxis 
+                dataKey="name" 
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                fontSize={12}
+              />
+              <YAxis />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
+              <Bar dataKey="Poster" fill="var(--color-Poster)" />
+              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
+            </BarChart>
+          </ChartContainer>
+        </Card>
+
+        {/* Top 10 Targets Chart */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Targets by Session Type</h3>
+          <ChartContainer config={chartConfig} className="h-80">
+            <BarChart data={topTargets} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <XAxis 
+                dataKey="name" 
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                fontSize={12}
+              />
+              <YAxis />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
+              <Bar dataKey="Poster" fill="var(--color-Poster)" />
+              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
+            </BarChart>
+          </ChartContainer>
+        </Card>
+
+        {/* Top 10 Modalities Chart */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 10 Modalities by Session Type</h3>
+          <ChartContainer config={chartConfig} className="h-80">
+            <BarChart data={topModalities} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <XAxis 
+                dataKey="name" 
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                fontSize={12}
+              />
+              <YAxis />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="Oral Presentation" fill="var(--color-Oral Presentation)" />
+              <Bar dataKey="Poster" fill="var(--color-Poster)" />
+              <Bar dataKey="Mini Oral" fill="var(--color-Mini Oral)" />
+            </BarChart>
+          </ChartContainer>
+        </Card>
+      </div>
+
       <Card className="p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Insights</h3>
         <div className="space-y-3">
@@ -78,8 +270,8 @@ const OverviewContent = ({ trials }: { trials: any[] }) => (
         </div>
       </Card>
     </div>
-  </div>
-);
+  );
+};
 
 const PaginationControls = ({
   currentPage,
