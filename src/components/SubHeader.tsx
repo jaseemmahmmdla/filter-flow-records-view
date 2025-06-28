@@ -8,45 +8,45 @@ interface SubHeaderProps {
 
 const SubHeader = ({ activeView, setActiveView }: SubHeaderProps) => {
   return (
-    <div className="w-full bg-white border-b border-gray-200 shadow-sm">
+    <div className="w-full bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center space-x-8 h-12">
+        <nav className="flex items-center space-x-0 h-14">
           <button 
             onClick={() => setActiveView('home')}
-            className={`transition-colors duration-200 font-medium px-3 py-2 rounded text-sm ${
+            className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
               activeView === 'home' 
-                ? 'text-[#1A237E] bg-blue-50 border-b-2 border-[#1A237E]' 
-                : 'text-gray-600 hover:text-[#1A237E]'
+                ? 'text-gray-900 border-gray-900 bg-gray-50' 
+                : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
           >
             Home
           </button>
           <button 
             onClick={() => setActiveView('trials')}
-            className={`transition-colors duration-200 font-medium px-3 py-2 rounded text-sm ${
+            className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
               activeView === 'trials' 
-                ? 'text-[#1A237E] bg-blue-50 border-b-2 border-[#1A237E]' 
-                : 'text-gray-600 hover:text-[#1A237E]'
+                ? 'text-gray-900 border-gray-900 bg-gray-50' 
+                : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
           >
-            Search Trials
+            Abstracts
           </button>
           <button 
             onClick={() => setActiveView('compare')}
-            className={`transition-colors duration-200 font-medium px-3 py-2 rounded text-sm ${
+            className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
               activeView === 'compare' 
-                ? 'text-[#1A237E] bg-blue-50 border-b-2 border-[#1A237E]' 
-                : 'text-gray-600 hover:text-[#1A237E]'
+                ? 'text-gray-900 border-gray-900 bg-gray-50' 
+                : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
           >
-            Compare
+            Benchmark
           </button>
           <button 
             onClick={() => setActiveView('trends')}
-            className={`transition-colors duration-200 font-medium px-3 py-2 rounded text-sm ${
+            className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
               activeView === 'trends' 
-                ? 'text-[#1A237E] bg-blue-50 border-b-2 border-[#1A237E]' 
-                : 'text-gray-600 hover:text-[#1A237E]'
+                ? 'text-gray-900 border-gray-900 bg-gray-50' 
+                : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
           >
             Trends
