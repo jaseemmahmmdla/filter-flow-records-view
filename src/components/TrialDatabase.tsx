@@ -72,21 +72,20 @@ const EChartsBarChart = ({ data, title, chartId }: { data: any[], title: string,
         itemGap: 20
       },
       grid: {
-        left: '3%',
+        left: '15%',
         right: '4%',
-        bottom: '20%',
+        bottom: '3%',
         top: '15%',
         containLabel: true
       },
-      xAxis: {
+      yAxis: {
         type: 'category',
         data: categories,
         axisLabel: {
-          rotate: 45,
           fontSize: 10
         }
       },
-      yAxis: {
+      xAxis: {
         type: 'value'
       },
       series: [
