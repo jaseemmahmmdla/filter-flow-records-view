@@ -13,6 +13,7 @@ const Index = () => {
   const [filters, setFilters] = useState({});
   const [activeView, setActiveView] = useState('home');
   const [filterPanelCollapsed, setFilterPanelCollapsed] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState('');
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -32,6 +33,7 @@ const Index = () => {
       // Apply the filter based on the search selection
       const newFilter = { [entity]: profile };
       setFilters(newFilter);
+      setSelectedProfile(profile);
       
       // Clear the search selection
       sessionStorage.removeItem('searchSelection');
@@ -47,9 +49,26 @@ const Index = () => {
       const { entity, profile } = JSON.parse(searchSelection);
       const newFilter = { [entity]: profile };
       setFilters(newFilter);
+      setSelectedProfile(profile);
       sessionStorage.removeItem('searchSelection');
     }
   }, [activeView]);
+
+  const getTrialsPageTitle = () => {
+    if (selectedProfile) {
+      return (
+        <div className="mb-6 px-6 pt-6">
+          <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
+            Clinical Trials: {selectedProfile}
+          </h1>
+          <p className="text-gray-600">
+            Showing clinical trials related to {selectedProfile}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -62,6 +81,7 @@ const Index = () => {
         <AIAssistant />
       ) : activeView === 'trials' ? (
         <div className="h-[calc(100vh-7rem)] relative">
+          {getTrialsPageTitle()}
           <ResizablePanelGroup direction="horizontal" className="h-full">
             {!filterPanelCollapsed && (
               <ResizablePanel 
