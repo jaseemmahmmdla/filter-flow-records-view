@@ -437,19 +437,19 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="text-sm text-gray-500 mb-1 font-medium">mOS</div>
-              <div className="text-2xl font-bold text-[#3f51b5] mb-1">{trial.os}</div>
+              <div className="text-2xl font-bold text-primary mb-1">{trial.os}</div>
               <div className="text-xs text-gray-400">95% CI: 9.4-12.3</div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="text-sm text-gray-500 mb-1 font-medium">mPFS</div>
-              <div className="text-2xl font-bold text-[#3f51b5] mb-1">{trial.pfs}</div>
+              <div className="text-2xl font-bold text-primary mb-1">{trial.pfs}</div>
               <div className="text-xs text-gray-400">95% CI: 3.0-4.4</div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
               <div className="text-sm text-gray-500 mb-1 font-medium">ORR</div>
-              <div className="text-2xl font-bold text-[#3f51b5] mb-1">{trial.orr}</div>
+              <div className="text-2xl font-bold text-primary mb-1">{trial.orr}</div>
               <div className="text-xs text-gray-400">95% CI: 10.0-18.1</div>
             </div>
           </div>
