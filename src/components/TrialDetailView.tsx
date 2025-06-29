@@ -208,108 +208,138 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
   };
 
   const SchematicView = () => (
-    <div className="p-6 space-y-6">
-      <div className="relative flex flex-col items-center space-y-8">
-        {/* Patient Eligibility/Cohort */}
-        <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-md shadow-sm">
+    <div className="p-6">
+      <div className="relative flex items-center justify-center gap-8 min-h-[400px]">
+        {/* Connection lines */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          {/* Horizontal line from Patient Cohort to Total Enrollment */}
+          <div className="absolute top-1/2 left-[25%] w-20 h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
+          
+          {/* Horizontal line from Total Enrollment to Treatment Arms */}
+          <div className="absolute top-1/2 left-[55%] w-28 h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
+          
+          {/* Vertical lines to split into two treatment arms */}
+          <div className="absolute top-[40%] left-[75%] w-0.5 h-8 bg-gray-400"></div>
+          <div className="absolute top-[60%] left-[75%] w-0.5 h-8 bg-gray-400"></div>
+          
+          {/* Horizontal lines to each treatment arm */}
+          <div className="absolute top-[40%] left-[75%] w-16 h-0.5 bg-gray-400"></div>
+          <div className="absolute top-[68%] left-[75%] w-16 h-0.5 bg-gray-400"></div>
+        </div>
+
+        {/* Patient Eligibility/Cohort - Left */}
+        <div className="bg-white border border-gray-200 rounded-lg p-4 w-72 shadow-sm z-10">
           <div className="text-center mb-4">
-            <Badge className="bg-[#1A237E] text-white text-lg px-4 py-2">{trial.trialName}</Badge>
+            <Badge className="bg-[#1A237E] text-white text-lg px-4 py-2 mb-2">{trial.trialName}</Badge>
+            <div className="text-sm font-semibold text-gray-600 mb-2">Patient Cohort</div>
           </div>
-          <div className="space-y-3">
-            <Badge variant="secondary" className="text-xs">Patient Eligibility</Badge>
-            <p className="font-semibold text-sm">{trial.abstractTitle}</p>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <Badge variant="secondary" className="text-xs mb-1">Indication</Badge>
-                <p className="font-semibold">{trial.indication}</p>
+          <div className="space-y-3 text-sm">
+            <p className="font-semibold text-center">{trial.abstractTitle}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Indication:</span>
+                <span className="font-semibold">{trial.indication}</span>
               </div>
-              <div>
-                <Badge variant="secondary" className="text-xs mb-1">Population</Badge>
-                <p className="font-semibold">{trial.population}</p>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Population:</span>
+                <span className="font-semibold">{trial.population}</span>
               </div>
-              <div>
-                <Badge variant="secondary" className="text-xs mb-1">Stage</Badge>
-                <p className="font-semibold">{trial.stage}</p>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Stage:</span>
+                <span className="font-semibold">{trial.stage}</span>
               </div>
-              <div>
-                <Badge variant="secondary" className="text-xs mb-1">Line of Therapy</Badge>
-                <p className="font-semibold">{trial.lineTherapy}</p>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Line of Therapy:</span>
+                <span className="font-semibold">{trial.lineTherapy}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Vertical connection line */}
-        <div className="w-0.5 h-8 bg-gray-400"></div>
-
-        {/* Total Enrollment */}
-        <div className="bg-pink-100 border border-pink-200 rounded-lg px-8 py-6 shadow-sm">
-          <div className="text-pink-800 font-bold text-2xl text-center">
-            {trial.enrollment}
+        {/* Total Enrollment - Center */}
+        <div className="bg-pink-100 border border-pink-200 rounded-lg px-8 py-6 shadow-sm z-10">
+          <div className="text-pink-800 font-bold text-3xl text-center">
+            n={trial.enrollment}
           </div>
-          <div className="text-pink-600 text-sm text-center mt-1">
-            Total Enrolled Patients
+          <div className="text-pink-600 text-sm text-center mt-1 whitespace-nowrap">
+            Total Enrolled
           </div>
         </div>
 
-        {/* Vertical connection line */}
-        <div className="w-0.5 h-8 bg-gray-400"></div>
-
-        {/* Randomization indication */}
-        <div className="text-center">
-          <Badge variant="outline" className="text-sm">Randomized to Treatment Arms</Badge>
-        </div>
-
-        {/* Horizontal connection line to treatment arms */}
-        <div className="relative w-full flex justify-center">
-          <div className="w-0.5 h-8 bg-gray-400"></div>
-          <div className="absolute top-8 w-64 h-0.5 bg-gray-400"></div>
-          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-x-32 w-0.5 h-8 bg-gray-400"></div>
-          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 translate-x-32 w-0.5 h-8 bg-gray-400"></div>
-        </div>
-
-        {/* Treatment Arms */}
-        <div className="flex justify-center gap-16 mt-8">
+        {/* Treatment Arms Container - Right */}
+        <div className="flex flex-col gap-8 z-10">
           {/* Experimental Arm */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
-            <div className="text-center mb-3">
-              <div className="text-lg font-bold text-[#1A237E] mb-2">{trial.treatment}</div>
-              <Badge className="bg-blue-600 text-white text-xs">Experimental Arm</Badge>
+          <div className="bg-white border border-gray-200 rounded-lg p-4 w-80 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-lg font-bold text-[#1A237E]">{trial.treatment}</div>
+              <Badge className="bg-blue-600 text-white text-xs">Experimental</Badge>
             </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="font-semibold">mOS:</span>
-                <span className="text-[#1A237E] font-bold">{trial.os}</span>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">mOS:</span>
+                  <span className="text-[#1A237E] font-bold">{trial.os}</span>
+                </div>
+                <div className="text-xs text-gray-500">(95% CI: 9.4-12.3)</div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">mPFS:</span>
-                <span className="text-[#1A237E] font-bold">{trial.pfs}</span>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">mPFS:</span>
+                  <span className="text-[#1A237E] font-bold">{trial.pfs}</span>
+                </div>
+                <div className="text-xs text-gray-500">(95% CI: 3.0-4.4)</div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">ORR:</span>
-                <span className="text-[#1A237E] font-bold">{trial.orr}</span>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">ORR:</span>
+                  <span className="text-[#1A237E] font-bold">{trial.orr}</span>
+                </div>
+                <div className="text-xs text-gray-500">(95% CI: 10.0-18.1)</div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">Tx related:</span>
+                  <span className="text-[#1A237E] font-bold">6.8%</span>
+                </div>
+                <div className="text-xs text-gray-500">discontinuation</div>
               </div>
             </div>
           </div>
 
           {/* Comparator Arm */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
-            <div className="text-center mb-3">
-              <div className="text-lg font-bold text-gray-700 mb-2">Standard Treatment</div>
-              <Badge className="bg-gray-600 text-white text-xs">Comparator Arm</Badge>
+          <div className="bg-white border border-gray-200 rounded-lg p-4 w-80 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-lg font-bold text-gray-700">docetaxel</div>
+              <Badge className="bg-gray-600 text-white text-xs">Comparator</Badge>
             </div>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="font-semibold">mOS:</span>
-                <span className="text-gray-700 font-bold">9.8m</span>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">mOS:</span>
+                  <span className="text-gray-700 font-bold">9.8 months</span>
+                </div>
+                <div className="text-xs text-gray-500">(95% CI: 8.1-10.6)</div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">mPFS:</span>
-                <span className="text-gray-700 font-bold">3.9m</span>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">mPFS:</span>
+                  <span className="text-gray-700 font-bold">3.9 months</span>
+                </div>
+                <div className="text-xs text-gray-500">(95% CI: 3.1-4.2)</div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">ORR:</span>
-                <span className="text-gray-700 font-bold">18.1%</span>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">ORR:</span>
+                  <span className="text-gray-700 font-bold">18.1%</span>
+                </div>
+                <div className="text-xs text-gray-500">(95% CI: 13.9-22.9)</div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">Tx related:</span>
+                  <span className="text-gray-700 font-bold">14.2%</span>
+                </div>
+                <div className="text-xs text-gray-500">discontinuation</div>
               </div>
             </div>
           </div>
