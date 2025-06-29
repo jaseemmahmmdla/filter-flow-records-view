@@ -24,18 +24,6 @@ interface TrialDatabaseProps {
 
 const ITEMS_PER_PAGE = 5;
 
-const MetricsCards = ({ trialsCount }: { trialsCount: number }) => (
-  <div className="flex items-center gap-6 mb-6">
-    <div className="text-sm text-gray-700">
-      <span className="font-bold">{trialsCount}</span>
-      <span className="ml-1">Abstracts</span>
-    </div>
-    <div className="text-sm text-gray-700">
-      <span className="font-bold">{trialsCount}</span>
-      <span className="ml-1">Trials</span>
-    </div>
-  </div>
-);
 
 const EChartsBarChart = ({ data, title, chartId }: { data: any[], title: string, chartId: string }) => {
   const chartRef = React.useRef<HTMLDivElement>(null);
@@ -1468,9 +1456,6 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 {renderSelectedFilters()}
               </div>
             </div>
-
-            {/* Results Metrics at the top - applies to both tabs */}
-            <MetricsCards trialsCount={trials.length} />
 
             <Tabs defaultValue="overview" className="w-full">
               <div className="w-full border-b border-gray-200 mb-6">
