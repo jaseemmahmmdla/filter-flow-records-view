@@ -20,6 +20,7 @@ import * as echarts from 'echarts';
 
 interface TrialDatabaseProps {
   filters: any;
+  onTrialSelect?: (trial: any) => void;
 }
 
 const ITEMS_PER_PAGE = 5;
@@ -483,7 +484,7 @@ const PaginationControls = ({
   </div>
 );
 
-const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
+const TrialDatabase = ({ filters, onTrialSelect }: TrialDatabaseProps) => {
   const [viewMode, setViewMode] = useState<'card' | 'list' | 'grid'>('card');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTrials, setSelectedTrials] = useState<string[]>([]);
@@ -1107,6 +1108,12 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
   const isAllSelected = paginatedTrials.length > 0 && paginatedTrials.every(trial => selectedTrials.includes(trial.id));
   const isSomeSelected = selectedTrials.length > 0 && !isAllSelected;
 
+  const handleTrialView = (trial: any) => {
+    if (onTrialSelect) {
+      onTrialSelect(trial);
+    }
+  };
+
   const CompanyLogo = ({ company, logo }: { company: string; logo: string }) => (
     <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
       <img 
@@ -1168,7 +1175,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   <Badge className={`${getConferenceColor(trial.conference)} border text-xs`}>
                     {trial.conference}
                   </Badge>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={() => handleTrialView(trial)}>
                     <Eye className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="sm">
@@ -1334,7 +1341,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                   <TableCell className="text-sm font-medium text-gray-900">{trial.os}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end space-x-2">
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" onClick={() => handleTrialView(trial)}>
                         <Eye className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="sm">
@@ -1416,6 +1423,12 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
                 <p className="text-xs text-purple-600 font-medium">OS</p>
                 <p className="text-sm font-semibold text-purple-900">{trial.os}</p>
               </div>
+            </div>
+            
+            <div className="flex justify-end">
+              <Button variant="ghost" size="sm" onClick={() => handleTrialView(trial)}>
+                <Eye className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </Card>

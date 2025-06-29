@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
 import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
+import TrialDetailView from '@/components/TrialDetailView';
 import OutcomesLanding from '@/components/OutcomesLanding';
 import AIAssistant from './AIAssistant';
 import { ResizablePanelGroup, ResizablePanel } from '@/components/ui/resizable';
@@ -16,6 +17,8 @@ const Index = () => {
   const [activeView, setActiveView] = useState('home');
   const [filterPanelCollapsed, setFilterPanelCollapsed] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState('');
+  const [selectedTrial, setSelectedTrial] = useState(null);
+  const [viewMode, setViewMode] = useState('database'); // 'database' or 'detail'
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -42,6 +45,16 @@ const Index = () => {
     }
     
     setActiveView('trials');
+  };
+
+  const handleTrialSelect = (trial: any) => {
+    setSelectedTrial(trial);
+    setViewMode('detail');
+  };
+
+  const handleBackToDatabase = () => {
+    setSelectedTrial(null);
+    setViewMode('database');
   };
 
   // Check for search selection on component mount
@@ -98,58 +111,62 @@ const Index = () => {
       ) : activeView === 'ai-assistant' ? (
         <AIAssistant />
       ) : activeView === 'trials' ? (
-        <div className="h-[calc(100vh-7rem)] relative">
-          <ResizablePanelGroup direction="horizontal" className="h-full">
-            {!filterPanelCollapsed && (
-              <ResizablePanel 
-                defaultSize={18} 
-                minSize={15} 
-                maxSize={35}
-                className="relative"
-              >
-                <FilterPanel onFiltersChange={handleFiltersChange} />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={toggleFilterPanel}
-                  className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+        viewMode === 'detail' && selectedTrial ? (
+          <TrialDetailView trial={selectedTrial} onBack={handleBackToDatabase} />
+        ) : (
+          <div className="h-[calc(100vh-7rem)] relative">
+            <ResizablePanelGroup direction="horizontal" className="h-full">
+              {!filterPanelCollapsed && (
+                <ResizablePanel 
+                  defaultSize={18} 
+                  minSize={15} 
+                  maxSize={35}
+                  className="relative"
                 >
-                  <PanelLeftClose className="w-4 h-4" />
-                </Button>
-              </ResizablePanel>
-            )}
-            
-            <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82} className="relative">
-              {filterPanelCollapsed && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={toggleFilterPanel}
-                  className="absolute top-4 left-4 z-10 bg-white shadow-md"
-                >
-                  <PanelLeftOpen className="w-4 h-4" />
-                </Button>
+                  <FilterPanel onFiltersChange={handleFiltersChange} />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleFilterPanel}
+                    className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+                  >
+                    <PanelLeftClose className="w-4 h-4" />
+                  </Button>
+                </ResizablePanel>
               )}
               
-              {/* Title in the main content area */}
-              {selectedProfile && (
-                <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-200">
-                  <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
-                    {selectedProfile}
-                  </h1>
-                  <div className="flex items-center gap-4">
-                    <p className="text-gray-600">
-                      {getAbstractsCount()} abstracts
-                    </p>
-                    {renderSelectedFilters()}
+              <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82} className="relative">
+                {filterPanelCollapsed && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleFilterPanel}
+                    className="absolute top-4 left-4 z-10 bg-white shadow-md"
+                  >
+                    <PanelLeftOpen className="w-4 h-4" />
+                  </Button>
+                )}
+                
+                {/* Title in the main content area */}
+                {selectedProfile && (
+                  <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-200">
+                    <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
+                      {selectedProfile}
+                    </h1>
+                    <div className="flex items-center gap-4">
+                      <p className="text-gray-600">
+                        {getAbstractsCount()} abstracts
+                      </p>
+                      {renderSelectedFilters()}
+                    </div>
                   </div>
-                </div>
-              )}
-              
-              <TrialDatabase filters={filters} />
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </div>
+                )}
+                
+                <TrialDatabase filters={filters} onTrialSelect={handleTrialSelect} />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </div>
+        )
       ) : (
         <div className="flex-1 p-6">
           <div className="max-w-7xl mx-auto">
