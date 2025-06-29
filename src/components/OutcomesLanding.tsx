@@ -101,18 +101,15 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
     }
   };
 
-  const handleSearchSelect = (entity: string, profile: string) => {
-    // Navigate to trials page with the selected filter
-    // We'll pass the filter through URL params and let the parent handle it
-    const searchParams = new URLSearchParams();
-    searchParams.set('entity', entity);
-    searchParams.set('profile', profile);
+  const handleSearchSelect = (entity: string, profile: string, trialId?: string) => {
+    // If it's a trial search, navigate directly to the trial page
+    if (entity === 'trial' && trialId) {
+      navigate(`/trial/${trialId}`);
+      return;
+    }
     
-    // For now, we'll use the existing onGetStarted callback and pass the filter data
-    // The Index component will need to handle this
+    // For other searches, navigate to trials page with filter
     onGetStarted();
-    
-    // Store the search selection in sessionStorage so it can be picked up by the trials page
     sessionStorage.setItem('searchSelection', JSON.stringify({ entity, profile }));
   };
 

@@ -9,10 +9,11 @@ interface SearchOption {
   profile: string;
   category: string;
   icon?: string;
+  trialId?: string; // Add trialId for trial-specific searches
 }
 
 interface SearchBarProps {
-  onSelect: (entity: string, profile: string) => void;
+  onSelect: (entity: string, profile: string, trialId?: string) => void;
 }
 
 const SearchBar = ({ onSelect }: SearchBarProps) => {
@@ -21,6 +22,20 @@ const SearchBar = ({ onSelect }: SearchBarProps) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const searchOptions: SearchOption[] = [
+    // Trials
+    { entity: 'trial', profile: 'Phase III Study of Novel Immunotherapy in Advanced NSCLC', category: 'Trials', icon: '🧪', trialId: '1' },
+    { entity: 'trial', profile: 'KEYNOTE-189: Pembrolizumab plus Chemotherapy in NSCLC', category: 'Trials', icon: '🧪', trialId: '2' },
+    { entity: 'trial', profile: 'DESTINY-Breast04: T-DXd in HER2-Low Breast Cancer', category: 'Trials', icon: '🧪', trialId: '3' },
+    { entity: 'trial', profile: 'MajesTEC-1: Teclistamab in Multiple Myeloma', category: 'Trials', icon: '🧪', trialId: '4' },
+    { entity: 'trial', profile: 'CheckMate-816: Nivolumab in Resectable NSCLC', category: 'Trials', icon: '🧪', trialId: '5' },
+    
+    // Trial Identifiers
+    { entity: 'trial', profile: 'NCT03425643', category: 'Trial IDs', icon: '#️⃣', trialId: '1' },
+    { entity: 'trial', profile: 'NCT02578680', category: 'Trial IDs', icon: '#️⃣', trialId: '2' },
+    { entity: 'trial', profile: 'NCT04494425', category: 'Trial IDs', icon: '#️⃣', trialId: '3' },
+    { entity: 'trial', profile: 'NCT04557098', category: 'Trial IDs', icon: '#️⃣', trialId: '4' },
+    { entity: 'trial', profile: 'NCT02998528', category: 'Trial IDs', icon: '#️⃣', trialId: '5' },
+    
     // Conferences
     { entity: 'conference', profile: 'ASCO 2025', category: 'Conferences', icon: '📅' },
     { entity: 'conference', profile: 'ESMO 2024', category: 'Conferences', icon: '📅' },
@@ -88,7 +103,7 @@ const SearchBar = ({ onSelect }: SearchBarProps) => {
   const handleSelect = (option: SearchOption) => {
     setValue(option.profile);
     setOpen(false);
-    onSelect(option.entity, option.profile);
+    onSelect(option.entity, option.profile, option.trialId);
   };
 
   return (
@@ -104,7 +119,7 @@ const SearchBar = ({ onSelect }: SearchBarProps) => {
             <div className="flex items-center flex-1">
               <Search className="w-5 h-5 text-gray-500 mr-3" />
               <span className={value ? "text-gray-900" : "text-gray-500"}>
-                {value || "Search conferences, indications, companies, targets, modalities, and drugs..."}
+                {value || "Search trials, conferences, indications, companies, targets, modalities, and drugs..."}
               </span>
             </div>
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-gray-400" />
