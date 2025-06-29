@@ -99,7 +99,7 @@ const SearchBar = ({ onSelect }: SearchBarProps) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full h-14 justify-between text-left font-normal bg-white border-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 shadow-sm hover:shadow-md transition-all duration-200"
+            className="w-full h-14 justify-between text-left font-normal bg-white border-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 focus:bg-white focus-visible:ring-0 focus-visible:ring-offset-0 data-[state=open]:border-gray-400 data-[state=open]:bg-white shadow-sm hover:shadow-md transition-all duration-200"
           >
             <div className="flex items-center flex-1">
               <Search className="w-5 h-5 text-gray-500 mr-3" />
