@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
@@ -100,18 +99,18 @@ const SearchBar = ({ onSelect }: SearchBarProps) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full h-14 justify-between text-left font-normal bg-white border-2 border-primary-300 hover:border-primary-500 focus:border-primary-500 shadow-lg"
+            className="w-full h-14 justify-between text-left font-normal bg-white border-2 border-gray-200 hover:border-gray-300 focus:border-gray-400 shadow-sm hover:shadow-md transition-all duration-200"
           >
             <div className="flex items-center flex-1">
-              <Search className="w-5 h-5 text-primary-500 mr-3" />
+              <Search className="w-5 h-5 text-gray-500 mr-3" />
               <span className={value ? "text-gray-900" : "text-gray-500"}>
                 {value || "Search conferences, indications, companies, targets, modalities, and drugs..."}
               </span>
             </div>
-            <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-primary-500" />
+            <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-gray-400" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0 z-50" style={{ width: 'var(--radix-popover-trigger-width)' }}>
+        <PopoverContent className="w-full p-0 z-50 border border-gray-200 shadow-lg" style={{ width: 'var(--radix-popover-trigger-width)' }}>
           <Command>
             <CommandInput 
               placeholder="Search..." 
@@ -128,7 +127,7 @@ const SearchBar = ({ onSelect }: SearchBarProps) => {
                       key={`${option.entity}-${option.profile}`}
                       value={option.profile}
                       onSelect={() => handleSelect(option)}
-                      className="cursor-pointer hover:bg-primary-50"
+                      className="cursor-pointer hover:bg-gray-50 data-[selected=true]:bg-gray-100"
                     >
                       <span className="mr-3 text-sm">{option.icon}</span>
                       <div className="flex flex-col">
