@@ -437,21 +437,21 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <Card className="bg-[#1A237E] text-white p-4">
-              <div className="text-sm text-blue-200 mb-1">mOS</div>
-              <div className="text-2xl font-bold">{trial.os}</div>
-              <div className="text-xs text-blue-200">95% CI: 9.4-12.3</div>
-            </Card>
-            <Card className="bg-[#1A237E] text-white p-4">
-              <div className="text-sm text-blue-200 mb-1">mPFS</div>
-              <div className="text-2xl font-bold">{trial.pfs}</div>
-              <div className="text-xs text-blue-200">95% CI: 3.0-4.4</div>
-            </Card>
-            <Card className="bg-[#1A237E] text-white p-4">
-              <div className="text-sm text-blue-200 mb-1">ORR</div>
-              <div className="text-2xl font-bold">{trial.orr}</div>
-              <div className="text-xs text-blue-200">95% CI: 10.0-18.1</div>
-            </Card>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="text-sm text-gray-500 mb-1 font-medium">mOS</div>
+              <div className="text-2xl font-bold text-[#3f51b5] mb-1">{trial.os}</div>
+              <div className="text-xs text-gray-400">95% CI: 9.4-12.3</div>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="text-sm text-gray-500 mb-1 font-medium">mPFS</div>
+              <div className="text-2xl font-bold text-[#3f51b5] mb-1">{trial.pfs}</div>
+              <div className="text-xs text-gray-400">95% CI: 3.0-4.4</div>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+              <div className="text-sm text-gray-500 mb-1 font-medium">ORR</div>
+              <div className="text-2xl font-bold text-[#3f51b5] mb-1">{trial.orr}</div>
+              <div className="text-xs text-gray-400">95% CI: 10.0-18.1</div>
+            </div>
           </div>
 
           {/* Trial ID Link */}
