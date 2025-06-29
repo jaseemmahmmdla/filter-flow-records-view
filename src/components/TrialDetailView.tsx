@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -550,11 +549,9 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
             
             <TabsContent value="overview" className="mt-0">
               <div className="p-6">
-                <div className="grid grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-3 gap-6 mb-6">
                   <EChartsBarChart data={chartData.OS} title="Overall Survival" chartId="os-detail" />
                   <EChartsBarChart data={chartData.PFS} title="Progression-Free Survival" chartId="pfs-detail" />
-                </div>
-                <div className="grid grid-cols-1 gap-6">
                   <EChartsBarChart data={chartData.ORR} title="Objective Response Rate" chartId="orr-detail" />
                 </div>
                 
