@@ -154,29 +154,11 @@ const TrialPage = () => {
       checkboxId: 'IMpower150',
       patientRatio: '623/650'
     }
-  ];
+  ]);
 
   const handleAbstractClick = (abstractId: string) => {
     // Navigate to abstract detail view
     console.log('Navigate to abstract:', abstractId);
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Published': return 'bg-green-50 text-green-700 border-green-200';
-      case 'Presented': return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'Upcoming': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getPresentationTypeColor = (type: string) => {
-    switch (type) {
-      case 'Oral Presentation': return 'bg-purple-50 text-purple-700 border-purple-200';
-      case 'Poster': return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'Keynote': return 'bg-red-50 text-red-700 border-red-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
-    }
   };
 
   return (
@@ -237,139 +219,109 @@ const TrialPage = () => {
           </div>
         </div>
 
-        {/* Abstracts Grid - Matching reference design */}
-        <div className="grid gap-6">
+        {/* Abstracts Grid */}
+        <div className="space-y-4">
           {abstracts.map((abstract) => (
             <Card 
               key={abstract.id} 
-              className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => handleAbstractClick(abstract.id)}
             >
-              <div className="p-6">
-                {/* Header with icon, title, conference badge, and actions */}
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <div className="w-6 h-6 bg-slate-800 rounded-sm"></div>
-                  </div>
-                  
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight">
-                      {abstract.title}
-                    </h3>
-                    
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center gap-2">
-                        <input 
-                          type="checkbox" 
-                          className="w-4 h-4 rounded border-gray-300"
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <span className="text-sm text-gray-600">{abstract.checkboxId}</span>
-                      </div>
-                      
-                      <Badge className="bg-blue-100 text-blue-800 border-blue-200">
-                        {abstract.phase}
-                      </Badge>
-                      
-                      <Badge className="bg-green-100 text-green-800 border-green-200">
-                        Active
-                      </Badge>
-                      
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Users className="w-4 h-4" />
-                        <span>{abstract.patientRatio}</span>
+              <CardContent className="p-6">
+                {/* Header Row */}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <FileText className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                        {abstract.title}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <span>{abstract.conference}</span>
+                        <span>•</span>
+                        <span>{abstract.abstractNumber}</span>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <Badge className="bg-red-100 text-red-800 border-red-200">
-                      {abstract.conference}
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary" className="bg-blue-50 text-blue-700">
+                      {abstract.presentationType}
                     </Badge>
-                    <Button variant="ghost" size="sm" className="p-1">
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="p-1">
-                      <MoreHorizontal className="w-4 h-4" />
-                    </Button>
+                    <Badge variant="secondary" className="bg-green-50 text-green-700">
+                      {abstract.status}
+                    </Badge>
                   </div>
                 </div>
 
-                {/* Main content grid */}
-                <div className="grid grid-cols-3 gap-8">
-                  {/* Column 1 */}
-                  <div className="space-y-4">
+                {/* Content Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Trial Information */}
+                  <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Trial</p>
-                      <p className="font-semibold text-gray-900 underline">{abstract.trialId}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Trial ID</p>
+                      <p className="text-sm text-blue-600 font-medium">{abstract.trialId}</p>
                     </div>
-                    
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Treatment</p>
-                      <p className="font-semibold text-gray-900">{abstract.treatment}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Company</p>
+                      <p className="text-sm text-gray-900">{abstract.company}</p>
                     </div>
-                    
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Population</p>
-                      <p className="font-semibold text-gray-900">{abstract.population}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Treatment</p>
+                      <p className="text-sm text-gray-900">{abstract.treatment}</p>
                     </div>
                   </div>
 
-                  {/* Column 2 */}
-                  <div className="space-y-4">
+                  {/* Study Details */}
+                  <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Company</p>
-                      <p className="font-semibold text-gray-900">{abstract.company}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Indication</p>
+                      <p className="text-sm text-gray-900">{abstract.indication}</p>
                     </div>
-                    
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Indication</p>
-                      <p className="font-semibold text-gray-900">{abstract.indication}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Line of Therapy</p>
+                      <p className="text-sm text-gray-900">{abstract.lineOfTherapy}</p>
                     </div>
-                    
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Target/Modality</p>
-                      <p className="font-semibold text-gray-900">{abstract.targetModality}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Population</p>
+                      <p className="text-sm text-gray-900">{abstract.population}</p>
                     </div>
                   </div>
 
-                  {/* Column 3 */}
-                  <div className="space-y-4">
+                  {/* Additional Info */}
+                  <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Abstract Type</p>
-                      <p className="font-semibold text-gray-900">{abstract.presentationType}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Target/Modality</p>
+                      <p className="text-sm text-gray-900">{abstract.targetModality}</p>
                     </div>
-                    
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Line of Therapy</p>
-                      <p className="font-semibold text-gray-900">{abstract.lineOfTherapy}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Biomarker</p>
+                      <p className="text-sm text-gray-900">{abstract.biomarker}</p>
                     </div>
-                    
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Biomarker</p>
-                      <p className="font-semibold text-gray-900">{abstract.biomarker}</p>
+                      <p className="text-sm font-medium text-gray-500 mb-1">Patients</p>
+                      <p className="text-sm text-gray-900">{abstract.patientRatio}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Outcomes row */}
-                <div className="flex items-center gap-8 mt-6 pt-4 border-t border-gray-100">
-                  <div className="bg-blue-50 px-4 py-2 rounded-lg">
-                    <p className="text-sm font-medium text-blue-600 mb-1">ORR</p>
-                    <p className="text-lg font-bold text-blue-800">{abstract.outcomes.orr}</p>
+                {/* Outcomes Row */}
+                <div className="flex items-center gap-6 mt-6 pt-4 border-t border-gray-100">
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-gray-500 mb-1">ORR</p>
+                    <p className="text-lg font-bold text-blue-600">{abstract.outcomes.orr}</p>
                   </div>
-                  
-                  <div className="bg-green-50 px-4 py-2 rounded-lg">
-                    <p className="text-sm font-medium text-green-600 mb-1">PFS</p>
-                    <p className="text-lg font-bold text-green-800">{abstract.outcomes.pfs}</p>
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-gray-500 mb-1">PFS</p>
+                    <p className="text-lg font-bold text-green-600">{abstract.outcomes.pfs}</p>
                   </div>
-                  
-                  <div className="bg-purple-50 px-4 py-2 rounded-lg">
-                    <p className="text-sm font-medium text-purple-600 mb-1">OS</p>
-                    <p className="text-lg font-bold text-purple-800">{abstract.outcomes.os}</p>
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-gray-500 mb-1">OS</p>
+                    <p className="text-lg font-bold text-purple-600">{abstract.outcomes.os}</p>
                   </div>
                 </div>
-              </div>
+              </CardContent>
             </Card>
           ))}
         </div>
