@@ -54,22 +54,6 @@ const Index = () => {
     }
   }, [activeView]);
 
-  const getTrialsPageTitle = () => {
-    if (selectedProfile) {
-      return (
-        <div className="mb-6 px-6 pt-6">
-          <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
-            Clinical Trials: {selectedProfile}
-          </h1>
-          <p className="text-gray-600">
-            Showing clinical trials related to {selectedProfile}
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -81,7 +65,6 @@ const Index = () => {
         <AIAssistant />
       ) : activeView === 'trials' ? (
         <div className="h-[calc(100vh-7rem)] relative">
-          {getTrialsPageTitle()}
           <ResizablePanelGroup direction="horizontal" className="h-full">
             {!filterPanelCollapsed && (
               <ResizablePanel 
@@ -113,6 +96,19 @@ const Index = () => {
                   <PanelLeftOpen className="w-4 h-4" />
                 </Button>
               )}
+              
+              {/* Title in the main content area */}
+              {selectedProfile && (
+                <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-200">
+                  <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
+                    Clinical Trials: {selectedProfile}
+                  </h1>
+                  <p className="text-gray-600">
+                    Showing clinical trials related to {selectedProfile}
+                  </p>
+                </div>
+              )}
+              
               <TrialDatabase filters={filters} />
             </ResizablePanel>
           </ResizablePanelGroup>
