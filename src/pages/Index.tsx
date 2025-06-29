@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -134,7 +135,7 @@ const Index = () => {
               {selectedProfile && (
                 <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-200">
                   <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
-                    Clinical Trials: {selectedProfile}
+                    {selectedProfile}
                   </h1>
                   <div className="flex items-center gap-4">
                     <p className="text-gray-600">
