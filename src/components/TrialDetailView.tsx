@@ -212,19 +212,20 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
       <div className="relative flex items-center justify-center gap-8 min-h-[400px]">
         {/* Connection lines */}
         <div className="absolute inset-0 pointer-events-none z-0">
-          {/* Horizontal line from Patient Cohort to Total Enrollment */}
-          <div className="absolute top-1/2 left-[25%] w-20 h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
+          {/* Main horizontal line from Patient Cohort to Total Enrollment */}
+          <div className="absolute top-1/2 left-[22%] w-[18%] h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
           
-          {/* Horizontal line from Total Enrollment to Treatment Arms */}
-          <div className="absolute top-1/2 left-[55%] w-28 h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
+          {/* Main horizontal line from Total Enrollment to split point */}
+          <div className="absolute top-1/2 left-[47%] w-[18%] h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
           
-          {/* Vertical lines to split into two treatment arms */}
-          <div className="absolute top-[40%] left-[75%] w-0.5 h-8 bg-gray-400"></div>
-          <div className="absolute top-[60%] left-[75%] w-0.5 h-8 bg-gray-400"></div>
+          {/* Vertical line at split point */}
+          <div className="absolute top-[35%] left-[65%] w-0.5 h-[30%] bg-gray-400"></div>
           
-          {/* Horizontal lines to each treatment arm */}
-          <div className="absolute top-[40%] left-[75%] w-16 h-0.5 bg-gray-400"></div>
-          <div className="absolute top-[68%] left-[75%] w-16 h-0.5 bg-gray-400"></div>
+          {/* Upper horizontal line to experimental arm */}
+          <div className="absolute top-[35%] left-[65%] w-[10%] h-0.5 bg-gray-400"></div>
+          
+          {/* Lower horizontal line to comparator arm */}
+          <div className="absolute top-[65%] left-[65%] w-[10%] h-0.5 bg-gray-400"></div>
         </div>
 
         {/* Patient Eligibility/Cohort - Left */}
