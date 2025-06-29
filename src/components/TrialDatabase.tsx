@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User, Grid3X3, TrendingUp, TrendingDown, Activity, Clock, Target, Award } from 'lucide-react';
+import { Eye, GitCompare, Download, MoreHorizontal, LayoutGrid, List, User, Grid3X3, TrendingUp, TrendingDown, Activity, Target, Award } from 'lucide-react';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -983,6 +983,36 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
     }
   ]);
 
+  // Function to generate dynamic title based on filters
+  const getDynamicTitle = () => {
+    if (!filters || Object.keys(filters).length === 0) {
+      return 'Kognitic Outcomes';
+    }
+
+    // Priority order for title display: conference, indication, target, modality, drug
+    const titlePriority = ['conference', 'indication', 'target', 'modality', 'drug'];
+    
+    for (const key of titlePriority) {
+      if (filters[key]) {
+        const value = Array.isArray(filters[key]) ? filters[key][0] : filters[key];
+        if (value) {
+          return value;
+        }
+      }
+    }
+
+    // Fallback to any other filter
+    const filterEntries = Object.entries(filters);
+    for (const [key, value] of filterEntries) {
+      if (value && (Array.isArray(value) ? value.length > 0 : true)) {
+        const displayValue = Array.isArray(value) ? value[0] : String(value);
+        return displayValue;
+      }
+    }
+
+    return 'Kognitic Outcomes';
+  };
+
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
@@ -1434,7 +1464,7 @@ const TrialDatabase = ({ filters }: TrialDatabaseProps) => {
           <div className="p-6 main-content">
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Kognitic Outcomes</h1>
+                <h1 className="text-2xl font-bold text-gray-900">{getDynamicTitle()}</h1>
                 {renderSelectedFilters()}
               </div>
             </div>
