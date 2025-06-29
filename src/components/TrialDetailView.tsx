@@ -209,24 +209,14 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
   const SchematicView = () => (
     <div className="p-6 space-y-6">
-      <div className="relative flex items-center justify-center gap-12">
-        {/* Connection lines */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Line from Patient Cohort to Total Patients */}
-          <div className="absolute top-1/2 left-1/2 w-20 h-0.5 bg-gray-400 transform -translate-y-1/2 -translate-x-32"></div>
-          {/* Line from Total Patients to Treatment Arms */}
-          <div className="absolute top-1/2 left-1/2 w-20 h-0.5 bg-gray-400 transform -translate-y-1/2 translate-x-12"></div>
-          {/* Vertical line connecting experimental and comparator arms */}
-          <div className="absolute top-1/2 right-44 w-0.5 h-20 bg-gray-400 transform -translate-y-1/2 translate-y-2"></div>
-        </div>
-
-        {/* Patient Cohort */}
-        <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
+      <div className="relative flex flex-col items-center space-y-8">
+        {/* Patient Eligibility/Cohort */}
+        <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-md shadow-sm">
           <div className="text-center mb-4">
             <Badge className="bg-[#1A237E] text-white text-lg px-4 py-2">{trial.trialName}</Badge>
           </div>
           <div className="space-y-3">
-            <Badge variant="secondary" className="text-xs">Patient Cohort</Badge>
+            <Badge variant="secondary" className="text-xs">Patient Eligibility</Badge>
             <p className="font-semibold text-sm">{trial.abstractTitle}</p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div>
@@ -249,23 +239,42 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           </div>
         </div>
 
-        {/* Total Patients */}
-        <div className="bg-pink-100 border border-pink-200 rounded-lg px-6 py-4 shadow-sm">
-          <div className="text-pink-800 font-bold text-lg text-center">
+        {/* Vertical connection line */}
+        <div className="w-0.5 h-8 bg-gray-400"></div>
+
+        {/* Total Enrollment */}
+        <div className="bg-pink-100 border border-pink-200 rounded-lg px-8 py-6 shadow-sm">
+          <div className="text-pink-800 font-bold text-2xl text-center">
             {trial.enrollment}
           </div>
-          <div className="text-pink-600 text-xs text-center mt-1">
-            Total Patients
+          <div className="text-pink-600 text-sm text-center mt-1">
+            Total Enrolled Patients
           </div>
         </div>
 
+        {/* Vertical connection line */}
+        <div className="w-0.5 h-8 bg-gray-400"></div>
+
+        {/* Randomization indication */}
+        <div className="text-center">
+          <Badge variant="outline" className="text-sm">Randomized to Treatment Arms</Badge>
+        </div>
+
+        {/* Horizontal connection line to treatment arms */}
+        <div className="relative w-full flex justify-center">
+          <div className="w-0.5 h-8 bg-gray-400"></div>
+          <div className="absolute top-8 w-64 h-0.5 bg-gray-400"></div>
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-x-32 w-0.5 h-8 bg-gray-400"></div>
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 translate-x-32 w-0.5 h-8 bg-gray-400"></div>
+        </div>
+
         {/* Treatment Arms */}
-        <div className="space-y-4">
+        <div className="flex justify-center gap-16 mt-8">
           {/* Experimental Arm */}
           <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
             <div className="text-center mb-3">
               <div className="text-lg font-bold text-[#1A237E] mb-2">{trial.treatment}</div>
-              <Badge className="bg-blue-600 text-white text-xs">Experimental</Badge>
+              <Badge className="bg-blue-600 text-white text-xs">Experimental Arm</Badge>
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
@@ -287,7 +296,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
             <div className="text-center mb-3">
               <div className="text-lg font-bold text-gray-700 mb-2">Standard Treatment</div>
-              <Badge className="bg-gray-600 text-white text-xs">Comparator</Badge>
+              <Badge className="bg-gray-600 text-white text-xs">Comparator Arm</Badge>
             </div>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
