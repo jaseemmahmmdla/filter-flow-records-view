@@ -209,9 +209,19 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
   const SchematicView = () => (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-center gap-12">
+      <div className="relative flex items-center justify-center gap-12">
+        {/* Connection lines */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Line from Patient Cohort to Total Patients */}
+          <div className="absolute top-1/2 left-1/2 w-20 h-0.5 bg-gray-400 transform -translate-y-1/2 -translate-x-32"></div>
+          {/* Line from Total Patients to Treatment Arms */}
+          <div className="absolute top-1/2 left-1/2 w-20 h-0.5 bg-gray-400 transform -translate-y-1/2 translate-x-12"></div>
+          {/* Vertical line connecting experimental and comparator arms */}
+          <div className="absolute top-1/2 right-44 w-0.5 h-20 bg-gray-400 transform -translate-y-1/2 translate-y-2"></div>
+        </div>
+
         {/* Patient Cohort */}
-        <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm">
+        <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
           <div className="text-center mb-4">
             <Badge className="bg-[#1A237E] text-white text-lg px-4 py-2">{trial.trialName}</Badge>
           </div>
@@ -240,16 +250,19 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
         </div>
 
         {/* Total Patients */}
-        <div className="bg-pink-100 border border-pink-200 rounded-lg px-6 py-4">
+        <div className="bg-pink-100 border border-pink-200 rounded-lg px-6 py-4 shadow-sm">
           <div className="text-pink-800 font-bold text-lg text-center">
             {trial.enrollment}
+          </div>
+          <div className="text-pink-600 text-xs text-center mt-1">
+            Total Patients
           </div>
         </div>
 
         {/* Treatment Arms */}
         <div className="space-y-4">
           {/* Experimental Arm */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm">
+          <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
             <div className="text-center mb-3">
               <div className="text-lg font-bold text-[#1A237E] mb-2">{trial.treatment}</div>
               <Badge className="bg-blue-600 text-white text-xs">Experimental</Badge>
@@ -271,7 +284,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           </div>
 
           {/* Comparator Arm */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm">
+          <div className="bg-white border border-gray-200 rounded-lg p-4 max-w-sm shadow-sm">
             <div className="text-center mb-3">
               <div className="text-lg font-bold text-gray-700 mb-2">Standard Treatment</div>
               <Badge className="bg-gray-600 text-white text-xs">Comparator</Badge>
