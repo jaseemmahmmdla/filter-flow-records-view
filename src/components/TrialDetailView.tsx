@@ -207,58 +207,58 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
   };
 
   const SchematicView = () => (
-    <div className="p-6">
-      <div className="relative flex items-center justify-center gap-8 min-h-[400px]">
+    <div className="p-8">
+      <div className="relative flex items-center justify-center gap-12 min-h-[400px]">
         {/* Connection lines */}
         <div className="absolute inset-0 pointer-events-none z-0">
           {/* Main horizontal line from Patient Cohort to Total Enrollment */}
-          <div className="absolute top-1/2 left-[22%] w-[18%] h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
+          <div className="absolute top-1/2 left-[22%] w-[18%] h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
           
           {/* Main horizontal line from Total Enrollment to split point */}
-          <div className="absolute top-1/2 left-[47%] w-[18%] h-0.5 bg-gray-400 transform -translate-y-1/2"></div>
+          <div className="absolute top-1/2 left-[47%] w-[18%] h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
           
           {/* Vertical line at split point */}
-          <div className="absolute top-[35%] left-[65%] w-0.5 h-[30%] bg-gray-400"></div>
+          <div className="absolute top-[35%] left-[65%] w-0.5 h-[30%] bg-gray-300"></div>
           
           {/* Upper horizontal line to experimental arm */}
-          <div className="absolute top-[35%] left-[65%] w-[10%] h-0.5 bg-gray-400"></div>
+          <div className="absolute top-[35%] left-[65%] w-[10%] h-0.5 bg-gray-300"></div>
           
           {/* Lower horizontal line to comparator arm */}
-          <div className="absolute top-[65%] left-[65%] w-[10%] h-0.5 bg-gray-400"></div>
+          <div className="absolute top-[65%] left-[65%] w-[10%] h-0.5 bg-gray-300"></div>
         </div>
 
         {/* Patient Eligibility/Cohort - Left */}
-        <div className="bg-white border border-gray-200 rounded-lg p-4 w-72 shadow-sm z-10">
-          <div className="text-center mb-4">
-            <Badge className="bg-[#1A237E] text-white text-lg px-4 py-2 mb-2">{trial.trialName}</Badge>
-            <div className="text-sm font-semibold text-gray-600 mb-2">Patient Cohort</div>
+        <div className="bg-white rounded-xl p-6 w-80 shadow-sm border border-gray-100 z-10">
+          <div className="text-center mb-6">
+            <Badge className="bg-primary text-white text-base px-4 py-2 mb-3">{trial.trialName}</Badge>
+            <div className="text-sm font-medium text-gray-500 mb-2">Patient Cohort</div>
           </div>
-          <div className="space-y-3 text-sm">
-            <p className="font-semibold text-center">{trial.abstractTitle}</p>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Indication:</span>
-                <span className="font-semibold">{trial.indication}</span>
+          <div className="space-y-4 text-sm">
+            <p className="font-medium text-center text-gray-900">{trial.abstractTitle}</p>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-500">Indication:</span>
+                <Badge className="bg-gray-100 text-primary">{trial.indication}</Badge>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Population:</span>
-                <span className="font-semibold">{trial.population}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-500">Population:</span>
+                <Badge className="bg-gray-100 text-primary">{trial.population}</Badge>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Stage:</span>
-                <span className="font-semibold">{trial.stage}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-500">Stage:</span>
+                <Badge className="bg-gray-100 text-primary">{trial.stage}</Badge>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Line of Therapy:</span>
-                <span className="font-semibold">{trial.lineTherapy}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-500">Line of Therapy:</span>
+                <Badge className="bg-gray-100 text-primary">{trial.lineTherapy}</Badge>
               </div>
             </div>
           </div>
         </div>
 
         {/* Total Enrollment - Center */}
-        <div className="bg-pink-100 border border-pink-200 rounded-lg px-8 py-6 shadow-sm z-10">
-          <div className="text-pink-800 font-bold text-3xl text-center">
+        <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl px-8 py-6 shadow-sm border border-pink-200 z-10">
+          <div className="text-pink-700 font-bold text-3xl text-center">
             n={trial.enrollment}
           </div>
           <div className="text-pink-600 text-sm text-center mt-1 whitespace-nowrap">
@@ -269,77 +269,77 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
         {/* Treatment Arms Container - Right */}
         <div className="flex flex-col gap-8 z-10">
           {/* Experimental Arm */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 w-80 shadow-sm">
+          <div className="bg-white rounded-xl p-6 w-80 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div className="text-lg font-bold text-[#1A237E]">{trial.treatment}</div>
-              <Badge className="bg-blue-600 text-white text-xs">Experimental</Badge>
+              <div className="text-lg font-semibold text-gray-900">{trial.treatment}</div>
+              <Badge className="bg-blue-100 text-blue-700">Experimental</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">mOS:</span>
-                  <span className="text-[#1A237E] font-bold">{trial.os}</span>
+                  <span className="font-medium text-gray-600">mOS:</span>
+                  <span className="text-primary font-semibold">{trial.os}</span>
                 </div>
-                <div className="text-xs text-gray-500">(95% CI: 9.4-12.3)</div>
+                <div className="text-xs text-gray-400">(95% CI: 9.4-12.3)</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">mPFS:</span>
-                  <span className="text-[#1A237E] font-bold">{trial.pfs}</span>
+                  <span className="font-medium text-gray-600">mPFS:</span>
+                  <span className="text-primary font-semibold">{trial.pfs}</span>
                 </div>
-                <div className="text-xs text-gray-500">(95% CI: 3.0-4.4)</div>
+                <div className="text-xs text-gray-400">(95% CI: 3.0-4.4)</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">ORR:</span>
-                  <span className="text-[#1A237E] font-bold">{trial.orr}</span>
+                  <span className="font-medium text-gray-600">ORR:</span>
+                  <span className="text-primary font-semibold">{trial.orr}</span>
                 </div>
-                <div className="text-xs text-gray-500">(95% CI: 10.0-18.1)</div>
+                <div className="text-xs text-gray-400">(95% CI: 10.0-18.1)</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">Tx related:</span>
-                  <span className="text-[#1A237E] font-bold">6.8%</span>
+                  <span className="font-medium text-gray-600">Tx related:</span>
+                  <span className="text-primary font-semibold">6.8%</span>
                 </div>
-                <div className="text-xs text-gray-500">discontinuation</div>
+                <div className="text-xs text-gray-400">discontinuation</div>
               </div>
             </div>
           </div>
 
           {/* Comparator Arm */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4 w-80 shadow-sm">
+          <div className="bg-white rounded-xl p-6 w-80 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div className="text-lg font-bold text-gray-700">docetaxel</div>
-              <Badge className="bg-gray-600 text-white text-xs">Comparator</Badge>
+              <div className="text-lg font-semibold text-gray-900">docetaxel</div>
+              <Badge className="bg-gray-100 text-gray-700">Comparator</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">mOS:</span>
-                  <span className="text-gray-700 font-bold">9.8 months</span>
+                  <span className="font-medium text-gray-600">mOS:</span>
+                  <span className="text-gray-700 font-semibold">9.8 months</span>
                 </div>
-                <div className="text-xs text-gray-500">(95% CI: 8.1-10.6)</div>
+                <div className="text-xs text-gray-400">(95% CI: 8.1-10.6)</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">mPFS:</span>
-                  <span className="text-gray-700 font-bold">3.9 months</span>
+                  <span className="font-medium text-gray-600">mPFS:</span>
+                  <span className="text-gray-700 font-semibold">3.9 months</span>
                 </div>
-                <div className="text-xs text-gray-500">(95% CI: 3.1-4.2)</div>
+                <div className="text-xs text-gray-400">(95% CI: 3.1-4.2)</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">ORR:</span>
-                  <span className="text-gray-700 font-bold">18.1%</span>
+                  <span className="font-medium text-gray-600">ORR:</span>
+                  <span className="text-gray-700 font-semibold">18.1%</span>
                 </div>
-                <div className="text-xs text-gray-500">(95% CI: 13.9-22.9)</div>
+                <div className="text-xs text-gray-400">(95% CI: 13.9-22.9)</div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-semibold">Tx related:</span>
-                  <span className="text-gray-700 font-bold">14.2%</span>
+                  <span className="font-medium text-gray-600">Tx related:</span>
+                  <span className="text-gray-700 font-semibold">14.2%</span>
                 </div>
-                <div className="text-xs text-gray-500">discontinuation</div>
+                <div className="text-xs text-gray-400">discontinuation</div>
               </div>
             </div>
           </div>
@@ -349,65 +349,63 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
   );
 
   const ComparisonTable = () => (
-    <div className="p-6">
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-[#1A237E] text-white">
-              <th className="border border-gray-300 p-3 text-center text-lg" colSpan={4}>
-                {trial.trialName} Clinical Results
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th className="border border-gray-300 p-3 bg-gray-100 font-semibold">Trial Arms</th>
-              <td className="border border-gray-300 p-3 font-semibold">{trial.treatment}</td>
-              <td className="border border-gray-300 p-3 font-semibold">Standard Treatment</td>
-              <td className="border border-gray-300 p-3 font-semibold">Standard of Care</td>
-            </tr>
-            <tr>
-              <th className="border border-gray-300 p-3 bg-gray-100 font-semibold">Arm Type</th>
-              <td className="border border-gray-300 p-3">
-                <Badge className="bg-blue-600 text-white">Experimental</Badge>
-              </td>
-              <td className="border border-gray-300 p-3">
-                <Badge className="bg-gray-600 text-white">Comparator</Badge>
-              </td>
-              <td className="border border-gray-300 p-3">
-                <Badge className="bg-green-600 text-white">Standard of Care</Badge>
-              </td>
-            </tr>
-            <tr>
-              <th className="border border-gray-300 p-3 bg-gray-100 font-semibold">Patient Cohort</th>
-              <td className="border border-gray-300 p-3" colSpan={2}>{trial.indication} patients</td>
-              <td className="border border-gray-300 p-3">Comparable population</td>
-            </tr>
-            <tr className="bg-gray-50">
-              <th className="border border-gray-300 p-3 bg-gray-200 font-semibold" colSpan={4}>
-                Efficacy Outcomes
-              </th>
-            </tr>
-            <tr>
-              <th className="border border-gray-300 p-3 bg-gray-100 font-semibold">Overall Survival (mOS)</th>
-              <td className="border border-gray-300 p-3 font-semibold text-[#1A237E]">{trial.os}</td>
-              <td className="border border-gray-300 p-3 font-semibold">9.8 months</td>
-              <td className="border border-gray-300 p-3 font-semibold">15.8 months</td>
-            </tr>
-            <tr>
-              <th className="border border-gray-300 p-3 bg-gray-100 font-semibold">Progression-Free Survival (mPFS)</th>
-              <td className="border border-gray-300 p-3 font-semibold text-[#1A237E]">{trial.pfs}</td>
-              <td className="border border-gray-300 p-3 font-semibold">3.9 months</td>
-              <td className="border border-gray-300 p-3 font-semibold">6.7 months</td>
-            </tr>
-            <tr>
-              <th className="border border-gray-300 p-3 bg-gray-100 font-semibold">Objective Response Rate (ORR)</th>
-              <td className="border border-gray-300 p-3 font-semibold text-[#1A237E]">{trial.orr}</td>
-              <td className="border border-gray-300 p-3 font-semibold">18.1%</td>
-              <td className="border border-gray-300 p-3 font-semibold">38%</td>
-            </tr>
-          </tbody>
-        </table>
+    <div className="p-8">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-primary text-white p-4 text-center">
+          <h3 className="text-lg font-semibold">{trial.trialName} Clinical Results</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <tbody>
+              <tr className="border-b border-gray-100">
+                <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Trial Arms</th>
+                <td className="p-4 font-medium">{trial.treatment}</td>
+                <td className="p-4 font-medium">Standard Treatment</td>
+                <td className="p-4 font-medium">Standard of Care</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Arm Type</th>
+                <td className="p-4">
+                  <Badge className="bg-blue-100 text-blue-700">Experimental</Badge>
+                </td>
+                <td className="p-4">
+                  <Badge className="bg-gray-100 text-gray-700">Comparator</Badge>
+                </td>
+                <td className="p-4">
+                  <Badge className="bg-green-100 text-green-700">Standard of Care</Badge>
+                </td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Patient Cohort</th>
+                <td className="p-4" colSpan={2}>{trial.indication} patients</td>
+                <td className="p-4">Comparable population</td>
+              </tr>
+              <tr className="bg-gray-25">
+                <th className="p-4 bg-gray-100 font-medium text-left text-gray-700" colSpan={4}>
+                  Efficacy Outcomes
+                </th>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Overall Survival (mOS)</th>
+                <td className="p-4 font-semibold text-primary">{trial.os}</td>
+                <td className="p-4 font-semibold">9.8 months</td>
+                <td className="p-4 font-semibold">15.8 months</td>
+              </tr>
+              <tr className="border-b border-gray-100">
+                <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Progression-Free Survival (mPFS)</th>
+                <td className="p-4 font-semibold text-primary">{trial.pfs}</td>
+                <td className="p-4 font-semibold">3.9 months</td>
+                <td className="p-4 font-semibold">6.7 months</td>
+              </tr>
+              <tr>
+                <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Objective Response Rate (ORR)</th>
+                <td className="p-4 font-semibold text-primary">{trial.orr}</td>
+                <td className="p-4 font-semibold">18.1%</td>
+                <td className="p-4 font-semibold">38%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -415,7 +413,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-sm">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button 
@@ -458,30 +456,30 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
               }}
             />
             <div className="flex-1">
-              <Badge className="bg-pink-100 text-pink-800 mb-2">{trial.trialName}</Badge>
+              <Badge className="bg-pink-100 text-pink-700 mb-2">{trial.trialName}</Badge>
               <h1 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
                 {trial.abstractTitle}
               </h1>
               <div className="flex flex-wrap gap-4 text-sm">
                 <div>
                   <span className="text-gray-500">Conference:</span>
-                  <Badge variant="secondary" className="ml-2">{trial.conference}</Badge>
+                  <Badge className="bg-gray-100 text-primary ml-2">{trial.conference}</Badge>
                 </div>
                 <div>
                   <span className="text-gray-500">Indication:</span>
-                  <Badge variant="secondary" className="ml-2">{trial.indication}</Badge>
+                  <Badge className="bg-gray-100 text-primary ml-2">{trial.indication}</Badge>
                 </div>
                 <div>
                   <span className="text-gray-500">Population:</span>
-                  <Badge variant="secondary" className="ml-2">{trial.population}</Badge>
+                  <Badge className="bg-gray-100 text-primary ml-2">{trial.population}</Badge>
                 </div>
                 <div>
                   <span className="text-gray-500">Line of Therapy:</span>
-                  <Badge variant="secondary" className="ml-2">{trial.lineTherapy}</Badge>
+                  <Badge className="bg-gray-100 text-primary ml-2">{trial.lineTherapy}</Badge>
                 </div>
                 <div>
                   <span className="text-gray-500">Company:</span>
-                  <Badge variant="secondary" className="ml-2">{trial.company}</Badge>
+                  <Badge className="bg-gray-100 text-primary ml-2">{trial.company}</Badge>
                 </div>
               </div>
             </div>
@@ -489,17 +487,17 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
               <div className="text-sm text-gray-500 mb-1 font-medium">mOS</div>
               <div className="text-2xl font-bold text-primary mb-1">{trial.os}</div>
               <div className="text-xs text-gray-400">95% CI: 9.4-12.3</div>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
               <div className="text-sm text-gray-500 mb-1 font-medium">mPFS</div>
               <div className="text-2xl font-bold text-primary mb-1">{trial.pfs}</div>
               <div className="text-xs text-gray-400">95% CI: 3.0-4.4</div>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
               <div className="text-sm text-gray-500 mb-1 font-medium">ORR</div>
               <div className="text-2xl font-bold text-primary mb-1">{trial.orr}</div>
               <div className="text-xs text-gray-400">95% CI: 10.0-18.1</div>
@@ -555,7 +553,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
                   <EChartsBarChart data={chartData.ORR} title="Objective Response Rate" chartId="orr-detail" />
                 </div>
                 
-                <Card className="bg-[#1A237E] text-white p-6 mt-6">
+                <Card className="bg-primary text-white p-6 mt-6 border-0">
                   <div className="text-sm text-blue-200 font-semibold mb-2">Conclusion</div>
                   <p className="text-white leading-relaxed">
                     Although statistical significance was not met, {trial.treatment} showed numerical improvement in OS vs standard treatment. 
