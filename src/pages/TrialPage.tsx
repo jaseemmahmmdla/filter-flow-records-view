@@ -162,18 +162,18 @@ const TrialPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-100 font-body">
       <Header />
       
       {/* Trial Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-neutral-300">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 font-body"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
@@ -182,24 +182,24 @@ const TrialPage = () => {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-display font-semibold text-neutral-900 mb-2">
                 {trial.title}
               </h1>
               <div className="flex flex-wrap gap-3 mb-4">
-                <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+                <Badge className="bg-neutral-100 text-neutral-700 border-neutral-200 font-body">
                   {trial.phase}
                 </Badge>
-                <Badge className="bg-gray-100 text-gray-800 border-gray-200">
+                <Badge className="bg-neutral-100 text-neutral-700 border-neutral-200 font-body">
                   {trial.indication}
                 </Badge>
-                <Badge className="bg-green-100 text-green-800 border-green-200">
+                <Badge className="bg-status-success/10 text-status-success border-status-success/20 font-body">
                   {trial.status}
                 </Badge>
               </div>
-              <div className="text-gray-600 space-y-1">
-                <p><strong>Sponsor:</strong> {trial.sponsor}</p>
-                <p><strong>Start Date:</strong> {new Date(trial.startDate).toLocaleDateString()}</p>
-                <p><strong>Estimated Completion:</strong> {new Date(trial.estimatedCompletion).toLocaleDateString()}</p>
+              <div className="text-neutral-500 space-y-1 font-body">
+                <p><strong className="text-neutral-700">Sponsor:</strong> {trial.sponsor}</p>
+                <p><strong className="text-neutral-700">Start Date:</strong> {new Date(trial.startDate).toLocaleDateString()}</p>
+                <p><strong className="text-neutral-700">Estimated Completion:</strong> {new Date(trial.estimatedCompletion).toLocaleDateString()}</p>
               </div>
             </div>
           </div>
@@ -210,10 +210,10 @@ const TrialPage = () => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-display font-semibold text-neutral-900">
               Conference Abstracts
             </h2>
-            <p className="text-gray-600 mt-1">
+            <p className="text-neutral-500 mt-1 font-body">
               {abstracts.length} abstracts from this trial
             </p>
           </div>
@@ -224,101 +224,109 @@ const TrialPage = () => {
           {abstracts.map((abstract) => (
             <Card 
               key={abstract.id} 
-              className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-white border border-neutral-300 hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => handleAbstractClick(abstract.id)}
             >
               <CardContent className="p-6">
                 {/* Header Row */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <FileText className="w-5 h-5 text-blue-600" />
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <FileText className="w-6 h-6 text-primary-500" />
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 text-lg mb-1">
+                    <div className="flex-1">
+                      <h3 className="font-display font-semibold text-neutral-900 text-lg mb-2 leading-tight">
                         {abstract.title}
                       </h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-neutral-500 font-body">
                         <span>{abstract.conference}</span>
                         <span>•</span>
                         <span>{abstract.abstractNumber}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="bg-blue-50 text-blue-700">
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Badge variant="secondary" className="bg-brand-100 text-brand-700 font-body">
                       {abstract.presentationType}
                     </Badge>
-                    <Badge variant="secondary" className="bg-green-50 text-green-700">
+                    <Badge variant="secondary" className="bg-status-success/10 text-status-success font-body">
                       {abstract.status}
                     </Badge>
                   </div>
                 </div>
 
-                {/* Content Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
                   {/* Trial Information */}
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Trial ID</p>
-                      <p className="text-sm text-blue-600 font-medium">{abstract.trialId}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Trial ID</p>
+                      <p className="text-sm text-brand-600 font-medium font-body">{abstract.trialId}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Company</p>
-                      <p className="text-sm text-gray-900">{abstract.company}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Company</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.company}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Treatment</p>
-                      <p className="text-sm text-gray-900">{abstract.treatment}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Treatment</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.treatment}</p>
                     </div>
                   </div>
 
                   {/* Study Details */}
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Indication</p>
-                      <p className="text-sm text-gray-900">{abstract.indication}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Indication</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.indication}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Line of Therapy</p>
-                      <p className="text-sm text-gray-900">{abstract.lineOfTherapy}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Line of Therapy</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.lineOfTherapy}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Population</p>
-                      <p className="text-sm text-gray-900">{abstract.population}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Population</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.population}</p>
                     </div>
                   </div>
 
                   {/* Additional Info */}
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Target/Modality</p>
-                      <p className="text-sm text-gray-900">{abstract.targetModality}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Target/Modality</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.targetModality}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Biomarker</p>
-                      <p className="text-sm text-gray-900">{abstract.biomarker}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Biomarker</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.biomarker}</p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">Patients</p>
-                      <p className="text-sm text-gray-900">{abstract.patientRatio}</p>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Phase</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.phase}</p>
+                    </div>
+                  </div>
+
+                  {/* Patients */}
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">Patients</p>
+                      <p className="text-sm text-neutral-900 font-body">{abstract.patientRatio}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Outcomes Row */}
-                <div className="flex items-center gap-6 mt-6 pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-start gap-8 pt-4 border-t border-neutral-200">
                   <div className="text-center">
-                    <p className="text-sm font-medium text-gray-500 mb-1">ORR</p>
-                    <p className="text-lg font-bold text-blue-600">{abstract.outcomes.orr}</p>
+                    <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">ORR</p>
+                    <p className="text-lg font-semibold text-brand-600 font-display">{abstract.outcomes.orr}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-sm font-medium text-gray-500 mb-1">PFS</p>
-                    <p className="text-lg font-bold text-green-600">{abstract.outcomes.pfs}</p>
+                    <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">PFS</p>
+                    <p className="text-lg font-semibold text-status-success font-display">{abstract.outcomes.pfs}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-sm font-medium text-gray-500 mb-1">OS</p>
-                    <p className="text-lg font-bold text-purple-600">{abstract.outcomes.os}</p>
+                    <p className="text-xs font-medium text-neutral-500 mb-1 font-body uppercase tracking-wide">OS</p>
+                    <p className="text-lg font-semibold text-accent-500 font-display">{abstract.outcomes.os}</p>
                   </div>
                 </div>
               </CardContent>
