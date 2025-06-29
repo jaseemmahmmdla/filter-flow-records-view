@@ -158,96 +158,6 @@ const MetricCard = ({ title, value, change, icon: Icon, trend }: {
   </Card>
 );
 
-const SuccessRateChart = ({ trials }: { trials: any[] }) => {
-  const chartRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    if (!chartRef.current) return;
-
-    const chart = echarts.init(chartRef.current);
-    
-    const phaseData = {
-      'Phase 1': { total: 0, active: 0, completed: 0 },
-      'Phase 2': { total: 0, active: 0, completed: 0 },
-      'Phase 3': { total: 0, active: 0, completed: 0 }
-    };
-
-    trials.forEach(trial => {
-      if (phaseData[trial.phase]) {
-        phaseData[trial.phase].total++;
-        if (trial.status === 'Active' || trial.status === 'Recruiting') {
-          phaseData[trial.phase].active++;
-        } else if (trial.status === 'Completed') {
-          phaseData[trial.phase].completed++;
-        }
-      }
-    });
-
-    const phases = Object.keys(phaseData);
-    const successRates = phases.map(phase => {
-      const data = phaseData[phase];
-      return data.total > 0 ? ((data.completed / data.total) * 100).toFixed(1) : 0;
-    });
-
-    const option = {
-      title: {
-        text: 'Success Rate by Phase',
-        left: 'center',
-        textStyle: {
-          fontSize: 16,
-          fontWeight: 'bold',
-          color: '#1f2937'
-        }
-      },
-      tooltip: {
-        trigger: 'axis',
-        formatter: '{b}: {c}% completion rate'
-      },
-      xAxis: {
-        type: 'category',
-        data: phases
-      },
-      yAxis: {
-        type: 'value',
-        max: 100,
-        axisLabel: {
-          formatter: '{value}%'
-        }
-      },
-      series: [{
-        type: 'bar',
-        data: successRates,
-        itemStyle: {
-          color: function(params) {
-            const colors = ['#f59e0b', '#10b981', '#3b82f6'];
-            return colors[params.dataIndex];
-          }
-        },
-        label: {
-          show: true,
-          position: 'top',
-          formatter: '{c}%'
-        }
-      }]
-    };
-
-    chart.setOption(option);
-
-    const handleResize = () => {
-      chart.resize();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      chart.dispose();
-    };
-  }, [trials]);
-
-  return <div ref={chartRef} style={{ width: '100%', height: '300px' }} />;
-};
-
 const OverviewContent = ({ trials }: { trials: any[] }) => {
   const processTopDrugs = () => {
     const drugCounts: { [key: string]: { [key: string]: number } } = {};
@@ -449,11 +359,6 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
       <div className="flex flex-col xl:flex-row gap-6">
         {/* Charts Section - Left Side - Responsive */}
         <div className="flex-1 space-y-6 min-w-0">
-          {/* Success Rate Chart */}
-          <Card className="p-6">
-            <SuccessRateChart trials={trials} />
-          </Card>
-
           {/* Main Charts Grid - Responsive */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="p-6 min-w-0">
