@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, MapPin, Users, FileText, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Users, FileText, ExternalLink, Eye, MoreHorizontal } from 'lucide-react';
 import Header from '@/components/Header';
 
 interface Abstract {
@@ -14,7 +15,7 @@ interface Abstract {
   location: string;
   authors: string[];
   abstractNumber: string;
-  presentationType: 'Oral' | 'Poster' | 'Keynote';
+  presentationType: 'Oral Presentation' | 'Poster' | 'Keynote';
   keyFindings: string[];
   endpoints: {
     primary: string[];
@@ -25,6 +26,23 @@ interface Abstract {
     demographics: string;
   };
   status: 'Published' | 'Presented' | 'Upcoming';
+  // Additional fields to match the reference design
+  trialId: string;
+  company: string;
+  treatment: string;
+  indication: string;
+  lineOfTherapy: string;
+  population: string;
+  targetModality: string;
+  biomarker: string;
+  outcomes: {
+    orr: string;
+    pfs: string;
+    os: string;
+  };
+  phase: string;
+  checkboxId: string;
+  patientRatio: string;
 }
 
 interface Trial {
@@ -54,17 +72,17 @@ const TrialPage = () => {
     estimatedCompletion: '2025-12-31'
   });
 
-  // Mock abstracts data for this trial
+  // Mock abstracts data for this trial - updated to match reference design
   const [abstracts] = useState<Abstract[]>([
     {
       id: '1',
-      title: 'Efficacy and Safety of Novel Immunotherapy in First-Line Advanced NSCLC: Interim Analysis',
-      conference: 'ASCO 2024',
+      title: 'Nivolumab plus ipilimumab versus chemotherapy as first-line treatment for advanced non-small-cell lung cancer with high PD-L1 expression: primary...',
+      conference: 'ASCO 2025',
       presentationDate: '2024-06-02',
       location: 'Chicago, IL',
       authors: ['Dr. Sarah Chen', 'Dr. Michael Rodriguez', 'Dr. Emily Watson'],
       abstractNumber: 'LBA9000',
-      presentationType: 'Oral',
+      presentationType: 'Oral Presentation',
       keyFindings: [
         'Primary endpoint met with statistical significance',
         '23% improvement in overall survival',
@@ -78,7 +96,23 @@ const TrialPage = () => {
         total: 847,
         demographics: 'Adults with advanced NSCLC, ECOG 0-1'
       },
-      status: 'Published'
+      status: 'Published',
+      trialId: 'NCT03539536',
+      company: 'Bristol Myers Squibb',
+      treatment: 'Nivolumab + Ipilimumab',
+      indication: 'NSCLC',
+      lineOfTherapy: '1L',
+      population: 'IV • Metastatic',
+      targetModality: 'PD-1/CTLA-4',
+      biomarker: 'PD-L1 ≥50%',
+      outcomes: {
+        orr: '45.2%',
+        pfs: '8.2m',
+        os: '21.2m'
+      },
+      phase: 'Phase 3',
+      checkboxId: 'CHECKMATE-123',
+      patientRatio: '487/500'
     },
     {
       id: '2',
@@ -102,33 +136,25 @@ const TrialPage = () => {
         total: 623,
         demographics: 'Subset with available tissue samples'
       },
-      status: 'Published'
-    },
-    {
-      id: '3',
-      title: 'Quality of Life Outcomes in Phase III Novel Immunotherapy Study',
-      conference: 'WCLC 2024',
-      presentationDate: '2024-09-09',
-      location: 'Singapore',
-      authors: ['Dr. Maria Santos', 'Dr. David Kim', 'Dr. Sarah Chen'],
-      abstractNumber: 'MA04.02',
-      presentationType: 'Oral',
-      keyFindings: [
-        'Maintained quality of life scores',
-        'Reduced treatment-related symptoms',
-        'Improved patient-reported outcomes'
-      ],
-      endpoints: {
-        primary: ['EORTC QLQ-C30 Score'],
-        secondary: ['Symptom Burden', 'Functional Assessment']
+      status: 'Published',
+      trialId: 'NCT03539537',
+      company: 'Roche',
+      treatment: 'Atezolizumab + Bevacizumab',
+      indication: 'NSCLC',
+      lineOfTherapy: '2L',
+      population: 'III • Locally Advanced',
+      targetModality: 'PD-L1/VEGF',
+      biomarker: 'TMB-H',
+      outcomes: {
+        orr: '38.7%',
+        pfs: '6.8m',
+        os: '18.4m'
       },
-      patientPopulation: {
-        total: 789,
-        demographics: 'Patients completing QoL assessments'
-      },
-      status: 'Presented'
+      phase: 'Phase 3',
+      checkboxId: 'IMpower150',
+      patientRatio: '623/650'
     }
-  ]);
+  ];
 
   const handleAbstractClick = (abstractId: string) => {
     // Navigate to abstract detail view
@@ -146,7 +172,7 @@ const TrialPage = () => {
 
   const getPresentationTypeColor = (type: string) => {
     switch (type) {
-      case 'Oral': return 'bg-purple-50 text-purple-700 border-purple-200';
+      case 'Oral Presentation': return 'bg-purple-50 text-purple-700 border-purple-200';
       case 'Poster': return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'Keynote': return 'bg-red-50 text-red-700 border-red-200';
       default: return 'bg-gray-50 text-gray-700 border-gray-200';
@@ -211,69 +237,136 @@ const TrialPage = () => {
           </div>
         </div>
 
-        {/* Abstracts Grid - Using same styling as RecordsTable */}
-        <div className="grid gap-4">
+        {/* Abstracts Grid - Matching reference design */}
+        <div className="grid gap-6">
           {abstracts.map((abstract) => (
             <Card 
               key={abstract.id} 
-              className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow p-6 cursor-pointer"
+              className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => handleAbstractClick(abstract.id)}
             >
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-slate-50 rounded-xl">
-                  <FileText className="w-4 h-4" />
+              <div className="p-6">
+                {/* Header with icon, title, conference badge, and actions */}
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <div className="w-6 h-6 bg-slate-800 rounded-sm"></div>
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight">
+                      {abstract.title}
+                    </h3>
+                    
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <input 
+                          type="checkbox" 
+                          className="w-4 h-4 rounded border-gray-300"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <span className="text-sm text-gray-600">{abstract.checkboxId}</span>
+                      </div>
+                      
+                      <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+                        {abstract.phase}
+                      </Badge>
+                      
+                      <Badge className="bg-green-100 text-green-800 border-green-200">
+                        Active
+                      </Badge>
+                      
+                      <div className="flex items-center gap-1 text-sm text-gray-600">
+                        <Users className="w-4 h-4" />
+                        <span>{abstract.patientRatio}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Badge className="bg-red-100 text-red-800 border-red-200">
+                      {abstract.conference}
+                    </Badge>
+                    <Button variant="ghost" size="sm" className="p-1">
+                      <Eye className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="p-1">
+                      <MoreHorizontal className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
-                
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between mb-2">
+
+                {/* Main content grid */}
+                <div className="grid grid-cols-3 gap-8">
+                  {/* Column 1 */}
+                  <div className="space-y-4">
                     <div>
-                      <h3 className="font-semibold text-slate-900 text-lg">{abstract.title}</h3>
-                      <p className="text-slate-600 text-sm mt-1">{abstract.conference} - {new Date(abstract.presentationDate).toLocaleDateString()}</p>
+                      <p className="text-sm text-gray-500 mb-1">Trial</p>
+                      <p className="font-semibold text-gray-900 underline">{abstract.trialId}</p>
                     </div>
-                    <ExternalLink className="w-5 h-5 text-gray-400 flex-shrink-0 ml-4" />
-                  </div>
-                  
-                  <div className="flex items-center gap-4 mt-4">
-                    <Badge variant="outline" className="border-slate-300 text-slate-700">
-                      {abstract.abstractNumber}
-                    </Badge>
-                    <Badge className={getStatusColor(abstract.status)}>
-                      {abstract.status}
-                    </Badge>
-                    <Badge className={getPresentationTypeColor(abstract.presentationType)}>
-                      {abstract.presentationType}
-                    </Badge>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm text-slate-700">{abstract.location}</span>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Treatment</p>
+                      <p className="font-semibold text-gray-900">{abstract.treatment}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Population</p>
+                      <p className="font-semibold text-gray-900">{abstract.population}</p>
                     </div>
                   </div>
-                  
-                  {/* Key Findings */}
-                  <div className="mt-4">
-                    <h4 className="font-medium text-gray-900 mb-2">Key Findings</h4>
-                    <ul className="space-y-1">
-                      {abstract.keyFindings.slice(0, 3).map((finding, index) => (
-                        <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                          {finding}
-                        </li>
-                      ))}
-                    </ul>
+
+                  {/* Column 2 */}
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Company</p>
+                      <p className="font-semibold text-gray-900">{abstract.company}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Indication</p>
+                      <p className="font-semibold text-gray-900">{abstract.indication}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Target/Modality</p>
+                      <p className="font-semibold text-gray-900">{abstract.targetModality}</p>
+                    </div>
+                  </div>
+
+                  {/* Column 3 */}
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Abstract Type</p>
+                      <p className="font-semibold text-gray-900">{abstract.presentationType}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Line of Therapy</p>
+                      <p className="font-semibold text-gray-900">{abstract.lineOfTherapy}</p>
+                    </div>
+                    
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Biomarker</p>
+                      <p className="font-semibold text-gray-900">{abstract.biomarker}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Outcomes row */}
+                <div className="flex items-center gap-8 mt-6 pt-4 border-t border-gray-100">
+                  <div className="bg-blue-50 px-4 py-2 rounded-lg">
+                    <p className="text-sm font-medium text-blue-600 mb-1">ORR</p>
+                    <p className="text-lg font-bold text-blue-800">{abstract.outcomes.orr}</p>
                   </div>
                   
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-4 text-sm text-slate-700">
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4 text-gray-500" />
-                        <span>{abstract.patientPopulation.total} patients</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <FileText className="w-4 h-4 text-gray-500" />
-                        <span>{abstract.authors.length} authors</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-slate-500">Updated {abstract.presentationDate}</span>
+                  <div className="bg-green-50 px-4 py-2 rounded-lg">
+                    <p className="text-sm font-medium text-green-600 mb-1">PFS</p>
+                    <p className="text-lg font-bold text-green-800">{abstract.outcomes.pfs}</p>
+                  </div>
+                  
+                  <div className="bg-purple-50 px-4 py-2 rounded-lg">
+                    <p className="text-sm font-medium text-purple-600 mb-1">OS</p>
+                    <p className="text-lg font-bold text-purple-800">{abstract.outcomes.os}</p>
                   </div>
                 </div>
               </div>
