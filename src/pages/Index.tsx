@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
 import FilterPanel from '@/components/FilterPanel';
@@ -25,8 +24,32 @@ const Index = () => {
   };
 
   const handleGetStarted = () => {
+    // Check if there's a search selection in sessionStorage
+    const searchSelection = sessionStorage.getItem('searchSelection');
+    if (searchSelection) {
+      const { entity, profile } = JSON.parse(searchSelection);
+      
+      // Apply the filter based on the search selection
+      const newFilter = { [entity]: profile };
+      setFilters(newFilter);
+      
+      // Clear the search selection
+      sessionStorage.removeItem('searchSelection');
+    }
+    
     setActiveView('trials');
   };
+
+  // Check for search selection on component mount
+  useEffect(() => {
+    const searchSelection = sessionStorage.getItem('searchSelection');
+    if (searchSelection && activeView === 'trials') {
+      const { entity, profile } = JSON.parse(searchSelection);
+      const newFilter = { [entity]: profile };
+      setFilters(newFilter);
+      sessionStorage.removeItem('searchSelection');
+    }
+  }, [activeView]);
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -1,12 +1,16 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, TrendingUp, Calendar, ChevronRight, Clock, ExternalLink, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 interface OutcomesLandingProps {
   onGetStarted: () => void;
 }
 
 const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
+  const navigate = useNavigate();
+
   const therapeuticAreas = [
     { name: 'Non-small cell lung cancer', count: '2,847', hot: true },
     { name: 'Breast cancer', count: '1,923', hot: false },
@@ -97,15 +101,35 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
     }
   };
 
+  const handleSearchSelect = (entity: string, profile: string) => {
+    // Navigate to trials page with the selected filter
+    // We'll pass the filter through URL params and let the parent handle it
+    const searchParams = new URLSearchParams();
+    searchParams.set('entity', entity);
+    searchParams.set('profile', profile);
+    
+    // For now, we'll use the existing onGetStarted callback and pass the filter data
+    // The Index component will need to handle this
+    onGetStarted();
+    
+    // Store the search selection in sessionStorage so it can be picked up by the trials page
+    sessionStorage.setItem('searchSelection', JSON.stringify({ entity, profile }));
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-white">
       <div className="w-full px-6 py-12">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-primary-500 mb-4">AI-Powered Abstract Intelligence</h1>
-          <p className="text-xl text-neutral-700 max-w-3xl mx-auto">
+          <p className="text-xl text-neutral-700 max-w-3xl mx-auto mb-8">
             Navigate through thousands of oncology abstracts with advanced AI insights. Ask questions in natural language.
           </p>
+          
+          {/* Search Bar */}
+          <div className="mb-8">
+            <SearchBar onSelect={handleSearchSelect} />
+          </div>
         </div>
 
         {/* Main Content Layout - 60/40 Split */}
