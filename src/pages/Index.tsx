@@ -7,6 +7,7 @@ import OutcomesLanding from '@/components/OutcomesLanding';
 import AIAssistant from './AIAssistant';
 import { ResizablePanelGroup, ResizablePanel } from '@/components/ui/resizable';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 
 const Index = () => {
@@ -64,6 +65,28 @@ const Index = () => {
     return 0;
   };
 
+  const renderSelectedFilters = () => {
+    if (!filters || Object.keys(filters).length === 0) {
+      return null;
+    }
+    
+    return (
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(filters).map(([key, value]) => {
+          if (value && (Array.isArray(value) ? value.length > 0 : true)) {
+            const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
+            return (
+              <Badge key={key} variant="secondary" className="text-xs">
+                {key}: {displayValue}
+              </Badge>
+            );
+          }
+          return null;
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -113,9 +136,12 @@ const Index = () => {
                   <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
                     Clinical Trials: {selectedProfile}
                   </h1>
-                  <p className="text-gray-600">
-                    {getAbstractsCount()} abstracts
-                  </p>
+                  <div className="flex items-center gap-4">
+                    <p className="text-gray-600">
+                      {getAbstractsCount()} abstracts
+                    </p>
+                    {renderSelectedFilters()}
+                  </div>
                 </div>
               )}
               
