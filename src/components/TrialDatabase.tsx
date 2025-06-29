@@ -359,7 +359,8 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
   const completedTrials = trials.filter(t => t.status === 'Completed').length;
   const phase3Trials = trials.filter(t => t.phase === 'Phase 3').length;
   const avgEnrollment = Math.round(trials.reduce((acc, trial) => {
-    const enrolled = parseInt(trial.enrollment.split('/')[0]);
+    const enrollmentParts = trial.enrollment.split('/');
+    const enrolled = parseInt(enrollmentParts[0]) || 0;
     return acc + enrolled;
   }, 0) / trials.length);
 
@@ -372,7 +373,7 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
       acc[trial.indication] = (acc[trial.indication] || 0) + 1;
       return acc;
     }, {});
-    const topIndication = Object.entries(indicationCounts).sort((a, b) => b[1] - a[1])[0];
+    const topIndication = Object.entries(indicationCounts).sort((a, b) => (b[1] as number) - (a[1] as number))[0];
     
     // Top target insight
     const topTarget = topTargets[0];
@@ -383,7 +384,7 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
     insights.push({
       icon: 'target',
       color: 'blue',
-      text: `${topIndication[0]} leads with ${topIndication[1]} trials (${Math.round(topIndication[1]/trials.length*100)}% of portfolio)`
+      text: `${topIndication[0]} leads with ${topIndication[1]} trials (${Math.round((topIndication[1] as number)/trials.length*100)}% of portfolio)`
     });
     
     insights.push({
@@ -445,17 +446,17 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
         />
       </div>
 
-      <div className="flex gap-6">
-        {/* Charts Section - Left Side */}
-        <div className="flex-1 space-y-6">
+      <div className="flex flex-col xl:flex-row gap-6">
+        {/* Charts Section - Left Side - Responsive */}
+        <div className="flex-1 space-y-6 min-w-0">
           {/* Success Rate Chart */}
           <Card className="p-6">
             <SuccessRateChart trials={trials} />
           </Card>
 
-          {/* Main Charts Grid */}
+          {/* Main Charts Grid - Responsive */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="p-6">
+            <Card className="p-6 min-w-0">
               <EChartsBarChart 
                 data={topDrugs} 
                 title="Top 10 Drugs by Session Type" 
@@ -463,7 +464,7 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
               />
             </Card>
 
-            <Card className="p-6">
+            <Card className="p-6 min-w-0">
               <EChartsBarChart 
                 data={topCompanies} 
                 title="Top 10 Companies by Session Type" 
@@ -471,7 +472,7 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
               />
             </Card>
 
-            <Card className="p-6">
+            <Card className="p-6 min-w-0">
               <EChartsBarChart 
                 data={topTargets} 
                 title="Top 10 Targets by Session Type" 
@@ -479,7 +480,7 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
               />
             </Card>
 
-            <Card className="p-6">
+            <Card className="p-6 min-w-0">
               <EChartsBarChart 
                 data={topModalities} 
                 title="Top 10 Modalities by Session Type" 
@@ -489,8 +490,8 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
           </div>
         </div>
 
-        {/* Enhanced Key Insights Section - Right Side */}
-        <div className="w-96">
+        {/* Enhanced Key Insights Section - Right Side - Responsive */}
+        <div className="w-full xl:w-96 xl:flex-shrink-0">
           <div className="space-y-4">
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-4">
