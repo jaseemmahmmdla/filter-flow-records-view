@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -228,9 +229,9 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
         </div>
 
         {/* Patient Eligibility/Cohort - Left */}
-        <div className="bg-white rounded-xl p-6 w-80 shadow-sm border border-gray-100 z-10">
+        <div className="bg-white rounded-xl p-6 w-80 shadow-sm z-10">
           <div className="text-center mb-6">
-            <Badge className="bg-primary text-white text-base px-4 py-2 mb-3">{trial.trialName}</Badge>
+            <Badge className="bg-gray-100 text-primary text-base px-4 py-2 mb-3">{trial.trialName}</Badge>
             <div className="text-sm font-medium text-gray-500 mb-2">Patient Cohort</div>
           </div>
           <div className="space-y-4 text-sm">
@@ -257,7 +258,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
         </div>
 
         {/* Total Enrollment - Center */}
-        <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl px-8 py-6 shadow-sm border border-pink-200 z-10">
+        <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl px-8 py-6 shadow-sm z-10">
           <div className="text-pink-700 font-bold text-3xl text-center">
             n={trial.enrollment}
           </div>
@@ -269,10 +270,10 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
         {/* Treatment Arms Container - Right */}
         <div className="flex flex-col gap-8 z-10">
           {/* Experimental Arm */}
-          <div className="bg-white rounded-xl p-6 w-80 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-xl p-6 w-80 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="text-lg font-semibold text-gray-900">{trial.treatment}</div>
-              <Badge className="bg-blue-100 text-blue-700">Experimental</Badge>
+              <Badge className="bg-gray-100 text-primary">Experimental</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
@@ -307,10 +308,10 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           </div>
 
           {/* Comparator Arm */}
-          <div className="bg-white rounded-xl p-6 w-80 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-xl p-6 w-80 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className="text-lg font-semibold text-gray-900">docetaxel</div>
-              <Badge className="bg-gray-100 text-gray-700">Comparator</Badge>
+              <Badge className="bg-gray-100 text-primary">Comparator</Badge>
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
@@ -350,32 +351,32 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
   const ComparisonTable = () => (
     <div className="p-8">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <div className="bg-primary text-white p-4 text-center">
           <h3 className="text-lg font-semibold">{trial.trialName} Clinical Results</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <tbody>
-              <tr className="border-b border-gray-100">
+              <tr>
                 <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Trial Arms</th>
                 <td className="p-4 font-medium">{trial.treatment}</td>
                 <td className="p-4 font-medium">Standard Treatment</td>
                 <td className="p-4 font-medium">Standard of Care</td>
               </tr>
-              <tr className="border-b border-gray-100">
+              <tr>
                 <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Arm Type</th>
                 <td className="p-4">
-                  <Badge className="bg-blue-100 text-blue-700">Experimental</Badge>
+                  <Badge className="bg-gray-100 text-primary">Experimental</Badge>
                 </td>
                 <td className="p-4">
-                  <Badge className="bg-gray-100 text-gray-700">Comparator</Badge>
+                  <Badge className="bg-gray-100 text-primary">Comparator</Badge>
                 </td>
                 <td className="p-4">
-                  <Badge className="bg-green-100 text-green-700">Standard of Care</Badge>
+                  <Badge className="bg-gray-100 text-primary">Standard of Care</Badge>
                 </td>
               </tr>
-              <tr className="border-b border-gray-100">
+              <tr>
                 <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Patient Cohort</th>
                 <td className="p-4" colSpan={2}>{trial.indication} patients</td>
                 <td className="p-4">Comparable population</td>
@@ -385,13 +386,13 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
                   Efficacy Outcomes
                 </th>
               </tr>
-              <tr className="border-b border-gray-100">
+              <tr>
                 <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Overall Survival (mOS)</th>
                 <td className="p-4 font-semibold text-primary">{trial.os}</td>
                 <td className="p-4 font-semibold">9.8 months</td>
                 <td className="p-4 font-semibold">15.8 months</td>
               </tr>
-              <tr className="border-b border-gray-100">
+              <tr>
                 <th className="p-4 bg-gray-50 font-medium text-left text-gray-700">Progression-Free Survival (mPFS)</th>
                 <td className="p-4 font-semibold text-primary">{trial.pfs}</td>
                 <td className="p-4 font-semibold">3.9 months</td>
@@ -456,7 +457,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
               }}
             />
             <div className="flex-1">
-              <Badge className="bg-pink-100 text-pink-700 mb-2">{trial.trialName}</Badge>
+              <Badge className="bg-gray-100 text-primary mb-2">{trial.trialName}</Badge>
               <h1 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
                 {trial.abstractTitle}
               </h1>
@@ -487,17 +488,17 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div className="bg-gray-100 rounded-lg p-4 shadow-sm">
               <div className="text-sm text-gray-500 mb-1 font-medium">mOS</div>
               <div className="text-2xl font-bold text-primary mb-1">{trial.os}</div>
               <div className="text-xs text-gray-400">95% CI: 9.4-12.3</div>
             </div>
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div className="bg-gray-100 rounded-lg p-4 shadow-sm">
               <div className="text-sm text-gray-500 mb-1 font-medium">mPFS</div>
               <div className="text-2xl font-bold text-primary mb-1">{trial.pfs}</div>
               <div className="text-xs text-gray-400">95% CI: 3.0-4.4</div>
             </div>
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+            <div className="bg-gray-100 rounded-lg p-4 shadow-sm">
               <div className="text-sm text-gray-500 mb-1 font-medium">ORR</div>
               <div className="text-2xl font-bold text-primary mb-1">{trial.orr}</div>
               <div className="text-xs text-gray-400">95% CI: 10.0-18.1</div>
@@ -553,7 +554,7 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
                   <EChartsBarChart data={chartData.ORR} title="Objective Response Rate" chartId="orr-detail" />
                 </div>
                 
-                <Card className="bg-primary text-white p-6 mt-6 border-0">
+                <Card className="bg-primary text-white p-6 mt-6">
                   <div className="text-sm text-blue-200 font-semibold mb-2">Conclusion</div>
                   <p className="text-white leading-relaxed">
                     Although statistical significance was not met, {trial.treatment} showed numerical improvement in OS vs standard treatment. 
