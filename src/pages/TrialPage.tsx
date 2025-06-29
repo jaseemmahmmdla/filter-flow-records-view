@@ -137,19 +137,19 @@ const TrialPage = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Published': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Presented': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'Upcoming': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'Published': return 'bg-green-50 text-green-700 border-green-200';
+      case 'Presented': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'Upcoming': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
+      default: return 'bg-gray-50 text-gray-700 border-gray-200';
     }
   };
 
   const getPresentationTypeColor = (type: string) => {
     switch (type) {
-      case 'Oral': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'Poster': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'Keynote': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'Oral': return 'bg-purple-50 text-purple-700 border-purple-200';
+      case 'Poster': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'Keynote': return 'bg-red-50 text-red-700 border-red-200';
+      default: return 'bg-gray-50 text-gray-700 border-gray-200';
     }
   };
 
@@ -211,91 +211,72 @@ const TrialPage = () => {
           </div>
         </div>
 
-        {/* Abstracts Grid */}
-        <div className="grid gap-6">
+        {/* Abstracts Grid - Using same styling as RecordsTable */}
+        <div className="grid gap-4">
           {abstracts.map((abstract) => (
             <Card 
               key={abstract.id} 
-              className="bg-white shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow p-6 cursor-pointer"
               onClick={() => handleAbstractClick(abstract.id)}
             >
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-xl text-gray-900 mb-3 line-clamp-2">
-                      {abstract.title}
-                    </CardTitle>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      <Badge className={getStatusColor(abstract.status)}>
-                        {abstract.status}
-                      </Badge>
-                      <Badge className={getPresentationTypeColor(abstract.presentationType)}>
-                        {abstract.presentationType}
-                      </Badge>
-                      <Badge className="bg-gray-100 text-gray-800 border-gray-200">
-                        {abstract.abstractNumber}
-                      </Badge>
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-slate-50 rounded-xl">
+                  <FileText className="w-4 h-4" />
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 className="font-semibold text-slate-900 text-lg">{abstract.title}</h3>
+                      <p className="text-slate-600 text-sm mt-1">{abstract.conference} - {new Date(abstract.presentationDate).toLocaleDateString()}</p>
                     </div>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-gray-400 flex-shrink-0 ml-4" />
-                </div>
-              </CardHeader>
-              
-              <CardContent className="pt-0">
-                {/* Conference Info */}
-                <div className="flex items-center gap-6 mb-4 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>{abstract.conference} - {new Date(abstract.presentationDate).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>{abstract.location}</span>
-                  </div>
-                </div>
-
-                {/* Key Findings */}
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">Key Findings</h4>
-                  <ul className="space-y-1">
-                    {abstract.keyFindings.slice(0, 3).map((finding, index) => (
-                      <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                        {finding}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Study Details */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Users className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700">Patients</span>
-                    </div>
-                    <p className="text-lg font-semibold text-gray-900">{abstract.patientPopulation.total}</p>
-                    <p className="text-xs text-gray-600">{abstract.patientPopulation.demographics}</p>
+                    <ExternalLink className="w-5 h-5 text-gray-400 flex-shrink-0 ml-4" />
                   </div>
                   
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1">
-                      <FileText className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700">Primary Endpoints</span>
+                  <div className="flex items-center gap-4 mt-4">
+                    <Badge variant="outline" className="border-slate-300 text-slate-700">
+                      {abstract.abstractNumber}
+                    </Badge>
+                    <Badge className={getStatusColor(abstract.status)}>
+                      {abstract.status}
+                    </Badge>
+                    <Badge className={getPresentationTypeColor(abstract.presentationType)}>
+                      {abstract.presentationType}
+                    </Badge>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-slate-700">{abstract.location}</span>
                     </div>
-                    <p className="text-sm text-gray-900">{abstract.endpoints.primary.join(', ')}</p>
                   </div>
                   
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1">
-                      <FileText className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm font-medium text-gray-700">Authors</span>
+                  {/* Key Findings */}
+                  <div className="mt-4">
+                    <h4 className="font-medium text-gray-900 mb-2">Key Findings</h4>
+                    <ul className="space-y-1">
+                      {abstract.keyFindings.slice(0, 3).map((finding, index) => (
+                        <li key={index} className="text-sm text-gray-600 flex items-start gap-2">
+                          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                          {finding}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-4 text-sm text-slate-700">
+                      <div className="flex items-center gap-1">
+                        <Users className="w-4 h-4 text-gray-500" />
+                        <span>{abstract.patientPopulation.total} patients</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <FileText className="w-4 h-4 text-gray-500" />
+                        <span>{abstract.authors.length} authors</span>
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-900">{abstract.authors.length} authors</p>
-                    <p className="text-xs text-gray-600">{abstract.authors[0]} et al.</p>
+                    <span className="text-sm text-slate-500">Updated {abstract.presentationDate}</span>
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           ))}
         </div>
