@@ -54,6 +54,16 @@ const Index = () => {
     }
   }, [activeView]);
 
+  // Mock function to get abstracts count based on filters/selected profile
+  const getAbstractsCount = () => {
+    // This would normally come from your data source
+    // For now, returning a mock number based on the selected profile
+    if (selectedProfile) {
+      return Math.floor(Math.random() * 500) + 100; // Mock count between 100-600
+    }
+    return 0;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -104,7 +114,7 @@ const Index = () => {
                     Clinical Trials: {selectedProfile}
                   </h1>
                   <p className="text-gray-600">
-                    Showing clinical trials related to {selectedProfile}
+                    {getAbstractsCount()} abstracts
                   </p>
                 </div>
               )}
