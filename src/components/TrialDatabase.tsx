@@ -440,25 +440,6 @@ const OverviewContent = ({ trials }: { trials: any[] }) => {
                 </div>
               </div>
             </Card>
-
-            {/* Quick Actions Card */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Button variant="outline" size="sm" className="w-full justify-start">
-                  <Download className="h-4 w-4 mr-2" />
-                  Export Overview Report
-                </Button>
-                <Button variant="outline" size="sm" className="w-full justify-start">
-                  <GitCompare className="h-4 w-4 mr-2" />
-                  Compare Top Performers
-                </Button>
-                <Button variant="outline" size="sm" className="w-full justify-start">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Set Trend Alerts
-                </Button>
-              </div>
-            </Card>
           </div>
         </div>
       </div>
