@@ -49,10 +49,21 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           name: trial.treatment,
           type: 'bar',
           barWidth: 40,
+          barGap: 1,
           data: [{
             value: data.experimental.value,
-            itemStyle: { color: '#1A237E' }
-          }]
+            itemStyle: { color: '#3f51b5' }
+          }],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: function(params: any) {
+              return params.value + ' ' + data.unit + '\n(95% CI: ' + data.experimental.ci[0] + '-' + data.experimental.ci[1] + ')';
+            },
+            fontSize: 11,
+            fontWeight: 'bold',
+            color: '#333'
+          }
         },
         {
           name: 'Comparator',
@@ -61,7 +72,17 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           data: [{
             value: data.comparator.value,
             itemStyle: { color: '#78909c' }
-          }]
+          }],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: function(params: any) {
+              return params.value + ' ' + data.unit + '\n(95% CI: ' + data.comparator.ci[0] + '-' + data.comparator.ci[1] + ')';
+            },
+            fontSize: 11,
+            fontWeight: 'bold',
+            color: '#333'
+          }
         }
       ];
 
@@ -73,44 +94,101 @@ const TrialDetailView = ({ trial, onBack }: TrialDetailViewProps) => {
           data: [{
             value: data.soc.value,
             itemStyle: { color: '#4caf50' }
-          }]
+          }],
+          label: {
+            show: true,
+            position: 'top',
+            formatter: function(params: any) {
+              return params.value + ' ' + data.unit + '\n(95% CI: ' + data.soc.ci[0] + '-' + data.soc.ci[1] + ')';
+            },
+            fontSize: 11,
+            fontWeight: 'bold',
+            color: '#333'
+          }
         });
       }
 
       const option = {
+        color: ['#3f51b5', '#78909c', '#4caf50'],
         title: {
           text: title,
           left: 'center',
+          textAlign: 'center',
           textStyle: {
-            fontSize: 14,
-            fontWeight: 'bold'
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: '#333'
           }
         },
         tooltip: {
           trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          },
           formatter: function(params: any) {
             const param = params[0];
             const ciData = param.seriesName === trial.treatment ? data.experimental.ci :
                           param.seriesName === 'Comparator' ? data.comparator.ci :
                           data.soc?.ci || [0, 0];
             return `${param.seriesName}<br/>${param.value} ${data.unit}<br/>95% CI: ${ciData[0]}-${ciData[1]}`;
+          },
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          borderColor: '#ccc',
+          borderWidth: 1,
+          textStyle: {
+            color: '#333',
+            fontSize: 12
           }
         },
         legend: {
           data: seriesData.map(s => s.name),
           bottom: 0,
-          textStyle: { fontSize: 10 }
+          textStyle: { 
+            fontSize: 10,
+            color: '#333'
+          },
+          itemGap: 20
         },
         xAxis: {
           type: 'category',
           data: [''],
-          axisTick: { show: false }
+          axisTick: { show: false },
+          axisLine: { show: false },
+          axisLabel: { show: false }
         },
         yAxis: {
           type: 'value',
           name: data.unit,
           nameLocation: 'middle',
-          nameGap: 40
+          nameGap: 40,
+          nameTextStyle: {
+            color: '#666',
+            fontSize: 12
+          },
+          axisLine: { 
+            show: true,
+            lineStyle: { color: '#e0e0e0' }
+          },
+          axisTick: { show: false },
+          splitLine: { 
+            show: true,
+            lineStyle: { 
+              color: '#f0f0f0',
+              type: 'solid'
+            }
+          },
+          axisLabel: {
+            color: '#666',
+            fontSize: 11
+          }
+        },
+        grid: {
+          left: '15%',
+          right: '10%',
+          top: '15%',
+          bottom: '25%',
+          containLabel: false
         },
         series: seriesData
       };
