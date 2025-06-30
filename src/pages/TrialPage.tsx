@@ -227,7 +227,7 @@ const TrialPage = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50 font-body">
+                <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
                   {abstract.presentationType}
                 </Badge>
                 <Badge className={getStatusColor(abstract.status)}>
@@ -249,7 +249,7 @@ const TrialPage = () => {
               <div className="space-y-4">
                 <div>
                   <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Trial ID</p>
-                  <p className="text-sm text-purple-600 font-medium font-body">{abstract.trialId}</p>
+                  <p className="text-sm text-slate-700 font-medium font-body">{abstract.trialId}</p>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Company</p>
@@ -303,15 +303,15 @@ const TrialPage = () => {
             <div className="flex items-center justify-start gap-8 pt-4 border-t border-slate-100">
               <div className="text-center">
                 <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">ORR</p>
-                <p className="text-lg font-semibold text-purple-600 font-body">{abstract.outcomes.orr}</p>
+                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.orr}</p>
               </div>
               <div className="text-center">
                 <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">PFS</p>
-                <p className="text-lg font-semibold text-green-600 font-body">{abstract.outcomes.pfs}</p>
+                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.pfs}</p>
               </div>
               <div className="text-center">
                 <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">OS</p>
-                <p className="text-lg font-semibold text-blue-600 font-body">{abstract.outcomes.os}</p>
+                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.os}</p>
               </div>
             </div>
           </CardContent>
@@ -326,13 +326,13 @@ const TrialPage = () => {
         <table className="w-full">
           <thead className="border-b border-slate-200 bg-slate-50">
             <tr>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Select</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Abstract</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Conference</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Type</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Status</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Outcomes</th>
-              <th className="text-right p-4 text-sm font-semibold text-slate-700">Actions</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Select</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Abstract</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Conference</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Type</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Status</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Outcomes</th>
+              <th className="text-right p-4 text-sm font-semibold text-slate-700 font-body">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -362,7 +362,7 @@ const TrialPage = () => {
                   </div>
                 </td>
                 <td className="p-4">
-                  <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50 font-body">
+                  <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
                     {abstract.presentationType}
                   </Badge>
                 </td>
@@ -373,9 +373,9 @@ const TrialPage = () => {
                 </td>
                 <td className="p-4">
                   <div className="flex gap-4 text-sm font-body">
-                    <span className="text-purple-600">ORR: {abstract.outcomes.orr}</span>
-                    <span className="text-green-600">PFS: {abstract.outcomes.pfs}</span>
-                    <span className="text-blue-600">OS: {abstract.outcomes.os}</span>
+                    <span className="text-slate-700">ORR: {abstract.outcomes.orr}</span>
+                    <span className="text-slate-700">PFS: {abstract.outcomes.pfs}</span>
+                    <span className="text-slate-700">OS: {abstract.outcomes.os}</span>
                   </div>
                 </td>
                 <td className="p-4 text-right">
@@ -493,20 +493,20 @@ const TrialPage = () => {
 
         {/* Stats Row */}
         <div className="flex items-center gap-6 mb-8">
-          <Badge variant="outline" className="px-3 py-2 text-sm border-purple-200 text-purple-700 bg-purple-50">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-slate-300 text-slate-700 bg-slate-50 font-body">
             <span className="font-semibold">{abstracts.length}</span>
             <span className="ml-1">Total Abstracts</span>
           </Badge>
-          <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50 font-body">
             <span className="font-semibold">{abstracts.filter(a => a.status === 'Published').length}</span>
             <span className="ml-1">Published</span>
           </Badge>
-          <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50 font-body">
             <span className="font-semibold">{abstracts.filter(a => a.presentationType === 'Oral Presentation').length}</span>
             <span className="ml-1">Oral Presentations</span>
           </Badge>
           {selectedAbstracts.length > 0 && (
-            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50">
+            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50 font-body">
               <span className="font-semibold">{selectedAbstracts.length}</span>
               <span className="ml-1">Selected</span>
             </Badge>
