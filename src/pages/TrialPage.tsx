@@ -1,10 +1,20 @@
 
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, MapPin, Users, FileText, ExternalLink, Eye, MoreHorizontal } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { 
+  ArrowLeft, 
+  FileText, 
+  LayoutGrid, 
+  List, 
+  Download, 
+  Zap, 
+  Eye,
+  GitCompare
+} from 'lucide-react';
 import Header from '@/components/Header';
 
 interface Abstract {
@@ -26,7 +36,6 @@ interface Abstract {
     demographics: string;
   };
   status: 'Published' | 'Presented' | 'Upcoming';
-  // Additional fields to match the reference design
   trialId: string;
   company: string;
   treatment: string;
@@ -59,6 +68,8 @@ interface Trial {
 const TrialPage = () => {
   const { trialId } = useParams();
   const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
+  const [selectedAbstracts, setSelectedAbstracts] = useState<string[]>([]);
 
   // Mock trial data
   const [trial] = useState<Trial>({
@@ -72,7 +83,7 @@ const TrialPage = () => {
     estimatedCompletion: '2025-12-31'
   });
 
-  // Mock abstracts data for this trial - updated to match reference design
+  // Mock abstracts data for this trial
   const [abstracts] = useState<Abstract[]>([
     {
       id: '1',
@@ -156,13 +167,236 @@ const TrialPage = () => {
     }
   ]);
 
-  const handleAbstractClick = (abstractId: string) => {
-    // Navigate to abstract detail view
-    console.log('Navigate to abstract:', abstractId);
+  const handleAbstractSelect = (abstractId: string) => {
+    setSelectedAbstracts(prev => 
+      prev.includes(abstractId) 
+        ? prev.filter(id => id !== abstractId)
+        : [...prev, abstractId]
+    );
   };
 
+  const handleViewAbstract = (abstractId: string) => {
+    console.log('Navigate to abstract:', abstractId);
+    // Navigate to abstract detail view
+  };
+
+  const handleCompareAbstracts = () => {
+    if (selectedAbstracts.length >= 2) {
+      console.log('Compare abstracts:', selectedAbstracts);
+      // Navigate to comparison view
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Published': return 'bg-green-50 text-green-700 border-green-200';
+      case 'Presented': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'Upcoming': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
+      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+    }
+  };
+
+  const CardView = () => (
+    <div className="space-y-4">
+      {abstracts.map((abstract) => (
+        <Card 
+          key={abstract.id} 
+          className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow"
+        >
+          <CardContent className="p-6">
+            {/* Header Row with Checkbox */}
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-start gap-4">
+                <Checkbox
+                  checked={selectedAbstracts.includes(abstract.id)}
+                  onCheckedChange={() => handleAbstractSelect(abstract.id)}
+                  className="mt-1"
+                />
+                <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-6 h-6 text-slate-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight font-body">
+                    {abstract.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-sm text-slate-500 font-body">
+                    <span>{abstract.conference}</span>
+                    <span>•</span>
+                    <span>{abstract.abstractNumber}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50 font-body">
+                  {abstract.presentationType}
+                </Badge>
+                <Badge className={getStatusColor(abstract.status)}>
+                  {abstract.status}
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleViewAbstract(abstract.id)}
+                  className="ml-2"
+                >
+                  <Eye className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Trial ID</p>
+                  <p className="text-sm text-purple-600 font-medium font-body">{abstract.trialId}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Company</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.company}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Treatment</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.treatment}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Indication</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.indication}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Line of Therapy</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.lineOfTherapy}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Population</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.population}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Target/Modality</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.targetModality}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Biomarker</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.biomarker}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Phase</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.phase}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Patients</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.patientRatio}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Outcomes Row */}
+            <div className="flex items-center justify-start gap-8 pt-4 border-t border-slate-100">
+              <div className="text-center">
+                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">ORR</p>
+                <p className="text-lg font-semibold text-purple-600 font-body">{abstract.outcomes.orr}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">PFS</p>
+                <p className="text-lg font-semibold text-green-600 font-body">{abstract.outcomes.pfs}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">OS</p>
+                <p className="text-lg font-semibold text-blue-600 font-body">{abstract.outcomes.os}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const ListView = () => (
+    <Card className="bg-white shadow-sm border border-slate-200 overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="border-b border-slate-200 bg-slate-50">
+            <tr>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Select</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Abstract</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Conference</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Type</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Status</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700">Outcomes</th>
+              <th className="text-right p-4 text-sm font-semibold text-slate-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {abstracts.map((abstract) => (
+              <tr key={abstract.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                <td className="p-4">
+                  <Checkbox
+                    checked={selectedAbstracts.includes(abstract.id)}
+                    onCheckedChange={() => handleAbstractSelect(abstract.id)}
+                  />
+                </td>
+                <td className="p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-slate-50 rounded-lg">
+                      <FileText className="w-4 h-4 text-slate-600" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-slate-900 font-body">{abstract.title.substring(0, 60)}...</p>
+                      <p className="text-sm text-slate-500 mt-1 font-body">{abstract.abstractNumber}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="p-4">
+                  <div className="font-body">
+                    <p className="text-sm text-slate-900">{abstract.conference}</p>
+                    <p className="text-xs text-slate-500">{abstract.presentationDate}</p>
+                  </div>
+                </td>
+                <td className="p-4">
+                  <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50 font-body">
+                    {abstract.presentationType}
+                  </Badge>
+                </td>
+                <td className="p-4">
+                  <Badge className={getStatusColor(abstract.status)}>
+                    {abstract.status}
+                  </Badge>
+                </td>
+                <td className="p-4">
+                  <div className="flex gap-4 text-sm font-body">
+                    <span className="text-purple-600">ORR: {abstract.outcomes.orr}</span>
+                    <span className="text-green-600">PFS: {abstract.outcomes.pfs}</span>
+                    <span className="text-blue-600">OS: {abstract.outcomes.os}</span>
+                  </div>
+                </td>
+                <td className="p-4 text-right">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleViewAbstract(abstract.id)}
+                  >
+                    <Eye className="w-4 h-4" />
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  );
+
   return (
-    <div className="min-h-screen bg-slate-50 font-body">
+    <div className="flex-1 bg-slate-50 font-body">
       <Header />
       
       {/* Trial Header */}
@@ -182,7 +416,7 @@ const TrialPage = () => {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-800 mb-2 font-display">
+              <h1 className="text-3xl font-bold text-slate-800 mb-2 font-body">
                 {trial.title}
               </h1>
               <div className="flex flex-wrap gap-3 mb-4">
@@ -206,20 +440,58 @@ const TrialPage = () => {
         </div>
       </div>
 
-      {/* Abstracts Section */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-800 font-display">
-              Conference Abstracts
-            </h2>
-            <p className="text-slate-600 mt-1 font-body">
-              {abstracts.length} abstracts from this trial
-            </p>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-800 mb-2 font-body">
+                Conference Abstracts
+              </h2>
+              <p className="text-slate-600 font-body">
+                Showing 1-{abstracts.length} of {abstracts.length} abstracts
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex bg-slate-100 rounded-lg p-1">
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  className={viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'}
+                >
+                  <List className="w-4 h-4 mr-2" />
+                  List
+                </Button>
+                <Button
+                  variant={viewMode === 'card' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setViewMode('card')}
+                  className={viewMode === 'card' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'}
+                >
+                  <LayoutGrid className="w-4 h-4 mr-2" />
+                  Cards
+                </Button>
+              </div>
+              <Button 
+                variant="outline" 
+                className="border-slate-300 hover:border-slate-400 hover:bg-slate-50"
+                disabled={selectedAbstracts.length < 2}
+                onClick={handleCompareAbstracts}
+              >
+                <GitCompare className="w-4 h-4 mr-2" />
+                Compare ({selectedAbstracts.length})
+              </Button>
+              <Button variant="outline" className="border-slate-300 hover:border-slate-400 hover:bg-slate-50">
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Simple Stats Row */}
+        {/* Stats Row */}
         <div className="flex items-center gap-6 mb-8">
           <Badge variant="outline" className="px-3 py-2 text-sm border-purple-200 text-purple-700 bg-purple-50">
             <span className="font-semibold">{abstracts.length}</span>
@@ -233,121 +505,17 @@ const TrialPage = () => {
             <span className="font-semibold">{abstracts.filter(a => a.presentationType === 'Oral Presentation').length}</span>
             <span className="ml-1">Oral Presentations</span>
           </Badge>
+          {selectedAbstracts.length > 0 && (
+            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50">
+              <span className="font-semibold">{selectedAbstracts.length}</span>
+              <span className="ml-1">Selected</span>
+            </Badge>
+          )}
         </div>
 
-        {/* Abstracts Grid */}
-        <div className="space-y-4">
-          {abstracts.map((abstract) => (
-            <Card 
-              key={abstract.id} 
-              className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => handleAbstractClick(abstract.id)}
-            >
-              <CardContent className="p-6">
-                {/* Header Row */}
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <FileText className="w-6 h-6 text-slate-600" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight font-display">
-                        {abstract.title}
-                      </h3>
-                      <div className="flex items-center gap-2 text-sm text-slate-500 font-body">
-                        <span>{abstract.conference}</span>
-                        <span>•</span>
-                        <span>{abstract.abstractNumber}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <Badge variant="outline" className="border-purple-200 text-purple-700 bg-purple-50 font-body">
-                      {abstract.presentationType}
-                    </Badge>
-                    <Badge className="bg-green-50 text-green-700 border-green-200 font-body">
-                      {abstract.status}
-                    </Badge>
-                  </div>
-                </div>
-
-                {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-                  {/* Trial Information */}
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Trial ID</p>
-                      <p className="text-sm text-purple-600 font-medium font-body">{abstract.trialId}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Company</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.company}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Treatment</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.treatment}</p>
-                    </div>
-                  </div>
-
-                  {/* Study Details */}
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Indication</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.indication}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Line of Therapy</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.lineOfTherapy}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Population</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.population}</p>
-                    </div>
-                  </div>
-
-                  {/* Additional Info */}
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Target/Modality</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.targetModality}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Biomarker</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.biomarker}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Phase</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.phase}</p>
-                    </div>
-                  </div>
-
-                  {/* Patients */}
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Patients</p>
-                      <p className="text-sm text-slate-900 font-body">{abstract.patientRatio}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Outcomes Row */}
-                <div className="flex items-center justify-start gap-8 pt-4 border-t border-slate-100">
-                  <div className="text-center">
-                    <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">ORR</p>
-                    <p className="text-lg font-semibold text-purple-600 font-display">{abstract.outcomes.orr}</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">PFS</p>
-                    <p className="text-lg font-semibold text-green-600 font-display">{abstract.outcomes.pfs}</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">OS</p>
-                    <p className="text-lg font-semibold text-blue-600 font-display">{abstract.outcomes.os}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Abstracts Display */}
+        <div className="mb-8">
+          {viewMode === 'card' ? <CardView /> : <ListView />}
         </div>
       </div>
     </div>
