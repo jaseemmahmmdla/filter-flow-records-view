@@ -10,7 +10,6 @@ import OverviewCharts from '@/components/OverviewCharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Index = () => {
-  const [activeView, setActiveView] = useState('home');
   const [filters, setFilters] = useState({
     search: '',
     status: '',
@@ -25,7 +24,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
-      <SubHeader activeView={activeView} setActiveView={setActiveView} />
+      <SubHeader />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
