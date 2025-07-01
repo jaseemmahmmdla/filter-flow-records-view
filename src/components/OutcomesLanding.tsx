@@ -115,12 +115,12 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gray-100">
+    <div className="min-h-[calc(100vh-4rem)] bg-gray-50">
       <div className="w-full px-6 py-12">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-primary-500 mb-4">AI-Powered Abstract Intelligence</h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-8">
+          <h1 className="text-5xl font-bold text-primary-500 mb-6">AI-Powered Abstract Intelligence</h1>
+          <p className="text-2xl text-gray-700 max-w-4xl mx-auto mb-10 leading-relaxed">
             Navigate through thousands of oncology abstracts with advanced AI insights. Ask questions in natural language.
           </p>
           
@@ -131,33 +131,33 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
         </div>
 
         {/* Main Content Layout - 60/40 Split */}
-        <div className="grid grid-cols-5 gap-6">
+        <div className="grid grid-cols-5 gap-8">
           {/* Left Side - Main Content (60%) */}
-          <div className="col-span-3 space-y-6">
+          <div className="col-span-3 space-y-8">
             {/* Recent Conferences - Full Width on Top */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border-0">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center mr-3">
-                  <Calendar className="w-4 h-4 text-white" />
+            <div className="bg-white rounded-2xl p-8 shadow-sm">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+                <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-4">
+                  <Calendar className="w-5 h-5 text-white" />
                 </div>
                 Recent & Upcoming Conferences
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 {recentConferences.map((conf, index) => (
-                  <div key={index} className="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors cursor-pointer group">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-bold text-gray-900 group-hover:text-primary-500 text-lg">{conf.name}</h3>
-                      <span className={`text-xs px-3 py-1.5 rounded-full font-medium border ${
+                  <div key={index} className="bg-gray-50 rounded-xl p-8 hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="font-bold text-gray-900 group-hover:text-primary-500 text-xl">{conf.name}</h3>
+                      <span className={`text-sm px-4 py-2 rounded-full font-medium border ${
                         conf.status === 'upcoming' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-green-50 text-green-700 border-green-200'
                       }`}>
                         {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
                       </span>
                     </div>
-                    <div className="space-y-3">
-                      <div className="text-sm text-gray-600">{conf.description}</div>
+                    <div className="space-y-4">
+                      <div className="text-base text-gray-600 leading-relaxed">{conf.description}</div>
                       <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-900 font-semibold">{conf.date}</div>
-                        <div className="text-sm text-primary-500 font-bold">{conf.abstracts} abstracts</div>
+                        <div className="text-base text-gray-900 font-semibold">{conf.date}</div>
+                        <div className="text-base text-primary-500 font-bold">{conf.abstracts} abstracts</div>
                       </div>
                     </div>
                   </div>
@@ -166,27 +166,27 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             </div>
 
             {/* Bottom Section - 50/50 Split: Indications and Hot Targets */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-8">
               {/* Indications */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border-0">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                  <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
-                    <Search className="w-4 h-4 text-white" />
+              <div className="bg-white rounded-2xl p-8 shadow-sm">
+                <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                  <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center mr-4">
+                    <Search className="w-5 h-5 text-white" />
                   </div>
                   Indications
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {therapeuticAreas.map((area, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div key={index} className="flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group">
                       <div className="flex items-center min-w-0 flex-1">
-                        <span className="text-sm font-medium text-gray-900 group-hover:text-primary-500 truncate">{area.name}</span>
+                        <span className="text-base font-medium text-gray-900 group-hover:text-primary-500 truncate">{area.name}</span>
                         {area.hot && (
-                          <span className="ml-2 text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-lg flex-shrink-0 border border-orange-200">🔥</span>
+                          <span className="ml-3 text-sm bg-orange-100 text-orange-600 px-3 py-1.5 rounded-lg flex-shrink-0 border border-orange-200">🔥</span>
                         )}
                       </div>
-                      <div className="flex items-center ml-2 flex-shrink-0">
-                        <span className="text-xs text-gray-500 mr-3 font-medium">{area.count}</span>
-                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary-500" />
+                      <div className="flex items-center ml-3 flex-shrink-0">
+                        <span className="text-sm text-gray-500 mr-4 font-medium">{area.count}</span>
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary-500" />
                       </div>
                     </div>
                   ))}
@@ -194,23 +194,23 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               </div>
 
               {/* Hot Targets */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border-0">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                  <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
-                    <TrendingUp className="w-4 h-4 text-white" />
+              <div className="bg-white rounded-2xl p-8 shadow-sm">
+                <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                  <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-4">
+                    <TrendingUp className="w-5 h-5 text-white" />
                   </div>
                   Hot Targets & Modalities
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {hotTargets.map((target, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div key={index} className="flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group">
                       <div className="flex items-center min-w-0 flex-1">
-                        <span className="text-sm font-medium text-gray-900 group-hover:text-purple-600 truncate">{target.name}</span>
-                        <span className="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-lg flex-shrink-0 border border-purple-200">{target.trend}</span>
+                        <span className="text-base font-medium text-gray-900 group-hover:text-purple-600 truncate">{target.name}</span>
+                        <span className="ml-3 text-sm bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg flex-shrink-0 border border-purple-200">{target.trend}</span>
                       </div>
-                      <div className="flex items-center ml-2 flex-shrink-0">
-                        <span className="text-xs text-gray-500 mr-3 font-medium">{target.count}</span>
-                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-purple-600" />
+                      <div className="flex items-center ml-3 flex-shrink-0">
+                        <span className="text-sm text-gray-500 mr-4 font-medium">{target.count}</span>
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600" />
                       </div>
                     </div>
                   ))}
@@ -221,62 +221,62 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
           {/* Right Sidebar - Latest Updates (40%) */}
           <div className="col-span-2">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border-0 sticky top-6">
-              <div className="flex items-center justify-between mb-6">
+            <div className="bg-white rounded-2xl p-8 shadow-sm sticky top-6">
+              <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3">
-                    <Zap className="w-5 h-5 text-white" />
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-4">
+                    <Zap className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">Latest Updates</h3>
-                    <p className="text-sm text-gray-600">Real-time feed</p>
+                    <h3 className="text-2xl font-bold text-gray-900">Latest Updates</h3>
+                    <p className="text-base text-gray-600">Real-time feed</p>
                   </div>
                 </div>
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
               </div>
               
-              <div className="space-y-4 max-h-[600px] overflow-y-auto">
+              <div className="space-y-6 max-h-[600px] overflow-y-auto">
                 {latestUpdates.map((update, index) => (
-                  <div key={index} className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className={`text-xs px-3 py-1.5 rounded-lg border ${getNewsTypeColor(update.type)} flex items-center`}>
-                        <span className="mr-1">{getNewsTypeIcon(update.type)}</span>
+                  <div key={index} className="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`text-sm px-4 py-2 rounded-lg border ${getNewsTypeColor(update.type)} flex items-center`}>
+                        <span className="mr-2">{getNewsTypeIcon(update.type)}</span>
                         {update.type.toUpperCase()}
                       </div>
-                      <div className="flex items-center text-xs text-gray-500">
-                        <Clock className="w-3 h-3 mr-1" />
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Clock className="w-4 h-4 mr-1" />
                         {update.timeAgo}
                       </div>
                     </div>
                     
-                    <h4 className="font-bold text-gray-900 mb-3 text-sm leading-tight">{update.title}</h4>
+                    <h4 className="font-bold text-gray-900 mb-4 text-base leading-tight">{update.title}</h4>
                     
-                    <div className="space-y-2 text-xs text-gray-700 mb-3">
+                    <div className="space-y-3 text-sm text-gray-700 mb-4">
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-gray-900">{update.company}</span>
-                        <span className="text-primary-500 font-semibold">{update.indication}</span>
+                        <span className="font-semibold text-gray-900 text-base">{update.company}</span>
+                        <span className="text-primary-500 font-semibold text-base">{update.indication}</span>
                       </div>
                       <div className="flex items-center text-gray-500">
-                        <ExternalLink className="w-3 h-3 mr-1" />
+                        <ExternalLink className="w-4 h-4 mr-2" />
                         {update.source}
                       </div>
                     </div>
                     
-                    <p className="text-xs text-gray-600 leading-relaxed">{update.summary}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">{update.summary}</p>
                   </div>
                 ))}
               </div>
 
               {/* Stats */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-primary-500">47</div>
-                    <div className="text-xs text-gray-600">Today's Updates</div>
+              <div className="mt-8 pt-8 border-t border-gray-200">
+                <div className="grid grid-cols-2 gap-6 text-center">
+                  <div className="bg-gray-50 rounded-xl p-6">
+                    <div className="text-3xl font-bold text-primary-500">47</div>
+                    <div className="text-sm text-gray-600 mt-1">Today's Updates</div>
                   </div>
-                  <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-green-500">Live</div>
-                    <div className="text-xs text-gray-600">Real-time Feed</div>
+                  <div className="bg-gray-50 rounded-xl p-6">
+                    <div className="text-3xl font-bold text-green-500">Live</div>
+                    <div className="text-sm text-gray-600 mt-1">Real-time Feed</div>
                   </div>
                 </div>
               </div>
@@ -285,11 +285,11 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
         </div>
 
         {/* CTA */}
-        <div className="text-center pt-8">
+        <div className="text-center pt-12">
           <Button 
             onClick={onGetStarted}
             size="lg"
-            className="bg-primary-500 hover:bg-primary-700 text-white px-8 py-3 text-lg rounded-xl shadow-sm"
+            className="bg-primary-500 hover:bg-primary-700 text-white px-10 py-4 text-xl rounded-xl shadow-sm"
           >
             Start Exploring with AI
           </Button>
