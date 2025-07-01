@@ -1,9 +1,10 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, TrendingUp, Calendar, ChevronRight, Clock, ExternalLink, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 interface OutcomesLandingProps {
   onGetStarted: () => void;
@@ -36,6 +37,45 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
     { name: 'ASH 2024', date: 'Dec 7', status: 'recent', abstracts: '2,156', description: 'American Society of Hematology Annual Meeting' },
     { name: 'AACR 2025', date: 'Mar 15', status: 'upcoming', abstracts: '4,200+', description: 'American Association for Cancer Research Annual Meeting' }
   ];
+
+  const sessionTypeData = [
+    { name: 'Oral Presentations', value: 3247, color: '#8B5CF6' },
+    { name: 'Poster Sessions', value: 8934, color: '#06B6D4' },
+    { name: 'Clinical Trials', value: 2156, color: '#10B981' },
+    { name: 'Educational Sessions', value: 1543, color: '#F59E0B' },
+    { name: 'Symposiums', value: 987, color: '#EF4444' },
+    { name: 'Workshops', value: 634, color: '#8B5F65' }
+  ];
+
+  const chartConfig = {
+    value: {
+      label: "Abstracts",
+    },
+    oral: {
+      label: "Oral Presentations",
+      color: "#8B5CF6",
+    },
+    poster: {
+      label: "Poster Sessions", 
+      color: "#06B6D4",
+    },
+    clinical: {
+      label: "Clinical Trials",
+      color: "#10B981",
+    },
+    educational: {
+      label: "Educational Sessions",
+      color: "#F59E0B",
+    },
+    symposium: {
+      label: "Symposiums",
+      color: "#EF4444",
+    },
+    workshop: {
+      label: "Workshops",
+      color: "#8B5F65",
+    }
+  };
 
   const latestUpdates = [
     {
@@ -134,6 +174,56 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
         <div className="grid grid-cols-5 gap-8">
           {/* Left Side - Main Content (60%) */}
           <div className="col-span-3 space-y-8">
+            {/* Session Types Chart - New Addition */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+                <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-4">
+                  <div className="w-5 h-5 border-2 border-white rounded-full border-t-transparent"></div>
+                </div>
+                Abstracts by Session Type
+              </h2>
+              <div className="h-72">
+                <ChartContainer config={chartConfig} className="h-full w-full">
+                  <PieChart>
+                    <Pie
+                      data={sessionTypeData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {sessionTypeData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip 
+                      content={<ChartTooltipContent />}
+                      formatter={(value, name) => [
+                        `${value.toLocaleString()} abstracts`,
+                        name
+                      ]}
+                    />
+                  </PieChart>
+                </ChartContainer>
+              </div>
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                {sessionTypeData.map((item, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div className="flex items-center">
+                      <div 
+                        className="w-3 h-3 rounded-full mr-2"
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                      <span className="text-sm font-medium text-gray-900">{item.name}</span>
+                    </div>
+                    <span className="text-sm font-bold text-gray-900">{item.value.toLocaleString()}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Recent Conferences - Full Width on Top */}
             <div className="bg-white rounded-2xl p-8 shadow-sm">
               <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
