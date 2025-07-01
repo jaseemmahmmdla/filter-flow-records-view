@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, TrendingUp, Calendar, ChevronRight, Clock, ExternalLink, Zap } from 'lucide-react';
@@ -78,13 +79,13 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   const getNewsTypeColor = (type: string) => {
     switch (type) {
       case 'breakthrough':
-        return 'bg-status-success/10 text-status-success border-status-success/20';
+        return 'bg-green-50 text-green-700 border-green-200';
       case 'approval':
-        return 'bg-status-info/10 text-status-info border-status-info/20';
+        return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'results':
-        return 'bg-accent-300/10 text-accent-500 border-accent-300/20';
+        return 'bg-purple-50 text-purple-700 border-purple-200';
       default:
-        return 'bg-neutral-100 text-neutral-700 border-neutral-300';
+        return 'bg-gray-50 text-gray-700 border-gray-200';
     }
   };
 
@@ -114,12 +115,12 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-white">
+    <div className="min-h-[calc(100vh-4rem)] bg-gray-100">
       <div className="w-full px-6 py-12">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-primary-500 mb-4">AI-Powered Abstract Intelligence</h1>
-          <p className="text-xl text-neutral-700 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto mb-8">
             Navigate through thousands of oncology abstracts with advanced AI insights. Ask questions in natural language.
           </p>
           
@@ -134,26 +135,28 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           {/* Left Side - Main Content (60%) */}
           <div className="col-span-3 space-y-6">
             {/* Recent Conferences - Full Width on Top */}
-            <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-              <h2 className="text-2xl font-bold text-primary-500 mb-6 flex items-center">
-                <Calendar className="w-6 h-6 mr-3 text-primary-500" />
+            <div className="bg-white rounded-2xl p-8 shadow-sm border-0">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center mr-3">
+                  <Calendar className="w-4 h-4 text-white" />
+                </div>
                 Recent & Upcoming Conferences
               </h2>
               <div className="grid grid-cols-2 gap-4">
                 {recentConferences.map((conf, index) => (
-                  <div key={index} className="bg-neutral-100 rounded-lg p-4 hover:bg-primary-100 transition-colors cursor-pointer group border border-neutral-200">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-bold text-primary-500 group-hover:text-primary-700 text-lg">{conf.name}</h3>
-                      <span className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        conf.status === 'upcoming' ? 'bg-accent-100 text-accent-500 border border-accent-300/20' : 'bg-status-success/10 text-status-success border border-status-success/20'
+                  <div key={index} className="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors cursor-pointer group">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-bold text-gray-900 group-hover:text-primary-500 text-lg">{conf.name}</h3>
+                      <span className={`text-xs px-3 py-1.5 rounded-full font-medium border ${
+                        conf.status === 'upcoming' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-green-50 text-green-700 border-green-200'
                       }`}>
                         {conf.status === 'upcoming' ? 'Upcoming' : 'Recent'}
                       </span>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-sm text-neutral-700 font-medium">{conf.description}</div>
+                    <div className="space-y-3">
+                      <div className="text-sm text-gray-600">{conf.description}</div>
                       <div className="flex items-center justify-between">
-                        <div className="text-sm text-neutral-900 font-bold">{conf.date}</div>
+                        <div className="text-sm text-gray-900 font-semibold">{conf.date}</div>
                         <div className="text-sm text-primary-500 font-bold">{conf.abstracts} abstracts</div>
                       </div>
                     </div>
@@ -165,23 +168,25 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
             {/* Bottom Section - 50/50 Split: Indications and Hot Targets */}
             <div className="grid grid-cols-2 gap-6">
               {/* Indications */}
-              <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-                <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
-                  <Search className="w-5 h-5 mr-2 text-status-success" />
+              <div className="bg-white rounded-2xl p-8 shadow-sm border-0">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                  <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                    <Search className="w-4 h-4 text-white" />
+                  </div>
                   Indications
                 </h2>
                 <div className="space-y-3">
                   {therapeuticAreas.map((area, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-neutral-100 rounded-lg hover:bg-primary-100 transition-colors cursor-pointer group">
+                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group">
                       <div className="flex items-center min-w-0 flex-1">
-                        <span className="text-sm font-medium text-neutral-900 group-hover:text-primary-500 truncate">{area.name}</span>
+                        <span className="text-sm font-medium text-gray-900 group-hover:text-primary-500 truncate">{area.name}</span>
                         {area.hot && (
-                          <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">🔥</span>
+                          <span className="ml-2 text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-lg flex-shrink-0 border border-orange-200">🔥</span>
                         )}
                       </div>
                       <div className="flex items-center ml-2 flex-shrink-0">
-                        <span className="text-xs text-neutral-500 mr-2">{area.count}</span>
-                        <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-primary-500" />
+                        <span className="text-xs text-gray-500 mr-3 font-medium">{area.count}</span>
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-primary-500" />
                       </div>
                     </div>
                   ))}
@@ -189,21 +194,23 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
               </div>
 
               {/* Hot Targets */}
-              <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm">
-                <h2 className="text-xl font-bold text-primary-500 mb-4 flex items-center">
-                  <TrendingUp className="w-5 h-5 mr-2 text-accent-500" />
+              <div className="bg-white rounded-2xl p-8 shadow-sm border-0">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                  <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                    <TrendingUp className="w-4 h-4 text-white" />
+                  </div>
                   Hot Targets & Modalities
                 </h2>
                 <div className="space-y-3">
                   {hotTargets.map((target, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-neutral-100 rounded-lg hover:bg-accent-50 transition-colors cursor-pointer group">
+                    <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer group">
                       <div className="flex items-center min-w-0 flex-1">
-                        <span className="text-sm font-medium text-neutral-900 group-hover:text-accent-500 truncate">{target.name}</span>
-                        <span className="ml-2 text-xs bg-accent-50 text-accent-500 px-2 py-1 rounded-md flex-shrink-0">{target.trend}</span>
+                        <span className="text-sm font-medium text-gray-900 group-hover:text-purple-600 truncate">{target.name}</span>
+                        <span className="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-lg flex-shrink-0 border border-purple-200">{target.trend}</span>
                       </div>
                       <div className="flex items-center ml-2 flex-shrink-0">
-                        <span className="text-xs text-neutral-500 mr-2">{target.count}</span>
-                        <ChevronRight className="w-3 h-3 text-neutral-500 group-hover:text-accent-500" />
+                        <span className="text-xs text-gray-500 mr-3 font-medium">{target.count}</span>
+                        <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-purple-600" />
                       </div>
                     </div>
                   ))}
@@ -214,62 +221,62 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
 
           {/* Right Sidebar - Latest Updates (40%) */}
           <div className="col-span-2">
-            <div className="bg-white border border-neutral-300 rounded-xl p-6 shadow-sm sticky top-6">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border-0 sticky top-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center mr-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3">
                     <Zap className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-primary-500">Latest Updates</h3>
-                    <p className="text-sm text-primary-500">Real-time feed</p>
+                    <h3 className="text-xl font-bold text-gray-900">Latest Updates</h3>
+                    <p className="text-sm text-gray-600">Real-time feed</p>
                   </div>
                 </div>
-                <div className="w-2 h-2 bg-status-success rounded-full animate-pulse"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
               </div>
               
               <div className="space-y-4 max-h-[600px] overflow-y-auto">
                 {latestUpdates.map((update, index) => (
-                  <div key={index} className="border border-neutral-300 rounded-lg p-4 hover:border-primary-500 transition-colors cursor-pointer">
+                  <div key={index} className="bg-gray-50 rounded-xl p-5 hover:bg-gray-100 transition-colors cursor-pointer">
                     <div className="flex items-start justify-between mb-3">
-                      <div className={`text-xs px-2 py-1 rounded-md border ${getNewsTypeColor(update.type)} flex items-center`}>
+                      <div className={`text-xs px-3 py-1.5 rounded-lg border ${getNewsTypeColor(update.type)} flex items-center`}>
                         <span className="mr-1">{getNewsTypeIcon(update.type)}</span>
                         {update.type.toUpperCase()}
                       </div>
-                      <div className="flex items-center text-xs text-neutral-500">
+                      <div className="flex items-center text-xs text-gray-500">
                         <Clock className="w-3 h-3 mr-1" />
                         {update.timeAgo}
                       </div>
                     </div>
                     
-                    <h4 className="font-bold text-primary-500 mb-3 text-sm leading-tight">{update.title}</h4>
+                    <h4 className="font-bold text-gray-900 mb-3 text-sm leading-tight">{update.title}</h4>
                     
-                    <div className="space-y-2 text-xs text-neutral-700 mb-3">
+                    <div className="space-y-2 text-xs text-gray-700 mb-3">
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-primary-500">{update.company}</span>
-                        <span className="text-primary-500 font-bold">{update.indication}</span>
+                        <span className="font-semibold text-gray-900">{update.company}</span>
+                        <span className="text-primary-500 font-semibold">{update.indication}</span>
                       </div>
-                      <div className="flex items-center text-neutral-500">
+                      <div className="flex items-center text-gray-500">
                         <ExternalLink className="w-3 h-3 mr-1" />
                         {update.source}
                       </div>
                     </div>
                     
-                    <p className="text-xs text-neutral-700 leading-relaxed">{update.summary}</p>
+                    <p className="text-xs text-gray-600 leading-relaxed">{update.summary}</p>
                   </div>
                 ))}
               </div>
 
               {/* Stats */}
-              <div className="mt-6 pt-6 border-t border-neutral-300">
-                <div className="grid grid-cols-1 gap-4 text-center">
-                  <div>
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="grid grid-cols-2 gap-4 text-center">
+                  <div className="bg-gray-50 rounded-xl p-4">
                     <div className="text-2xl font-bold text-primary-500">47</div>
-                    <div className="text-xs text-neutral-700">Today's Updates</div>
+                    <div className="text-xs text-gray-600">Today's Updates</div>
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold text-primary-500">Live</div>
-                    <div className="text-xs text-neutral-700">Real-time Feed</div>
+                  <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="text-2xl font-bold text-green-500">Live</div>
+                    <div className="text-xs text-gray-600">Real-time Feed</div>
                   </div>
                 </div>
               </div>
@@ -282,7 +289,7 @@ const OutcomesLanding = ({ onGetStarted }: OutcomesLandingProps) => {
           <Button 
             onClick={onGetStarted}
             size="lg"
-            className="bg-primary-500 hover:bg-primary-700 text-white px-8 py-3 text-lg"
+            className="bg-primary-500 hover:bg-primary-700 text-white px-8 py-3 text-lg rounded-xl shadow-sm"
           >
             Start Exploring with AI
           </Button>
