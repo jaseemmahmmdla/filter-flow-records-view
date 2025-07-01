@@ -6,6 +6,7 @@ import FilterPanel from '@/components/FilterPanel';
 import TrialDatabase from '@/components/TrialDatabase';
 import TrialDetailView from '@/components/TrialDetailView';
 import OutcomesLanding from '@/components/OutcomesLanding';
+import AbstractsOverview from '@/components/AbstractsOverview';
 import AIAssistant from './AIAssistant';
 import { ResizablePanelGroup, ResizablePanel } from '@/components/ui/resizable';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ const Index = () => {
   const [filterPanelCollapsed, setFilterPanelCollapsed] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState('');
   const [selectedTrial, setSelectedTrial] = useState(null);
-  const [viewMode, setViewMode] = useState('database'); // 'database' or 'detail'
+  const [viewMode, setViewMode] = useState('database'); // 'database', 'detail', or 'overview'
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -45,6 +46,7 @@ const Index = () => {
     }
     
     setActiveView('trials');
+    setViewMode('overview'); // Start with overview when coming from landing
   };
 
   const handleTrialSelect = (trial: any) => {
@@ -55,6 +57,11 @@ const Index = () => {
   const handleBackToDatabase = () => {
     setSelectedTrial(null);
     setViewMode('database');
+  };
+
+  const handleBackToOverview = () => {
+    setSelectedTrial(null);
+    setViewMode('overview');
   };
 
   // Check for search selection on component mount
@@ -113,6 +120,69 @@ const Index = () => {
       ) : activeView === 'trials' ? (
         viewMode === 'detail' && selectedTrial ? (
           <TrialDetailView trial={selectedTrial} onBack={handleBackToDatabase} />
+        ) : viewMode === 'overview' ? (
+          <div className="h-[calc(100vh-7rem)] relative">
+            <ResizablePanelGroup direction="horizontal" className="h-full">
+              {!filterPanelCollapsed && (
+                <ResizablePanel 
+                  defaultSize={18} 
+                  minSize={15} 
+                  maxSize={35}
+                  className="relative"
+                >
+                  <FilterPanel onFiltersChange={handleFiltersChange} />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleFilterPanel}
+                    className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+                  >
+                    <PanelLeftClose className="w-4 h-4" />
+                  </Button>
+                </ResizablePanel>
+              )}
+              
+              <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82} className="relative">
+                {filterPanelCollapsed && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleFilterPanel}
+                    className="absolute top-4 left-4 z-10 bg-white shadow-md"
+                  >
+                    <PanelLeftOpen className="w-4 h-4" />
+                  </Button>
+                )}
+                
+                {/* Title in the main content area */}
+                <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
+                        {selectedProfile || 'Abstracts & Overview'}
+                      </h1>
+                      <div className="flex items-center gap-4">
+                        <p className="text-gray-600">
+                          {getAbstractsCount()} abstracts
+                        </p>
+                        {renderSelectedFilters()}
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setViewMode('database')}
+                      >
+                        View Database
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <AbstractsOverview />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </div>
         ) : (
           <div className="h-[calc(100vh-7rem)] relative">
             <ResizablePanelGroup direction="horizontal" className="h-full">
@@ -150,14 +220,26 @@ const Index = () => {
                 {/* Title in the main content area */}
                 {selectedProfile && (
                   <div className="px-6 pt-6 pb-4 bg-white border-b border-gray-200">
-                    <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
-                      {selectedProfile}
-                    </h1>
-                    <div className="flex items-center gap-4">
-                      <p className="text-gray-600">
-                        {getAbstractsCount()} abstracts
-                      </p>
-                      {renderSelectedFilters()}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
+                          {selectedProfile}
+                        </h1>
+                        <div className="flex items-center gap-4">
+                          <p className="text-gray-600">
+                            {getAbstractsCount()} abstracts
+                          </p>
+                          {renderSelectedFilters()}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          onClick={() => setViewMode('overview')}
+                        >
+                          View Overview
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}
