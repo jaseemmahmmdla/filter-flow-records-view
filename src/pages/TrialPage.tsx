@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,6 +11,7 @@ import {
   LayoutGrid, 
   List, 
   Download, 
+  Zap, 
   Eye,
   GitCompare
 } from 'lucide-react';
@@ -214,10 +216,10 @@ const TrialPage = () => {
                   <FileText className="w-6 h-6 text-slate-600" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight">
+                  <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight font-body">
                     {abstract.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                  <div className="flex items-center gap-2 text-sm text-slate-500 font-body">
                     <span>{abstract.conference}</span>
                     <span>•</span>
                     <span>{abstract.abstractNumber}</span>
@@ -225,7 +227,7 @@ const TrialPage = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50">
+                <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
                   {abstract.presentationType}
                 </Badge>
                 <Badge className={getStatusColor(abstract.status)}>
@@ -246,53 +248,53 @@ const TrialPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Trial ID</p>
-                  <p className="text-sm text-slate-700 font-medium">{abstract.trialId}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Trial ID</p>
+                  <p className="text-sm text-slate-700 font-medium font-body">{abstract.trialId}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Company</p>
-                  <p className="text-sm text-slate-900">{abstract.company}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Company</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.company}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Treatment</p>
-                  <p className="text-sm text-slate-900">{abstract.treatment}</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Indication</p>
-                  <p className="text-sm text-slate-900">{abstract.indication}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Line of Therapy</p>
-                  <p className="text-sm text-slate-900">{abstract.lineOfTherapy}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Population</p>
-                  <p className="text-sm text-slate-900">{abstract.population}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Treatment</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.treatment}</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Target/Modality</p>
-                  <p className="text-sm text-slate-900">{abstract.targetModality}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Indication</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.indication}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Biomarker</p>
-                  <p className="text-sm text-slate-900">{abstract.biomarker}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Line of Therapy</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.lineOfTherapy}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Phase</p>
-                  <p className="text-sm text-slate-900">{abstract.phase}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Population</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.population}</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">Patients</p>
-                  <p className="text-sm text-slate-900">{abstract.patientRatio}</p>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Target/Modality</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.targetModality}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Biomarker</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.biomarker}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Phase</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.phase}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Patients</p>
+                  <p className="text-sm text-slate-900 font-body">{abstract.patientRatio}</p>
                 </div>
               </div>
             </div>
@@ -300,16 +302,16 @@ const TrialPage = () => {
             {/* Outcomes Row */}
             <div className="flex items-center justify-start gap-8 pt-4 border-t border-slate-100">
               <div className="text-center">
-                <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">ORR</p>
-                <p className="text-lg font-semibold text-slate-700">{abstract.outcomes.orr}</p>
+                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">ORR</p>
+                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.orr}</p>
               </div>
               <div className="text-center">
-                <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">PFS</p>
-                <p className="text-lg font-semibold text-slate-700">{abstract.outcomes.pfs}</p>
+                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">PFS</p>
+                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.pfs}</p>
               </div>
               <div className="text-center">
-                <p className="text-xs font-medium text-slate-500 mb-1 uppercase tracking-wide">OS</p>
-                <p className="text-lg font-semibold text-slate-700">{abstract.outcomes.os}</p>
+                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">OS</p>
+                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.os}</p>
               </div>
             </div>
           </CardContent>
@@ -324,13 +326,13 @@ const TrialPage = () => {
         <table className="w-full">
           <thead className="border-b border-slate-200 bg-slate-50">
             <tr>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Select</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Abstract</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Conference</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Type</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Status</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700">Outcomes</th>
-              <th className="text-right p-4 text-sm font-semibold text-slate-700">Actions</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Select</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Abstract</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Conference</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Type</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Status</th>
+              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Outcomes</th>
+              <th className="text-right p-4 text-sm font-semibold text-slate-700 font-body">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -348,19 +350,19 @@ const TrialPage = () => {
                       <FileText className="w-4 h-4 text-slate-600" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900">{abstract.title.substring(0, 60)}...</p>
-                      <p className="text-sm text-slate-500 mt-1">{abstract.abstractNumber}</p>
+                      <p className="font-medium text-slate-900 font-body">{abstract.title.substring(0, 60)}...</p>
+                      <p className="text-sm text-slate-500 mt-1 font-body">{abstract.abstractNumber}</p>
                     </div>
                   </div>
                 </td>
                 <td className="p-4">
-                  <div>
+                  <div className="font-body">
                     <p className="text-sm text-slate-900">{abstract.conference}</p>
                     <p className="text-xs text-slate-500">{abstract.presentationDate}</p>
                   </div>
                 </td>
                 <td className="p-4">
-                  <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50">
+                  <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
                     {abstract.presentationType}
                   </Badge>
                 </td>
@@ -370,7 +372,7 @@ const TrialPage = () => {
                   </Badge>
                 </td>
                 <td className="p-4">
-                  <div className="flex gap-4 text-sm">
+                  <div className="flex gap-4 text-sm font-body">
                     <span className="text-slate-700">ORR: {abstract.outcomes.orr}</span>
                     <span className="text-slate-700">PFS: {abstract.outcomes.pfs}</span>
                     <span className="text-slate-700">OS: {abstract.outcomes.os}</span>
@@ -394,7 +396,7 @@ const TrialPage = () => {
   );
 
   return (
-    <div className="flex-1 bg-slate-50">
+    <div className="flex-1 bg-slate-50 font-body">
       <Header />
       
       {/* Trial Header */}
@@ -405,7 +407,7 @@ const TrialPage = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 hover:bg-slate-100"
+              className="flex items-center gap-2 font-body hover:bg-slate-100"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
@@ -414,21 +416,21 @@ const TrialPage = () => {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-800 mb-2">
+              <h1 className="text-3xl font-bold text-slate-800 mb-2 font-body">
                 {trial.title}
               </h1>
               <div className="flex flex-wrap gap-3 mb-4">
-                <Badge variant="outline" className="border-slate-300 text-slate-700">
+                <Badge variant="outline" className="border-slate-300 text-slate-700 font-body">
                   {trial.phase}
                 </Badge>
-                <Badge variant="outline" className="border-slate-300 text-slate-700">
+                <Badge variant="outline" className="border-slate-300 text-slate-700 font-body">
                   {trial.indication}
                 </Badge>
-                <Badge className="bg-green-50 text-green-700 border-green-200">
+                <Badge className="bg-green-50 text-green-700 border-green-200 font-body">
                   {trial.status}
                 </Badge>
               </div>
-              <div className="text-slate-600 space-y-1">
+              <div className="text-slate-600 space-y-1 font-body">
                 <p><strong className="text-slate-800">Sponsor:</strong> {trial.sponsor}</p>
                 <p><strong className="text-slate-800">Start Date:</strong> {new Date(trial.startDate).toLocaleDateString()}</p>
                 <p><strong className="text-slate-800">Estimated Completion:</strong> {new Date(trial.estimatedCompletion).toLocaleDateString()}</p>
@@ -444,10 +446,10 @@ const TrialPage = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl font-bold text-slate-800 mb-2">
+              <h2 className="text-3xl font-bold text-slate-800 mb-2 font-body">
                 Conference Abstracts
               </h2>
-              <p className="text-slate-600">
+              <p className="text-slate-600 font-body">
                 Showing 1-{abstracts.length} of {abstracts.length} abstracts
               </p>
             </div>
@@ -491,20 +493,20 @@ const TrialPage = () => {
 
         {/* Stats Row */}
         <div className="flex items-center gap-6 mb-8">
-          <Badge variant="outline" className="px-3 py-2 text-sm border-slate-300 text-slate-700 bg-slate-50">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-slate-300 text-slate-700 bg-slate-50 font-body">
             <span className="font-semibold">{abstracts.length}</span>
             <span className="ml-1">Total Abstracts</span>
           </Badge>
-          <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50 font-body">
             <span className="font-semibold">{abstracts.filter(a => a.status === 'Published').length}</span>
             <span className="ml-1">Published</span>
           </Badge>
-          <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50 font-body">
             <span className="font-semibold">{abstracts.filter(a => a.presentationType === 'Oral Presentation').length}</span>
             <span className="ml-1">Oral Presentations</span>
           </Badge>
           {selectedAbstracts.length > 0 && (
-            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50">
+            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50 font-body">
               <span className="font-semibold">{selectedAbstracts.length}</span>
               <span className="ml-1">Selected</span>
             </Badge>
