@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
@@ -86,10 +85,12 @@ const AbstractsOverview = () => {
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="clinical-data">Clinical Data</TabsTrigger>
+          <TabsTrigger value="abstracts">Abstracts</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
+          
+          
           {/* Donut Chart - First item in Overview tab */}
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
@@ -220,10 +221,10 @@ const AbstractsOverview = () => {
           </div>
         </TabsContent>
         
-        <TabsContent value="clinical-data" className="space-y-6">
+        <TabsContent value="abstracts" className="space-y-6">
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <div className="text-gray-500 text-center py-12">
-              Clinical data details will be available here...
+              Additional abstract details will be available here...
             </div>
           </div>
         </TabsContent>
