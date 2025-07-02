@@ -187,13 +187,18 @@ const TrialPage = () => {
   };
 
   const handleCompareAbstracts = () => {
+    console.log('🔥 COMPARE BUTTON CLICKED! 🔥');
     console.log('Compare button clicked, selected abstracts:', selectedAbstracts);
     console.log('Number of selected abstracts:', selectedAbstracts.length);
+    console.log('Current showComparison state:', showComparison);
+    
     if (selectedAbstracts.length >= 2) {
-      console.log('Setting showComparison to true');
+      console.log('✅ Setting showComparison to true');
       setShowComparison(true);
+      console.log('✅ showComparison should now be true');
     } else {
-      console.log('Not enough abstracts selected for comparison');
+      console.log('❌ Not enough abstracts selected for comparison');
+      alert(`Please select at least 2 abstracts to compare. Currently selected: ${selectedAbstracts.length}`);
     }
   };
 
@@ -547,7 +552,7 @@ const TrialPage = () => {
         abstracts={selectedAbstractsForComparison}
         open={showComparison}
         onClose={() => {
-          console.log('Closing comparison dialog');
+          console.log('🔥 Closing comparison dialog 🔥');
           setShowComparison(false);
         }}
       />

@@ -153,18 +153,8 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
     }
   };
 
-  if (!open) {
-    console.log('Dialog not open, returning null');
-    return null;
-  }
-
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => {
-      console.log('Dialog open state changed to:', isOpen);
-      if (!isOpen) {
-        onClose();
-      }
-    }}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden bg-white">
         <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b border-slate-200">
           <DialogTitle className="text-2xl font-bold text-slate-900 font-body">
