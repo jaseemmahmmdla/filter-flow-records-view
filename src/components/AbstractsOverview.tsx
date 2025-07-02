@@ -4,6 +4,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const AbstractsOverview = () => {
+  console.log('AbstractsOverview component is rendering');
+  
   const sessionTypeData = [
     { name: 'Oral Presentations', value: 3247, color: '#8B5CF6' },
     { name: 'Poster Sessions', value: 8934, color: '#06B6D4' },
@@ -76,6 +78,8 @@ const AbstractsOverview = () => {
     },
   };
 
+  console.log('Session type data for donut chart:', sessionTypeData);
+
   return (
     <div className="bg-white p-6">
       <Tabs defaultValue="overview" className="w-full">
@@ -85,11 +89,14 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Donut Chart - Positioned above bar charts as requested */}
+          {console.log('Rendering Overview tab content')}
+          
+          {/* Donut Chart - First item in Overview tab */}
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Abstracts by Session Type
             </h2>
+            {console.log('About to render donut chart')}
             <div className="h-96 mb-4">
               <ChartContainer config={chartConfig} className="h-full w-full">
                 <ResponsiveContainer width="100%" height="100%">
