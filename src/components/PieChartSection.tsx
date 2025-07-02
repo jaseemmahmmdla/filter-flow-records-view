@@ -44,7 +44,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
   };
 
   console.log('🟢 Chart config:', chartConfig);
-  console.log('🟢 Data is valid, rendering pie chart');
+  console.log('🟢 Data is valid, rendering pie chart with height 500px');
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
@@ -55,35 +55,35 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Pie Chart */}
         <div className="flex-1">
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[400px]"
-          >
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={120}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {data.map((entry, index) => {
-                  console.log(`🟢 Rendering pie slice ${index}:`, entry);
-                  return (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={entry.color}
-                    />
-                  );
-                })}
-              </Pie>
-              <ChartTooltip 
-                content={<ChartTooltipContent />}
-              />
-            </PieChart>
-          </ChartContainer>
+          <div className="w-full h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={120}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {data.map((entry, index) => {
+                    console.log(`🟢 Rendering pie slice ${index}:`, entry);
+                    return (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color}
+                      />
+                    );
+                  })}
+                </Pie>
+                <Tooltip 
+                  formatter={(value, name) => [value.toLocaleString(), name]}
+                  labelFormatter={(label) => `Session Type: ${label}`}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
         
         {/* Legend */}
