@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
@@ -49,107 +50,44 @@ interface Abstract {
 }
 
 const ComparisonPage = () => {
+  const [searchParams] = useSearchParams();
   const [abstracts, setAbstracts] = useState<Abstract[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [debugInfo, setDebugInfo] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log('🚀 ComparisonPage: Starting data load process');
+    console.log('🚀 ComparisonPage: Starting data load from URL params');
     
-    const addDebug = (message: string) => {
-      console.log(message);
-      setDebugInfo(prev => [...prev, message]);
-    };
-
-    const loadData = (attempt: number = 1): boolean => {
-      addDebug(`🔄 Load attempt ${attempt}`);
+    try {
+      // Get data from URL parameters
+      const dataParam = searchParams.get('data');
+      console.log('📦 URL data param exists:', !!dataParam);
+      console.log('📦 URL data param length:', dataParam?.length || 0);
       
-      try {
-        // Check all possible storage locations
-        const localStorageData = localStorage.getItem('comparisonAbstracts');
-        const sessionStorageData = sessionStorage.getItem('comparisonAbstracts');
+      if (dataParam) {
+        const decodedData = decodeURIComponent(dataParam);
+        console.log('🔍 Decoded data length:', decodedData.length);
         
-        addDebug(`📦 localStorage data: ${localStorageData ? 'EXISTS' : 'NULL'} (length: ${localStorageData?.length || 0})`);
-        addDebug(`📦 sessionStorage data: ${sessionStorageData ? 'EXISTS' : 'NULL'} (length: ${sessionStorageData?.length || 0})`);
+        const parsedData = JSON.parse(decodedData);
+        console.log('✅ Successfully parsed URL data, count:', parsedData?.length);
         
-        // Try localStorage first
-        if (localStorageData && localStorageData !== 'null' && localStorageData !== 'undefined') {
-          try {
-            const parsedData = JSON.parse(localStorageData);
-            addDebug(`✅ Successfully parsed localStorage data, count: ${parsedData?.length}`);
-            
-            if (Array.isArray(parsedData) && parsedData.length > 0) {
-              setAbstracts(parsedData);
-              setError(null);
-              localStorage.removeItem('comparisonAbstracts');
-              addDebug('🧹 Cleaned up localStorage data');
-              return true;
-            }
-          } catch (parseError) {
-            addDebug(`❌ Failed to parse localStorage data: ${parseError}`);
-          }
-        }
-        
-        // Try sessionStorage as fallback
-        if (sessionStorageData && sessionStorageData !== 'null' && sessionStorageData !== 'undefined') {
-          try {
-            const parsedData = JSON.parse(sessionStorageData);
-            addDebug(`✅ Successfully parsed sessionStorage data, count: ${parsedData?.length}`);
-            
-            if (Array.isArray(parsedData) && parsedData.length > 0) {
-              setAbstracts(parsedData);
-              setError(null);
-              sessionStorage.removeItem('comparisonAbstracts');
-              addDebug('🧹 Cleaned up sessionStorage data');
-              return true;
-            }
-          } catch (parseError) {
-            addDebug(`❌ Failed to parse sessionStorage data: ${parseError}`);
-          }
-        }
-        
-        addDebug(`❌ No valid data found on attempt ${attempt}`);
-        return false;
-      } catch (err) {
-        addDebug(`💥 Error on attempt ${attempt}: ${err}`);
-        return false;
-      }
-    };
-
-    // Try loading immediately
-    if (loadData(1)) {
-      setLoading(false);
-      return;
-    }
-
-    // If immediate load fails, try multiple times with increasing delays
-    const retryAttempts = [100, 250, 500, 1000, 2000];
-    let currentAttempt = 2;
-
-    const tryLoadWithDelay = () => {
-      if (currentAttempt > retryAttempts.length + 1) {
-        addDebug('❌ All retry attempts exhausted');
-        setError('Failed to load comparison data after multiple attempts');
-        setLoading(false);
-        return;
-      }
-
-      const delay = retryAttempts[currentAttempt - 2] || 100;
-      addDebug(`⏰ Retrying in ${delay}ms (attempt ${currentAttempt})`);
-      
-      setTimeout(() => {
-        if (loadData(currentAttempt)) {
-          setLoading(false);
+        if (Array.isArray(parsedData) && parsedData.length > 0) {
+          setAbstracts(parsedData);
+          setError(null);
+          console.log('✅ Abstracts loaded successfully from URL');
         } else {
-          currentAttempt++;
-          tryLoadWithDelay();
+          throw new Error('Invalid data format in URL');
         }
-      }, delay);
-    };
-
-    tryLoadWithDelay();
-  }, []);
+      } else {
+        throw new Error('No comparison data found in URL');
+      }
+    } catch (err) {
+      console.error('❌ Error loading data from URL:', err);
+      setError('Failed to load comparison data from URL');
+    } finally {
+      setLoading(false);
+    }
+  }, [searchParams]);
 
   const handleClose = () => {
     window.close();
@@ -251,15 +189,6 @@ const ComparisonPage = () => {
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Loading Comparison...</h1>
           <p className="text-slate-600 mb-4">Please wait while we load your selected abstracts.</p>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          
-          {/* Debug Information */}
-          <div className="text-left bg-gray-50 p-4 rounded-lg mb-4 text-xs font-mono">
-            <h3 className="font-bold mb-2">Debug Log:</h3>
-            {debugInfo.map((info, index) => (
-              <div key={index} className="mb-1">{info}</div>
-            ))}
-          </div>
-          
           <Button onClick={handleClose}>Close Window</Button>
         </div>
       </div>
@@ -274,23 +203,6 @@ const ComparisonPage = () => {
           <p className="text-slate-600 mb-4">
             {error || 'No comparison data was found.'}
           </p>
-          
-          {/* Enhanced Debug Information */}
-          <div className="text-left bg-gray-50 p-4 rounded-lg mb-4 text-xs font-mono">
-            <h3 className="font-bold mb-2">Debug Information:</h3>
-            <div className="space-y-1">
-              <div>Abstracts loaded: {abstracts.length}</div>
-              <div>Error: {error || 'None'}</div>
-              <div>localStorage has data: {!!localStorage.getItem('comparisonAbstracts')}</div>
-              <div>sessionStorage has data: {!!sessionStorage.getItem('comparisonAbstracts')}</div>
-              
-              <h4 className="font-bold mt-3 mb-1">Attempt Log:</h4>
-              {debugInfo.map((info, index) => (
-                <div key={index}>{info}</div>
-              ))}
-            </div>
-          </div>
-          
           <Button onClick={handleClose}>Close Window</Button>
         </div>
       </div>

@@ -198,28 +198,18 @@ const TrialPage = () => {
       console.log('🔍 Selected abstracts data:', selectedAbstractsData);
       console.log('🔍 Data length:', selectedAbstractsData.length);
       
-      // Store in localStorage
-      const comparisonData = JSON.stringify(selectedAbstractsData);
-      console.log('🔍 Stringified data length:', comparisonData.length);
+      // Encode data as URL parameter
+      const encodedData = encodeURIComponent(JSON.stringify(selectedAbstractsData));
+      console.log('🔍 Encoded data length:', encodedData.length);
       
-      // Clear any existing data first
-      localStorage.removeItem('comparisonAbstracts');
-      
-      // Store new data
-      localStorage.setItem('comparisonAbstracts', comparisonData);
-      
-      // Verify storage
-      const verifyData = localStorage.getItem('comparisonAbstracts');
-      console.log('🔍 Verification - data stored successfully:', !!verifyData);
-      console.log('🔍 Verification - stored data length:', verifyData?.length);
-      
-      // Open new window immediately
-      const newWindow = window.open('/comparison', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+      // Open new window with data in URL
+      const comparisonUrl = `/comparison?data=${encodedData}`;
+      const newWindow = window.open(comparisonUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
       
       if (!newWindow) {
         alert('Please allow pop-ups for this site to open the comparison window.');
       } else {
-        console.log('✅ New window opened successfully');
+        console.log('✅ New window opened successfully with URL data');
       }
     } else {
       console.log('❌ Not enough abstracts selected for comparison');
