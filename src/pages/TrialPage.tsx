@@ -203,6 +203,13 @@ const TrialPage = () => {
     return selected;
   };
 
+  // Move the console.log outside of JSX
+  const selectedAbstractsForComparison = getSelectedAbstracts();
+  console.log('About to render AbstractComparison with:', { 
+    abstracts: selectedAbstractsForComparison.length, 
+    open: showComparison 
+  });
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Published': return 'bg-green-50 text-green-700 border-green-200';
@@ -536,12 +543,8 @@ const TrialPage = () => {
       </div>
 
       {/* Abstract Comparison Dialog */}
-      {console.log('About to render AbstractComparison with:', { 
-        abstracts: getSelectedAbstracts().length, 
-        open: showComparison 
-      })}
       <AbstractComparison 
-        abstracts={getSelectedAbstracts()}
+        abstracts={selectedAbstractsForComparison}
         open={showComparison}
         onClose={() => {
           console.log('Closing comparison dialog');
