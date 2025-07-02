@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Dialog,
@@ -10,6 +9,14 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { X, TrendingUp, Clock, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Abstract {
   id: string;
@@ -75,26 +82,10 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
     }
   };
 
-  const OutcomeMetric = ({ value, label, icon: Icon, color }: { 
-    value: string; 
-    label: string; 
-    icon: any; 
-    color: string; 
-  }) => (
-    <div className={`${color} rounded-2xl p-6 text-center border-2 shadow-sm hover:shadow-md transition-all duration-200`}>
-      <div className="flex items-center justify-center mb-3">
-        <Icon className="w-6 h-6 text-current opacity-80" />
-      </div>
-      <div className="text-2xl font-bold mb-2">{value}</div>
-      <div className="text-sm font-semibold uppercase tracking-wider opacity-80">{label}</div>
-    </div>
-  );
-
-  const DetailRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
-    <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
-      <span className="text-sm font-medium text-gray-600 min-w-32">{label}</span>
-      <div className="flex-1 text-right">{children}</div>
-    </div>
+  const OutcomeBadge = ({ value, color }: { value: string; color: string }) => (
+    <Badge className={`${color} text-lg py-2 px-4 font-bold`}>
+      {value}
+    </Badge>
   );
 
   return (
@@ -109,144 +100,199 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
           </Button>
         </DialogHeader>
         
-        <div className="overflow-auto max-h-[calc(95vh-8rem)] space-y-8">
-          {/* Outcomes Comparison - Main Focus */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900">
+        <div className="overflow-auto max-h-[calc(95vh-8rem)]">
+          {/* Primary Outcomes Table */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900 mb-4">
               <Target className="w-6 h-6 text-blue-600" />
               Primary Outcomes Comparison
             </h3>
             
-            <div className="grid gap-6" style={{ gridTemplateColumns: `200px repeat(${abstracts.length}, 1fr)` }}>
-              {/* Column Headers */}
-              <div className="font-bold text-lg text-gray-700">Trial</div>
-              {abstracts.map((abstract, index) => (
-                <div key={abstract.id} className="text-center">
-                  <Badge variant="outline" className="mb-2 bg-blue-50 text-blue-700 border-blue-300">
-                    Abstract {index + 1}
-                  </Badge>
-                  <div className="text-sm font-medium text-gray-600 truncate">{abstract.trialId}</div>
-                </div>
-              ))}
-
-              {/* ORR Row */}
-              <div className="font-semibold text-gray-700 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-emerald-600" />
-                ORR
-              </div>
-              {abstracts.map((abstract) => (
-                <OutcomeMetric
-                  key={`${abstract.id}-orr`}
-                  value={abstract.outcomes.orr}
-                  label="Overall Response"
-                  icon={TrendingUp}
-                  color="bg-emerald-50 text-emerald-800 border-emerald-200"
-                />
-              ))}
-
-              {/* PFS Row */}
-              <div className="font-semibold text-gray-700 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-blue-600" />
-                PFS
-              </div>
-              {abstracts.map((abstract) => (
-                <OutcomeMetric
-                  key={`${abstract.id}-pfs`}
-                  value={abstract.outcomes.pfs}
-                  label="Progression Free"
-                  icon={Clock}
-                  color="bg-blue-50 text-blue-800 border-blue-200"
-                />
-              ))}
-
-              {/* OS Row */}
-              <div className="font-semibold text-gray-700 flex items-center gap-2">
-                <Target className="w-4 h-4 text-purple-600" />
-                OS
-              </div>
-              {abstracts.map((abstract) => (
-                <OutcomeMetric
-                  key={`${abstract.id}-os`}
-                  value={abstract.outcomes.os}
-                  label="Overall Survival"
-                  icon={Target}
-                  color="bg-purple-50 text-purple-800 border-purple-200"
-                />
-              ))}
+            <div className="rounded-xl border border-gray-200 overflow-hidden shadow-lg bg-white">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gradient-to-r from-blue-50 to-indigo-50 hover:bg-gradient-to-r hover:from-blue-100 hover:to-indigo-100">
+                    <TableHead className="font-bold text-gray-900 w-48">Trial ID</TableHead>
+                    <TableHead className="font-bold text-emerald-700 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <TrendingUp className="w-5 h-5" />
+                        ORR
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-bold text-blue-700 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Clock className="w-5 h-5" />
+                        PFS
+                      </div>
+                    </TableHead>
+                    <TableHead className="font-bold text-purple-700 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Target className="w-5 h-5" />
+                        OS
+                      </div>
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {abstracts.map((abstract, index) => (
+                    <TableRow key={abstract.id} className="hover:bg-gray-50 transition-colors">
+                      <TableCell className="font-medium">
+                        <div className="space-y-2">
+                          <Badge variant="outline" className="bg-slate-100 text-slate-700">
+                            {abstract.trialId}
+                          </Badge>
+                          <div className="text-sm text-gray-600">{abstract.treatment}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <OutcomeBadge 
+                          value={abstract.outcomes.orr} 
+                          color="bg-emerald-100 text-emerald-800 border-emerald-300" 
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <OutcomeBadge 
+                          value={abstract.outcomes.pfs} 
+                          color="bg-blue-100 text-blue-800 border-blue-300" 
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <OutcomeBadge 
+                          value={abstract.outcomes.os} 
+                          color="bg-purple-100 text-purple-800 border-purple-300" 
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </div>
 
-          {/* Trial Details Cards */}
-          <div className="grid gap-6" style={{ gridTemplateColumns: `repeat(${abstracts.length}, 1fr)` }}>
-            {abstracts.map((abstract, index) => (
-              <Card key={abstract.id} className="shadow-lg border-0 bg-white hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300">
-                      Abstract {index + 1}
-                    </Badge>
-                    <Badge className={getStatusColor(abstract.status)}>
-                      {abstract.status}
-                    </Badge>
-                  </div>
-                  <CardTitle className="text-lg leading-tight">{abstract.title}</CardTitle>
-                </CardHeader>
-                
-                <CardContent className="space-y-4">
-                  {/* Core Trial Info */}
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 space-y-3">
-                    <h4 className="font-semibold text-blue-900 mb-3">Trial Information</h4>
-                    <DetailRow label="Trial ID">
-                      <Badge variant="outline" className="bg-white">{abstract.trialId}</Badge>
-                    </DetailRow>
-                    <DetailRow label="Company">
-                      <span className="font-medium">{abstract.company}</span>
-                    </DetailRow>
-                    <DetailRow label="Treatment">
-                      <span className="font-medium">{abstract.treatment}</span>
-                    </DetailRow>
-                    <DetailRow label="Phase">
-                      <Badge className="bg-blue-100 text-blue-800 border-blue-300">{abstract.phase}</Badge>
-                    </DetailRow>
-                    <DetailRow label="Patients">
-                      <span className="font-medium">{abstract.patientRatio}</span>
-                    </DetailRow>
-                  </div>
+          {/* Detailed Comparison Table */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900">
+              Trial Details Comparison
+            </h3>
+            
+            <div className="rounded-xl border border-gray-200 overflow-hidden shadow-lg bg-white">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gradient-to-r from-gray-50 to-slate-50">
+                    <TableHead className="font-bold text-gray-900 w-40">Attribute</TableHead>
+                    {abstracts.map((abstract, index) => (
+                      <TableHead key={abstract.id} className="font-bold text-gray-700 text-center min-w-64">
+                        <div className="space-y-1">
+                          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300">
+                            Abstract {index + 1}
+                          </Badge>
+                          <div className="text-sm font-normal text-gray-600">{abstract.trialId}</div>
+                        </div>
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Title</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-title`} className="text-sm">
+                        {abstract.title}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Company</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-company`}>
+                        <Badge variant="outline" className="bg-gray-50">
+                          {abstract.company}
+                        </Badge>
+                      </TableCell>
+                    ))}
+                  </TableRow>
 
-                  {/* Conference Details */}
-                  <div className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-xl p-4 space-y-3">
-                    <h4 className="font-semibold text-gray-900 mb-3">Conference Details</h4>
-                    <DetailRow label="Conference">
-                      <span className="font-medium">{abstract.conference}</span>
-                    </DetailRow>
-                    <DetailRow label="Type">
-                      <Badge className={getTypeColor(abstract.presentationType)}>
-                        {abstract.presentationType}
-                      </Badge>
-                    </DetailRow>
-                    <DetailRow label="Date">
-                      <span>{abstract.presentationDate}</span>
-                    </DetailRow>
-                    <DetailRow label="Abstract #">
-                      <Badge variant="outline">{abstract.abstractNumber}</Badge>
-                    </DetailRow>
-                  </div>
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Phase</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-phase`}>
+                        <Badge className="bg-blue-100 text-blue-800 border-blue-300">
+                          {abstract.phase}
+                        </Badge>
+                      </TableCell>
+                    ))}
+                  </TableRow>
 
-                  {/* Additional Details */}
-                  <div className="space-y-2 text-sm">
-                    <DetailRow label="Indication">
-                      <span>{abstract.indication}</span>
-                    </DetailRow>
-                    <DetailRow label="Population">
-                      <span>{abstract.population}</span>
-                    </DetailRow>
-                    <DetailRow label="Biomarker">
-                      <span>{abstract.biomarker}</span>
-                    </DetailRow>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Patients</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-patients`} className="font-medium">
+                        {abstract.patientRatio}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Indication</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-indication`} className="text-sm">
+                        {abstract.indication}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Population</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-population`} className="text-sm">
+                        {abstract.population}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Biomarker</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-biomarker`} className="text-sm">
+                        {abstract.biomarker}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Conference</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-conference`} className="text-sm">
+                        {abstract.conference}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Status</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-status`}>
+                        <Badge className={getStatusColor(abstract.status)}>
+                          {abstract.status}
+                        </Badge>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">Presentation Type</TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-type`}>
+                        <Badge className={getTypeColor(abstract.presentationType)}>
+                          {abstract.presentationType}
+                        </Badge>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </DialogContent>
