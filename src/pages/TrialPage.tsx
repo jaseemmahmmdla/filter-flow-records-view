@@ -72,7 +72,6 @@ const TrialPage = () => {
 
   console.log('TrialPage render - selectedAbstracts:', selectedAbstracts);
 
-  // Mock trial data
   const [trial] = useState<Trial>({
     id: trialId || '1',
     title: 'Phase III Study of Novel Immunotherapy in Advanced NSCLC',
@@ -84,7 +83,6 @@ const TrialPage = () => {
     estimatedCompletion: '2025-12-31'
   });
 
-  // Mock abstracts data for this trial
   const [abstracts] = useState<Abstract[]>([
     {
       id: '1',
@@ -197,23 +195,32 @@ const TrialPage = () => {
         selectedAbstracts.includes(abstract.id)
       );
       
-      console.log('Selected abstracts data:', selectedAbstractsData);
+      console.log('🔍 Selected abstracts data:', selectedAbstractsData);
+      console.log('🔍 Data length:', selectedAbstractsData.length);
       
-      // Store in localStorage instead of sessionStorage - this is shared between windows
+      // Store in localStorage
       const comparisonData = JSON.stringify(selectedAbstractsData);
+      console.log('🔍 Stringified data length:', comparisonData.length);
+      
+      // Clear any existing data first
+      localStorage.removeItem('comparisonAbstracts');
+      
+      // Store new data
       localStorage.setItem('comparisonAbstracts', comparisonData);
       
-      console.log('Stored in localStorage:', comparisonData);
+      // Verify storage
+      const verifyData = localStorage.getItem('comparisonAbstracts');
+      console.log('🔍 Verification - data stored successfully:', !!verifyData);
+      console.log('🔍 Verification - stored data length:', verifyData?.length);
       
-      // Small delay to ensure localStorage is set before opening window
-      setTimeout(() => {
-        // Open new window
-        const newWindow = window.open('/comparison', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
-        
-        if (!newWindow) {
-          alert('Please allow pop-ups for this site to open the comparison window.');
-        }
-      }, 100);
+      // Open new window immediately
+      const newWindow = window.open('/comparison', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+      
+      if (!newWindow) {
+        alert('Please allow pop-ups for this site to open the comparison window.');
+      } else {
+        console.log('✅ New window opened successfully');
+      }
     } else {
       console.log('❌ Not enough abstracts selected for comparison');
       alert(`Please select at least 2 abstracts to compare. Currently selected: ${selectedAbstracts.length}`);
