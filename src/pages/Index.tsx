@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -127,7 +128,6 @@ const Index = () => {
           <TrialDetailView trial={selectedTrial} onBack={handleBackToDatabase} />
         ) : viewMode === 'overview' ? (
           <>
-            {console.log('🔵 Rendering overview mode - should show AbstractsOverview')}
             <div className="h-[calc(100vh-7rem)] relative">
               <ResizablePanelGroup direction="horizontal" className="h-full">
                 {!filterPanelCollapsed && (
@@ -189,7 +189,6 @@ const Index = () => {
                     </div>
                   </div>
                   
-                  {console.log('🔵 About to render AbstractsOverview component')}
                   <AbstractsOverview />
                 </ResizablePanel>
               </ResizablePanelGroup>
