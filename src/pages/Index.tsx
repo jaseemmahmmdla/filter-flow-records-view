@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -7,6 +6,7 @@ import TrialDatabase from '@/components/TrialDatabase';
 import TrialDetailView from '@/components/TrialDetailView';
 import OutcomesLanding from '@/components/OutcomesLanding';
 import AbstractsOverview from '@/components/AbstractsOverview';
+import ApprovedTreatments from '@/components/ApprovedTreatments';
 import AIAssistant from './AIAssistant';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 import { Button } from '@/components/ui/button';
@@ -48,9 +48,9 @@ const Index = () => {
       sessionStorage.removeItem('searchSelection');
     }
     
-    setActiveView('trials');
+    setActiveView('abstracts');
     setViewMode('overview'); // Start with overview when coming from landing
-    console.log('Set activeView to trials and viewMode to overview');
+    console.log('Set activeView to abstracts and viewMode to overview');
   };
 
   const handleTrialSelect = (trial: any) => {
@@ -71,7 +71,7 @@ const Index = () => {
   // Check for search selection on component mount
   useEffect(() => {
     const searchSelection = sessionStorage.getItem('searchSelection');
-    if (searchSelection && activeView === 'trials') {
+    if (searchSelection && activeView === 'abstracts') {
       const { entity, profile } = JSON.parse(searchSelection);
       const newFilter = { [entity]: profile };
       setFilters(newFilter);
@@ -123,7 +123,9 @@ const Index = () => {
         <OutcomesLanding onGetStarted={handleGetStarted} />
       ) : activeView === 'ai-assistant' ? (
         <AIAssistant />
-      ) : activeView === 'trials' ? (
+      ) : activeView === 'approved-treatments' ? (
+        <ApprovedTreatments />
+      ) : activeView === 'abstracts' ? (
         viewMode === 'detail' && selectedTrial ? (
           <TrialDetailView trial={selectedTrial} onBack={handleBackToDatabase} />
         ) : viewMode === 'overview' ? (
@@ -268,21 +270,21 @@ const Index = () => {
           <div className="max-w-7xl mx-auto">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                {activeView === 'compare' ? 'Compare Trials' : 'Trends Analysis'}
+                {activeView === 'benchmark' ? 'Benchmark Analysis' : 'Analysis'}
               </h1>
               <p className="text-gray-600">
-                {activeView === 'compare' 
-                  ? 'Compare clinical trial outcomes side by side' 
-                  : 'Analyze trends in oncology treatment outcomes'
+                {activeView === 'benchmark' 
+                  ? 'Benchmark clinical trial outcomes and treatments' 
+                  : 'Analysis tools and insights'
                 }
               </p>
             </div>
             
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="text-gray-500 text-center py-12">
-                {activeView === 'compare' 
-                  ? 'Comparison tools will be available here...' 
-                  : 'Trend analysis tools will be available here...'
+                {activeView === 'benchmark' 
+                  ? 'Benchmark tools will be available here...' 
+                  : 'Analysis tools will be available here...'
                 }
               </div>
             </div>

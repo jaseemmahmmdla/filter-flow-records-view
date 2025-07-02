@@ -22,9 +22,9 @@ const SubHeader = ({ activeView, setActiveView }: SubHeaderProps) => {
             Home
           </button>
           <button 
-            onClick={() => setActiveView('trials')}
+            onClick={() => setActiveView('abstracts')}
             className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
-              activeView === 'trials' 
+              activeView === 'abstracts' 
                 ? 'text-gray-900 border-gray-900 bg-gray-50' 
                 : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
@@ -42,9 +42,9 @@ const SubHeader = ({ activeView, setActiveView }: SubHeaderProps) => {
             AI Assistant
           </button>
           <button 
-            onClick={() => setActiveView('compare')}
+            onClick={() => setActiveView('benchmark')}
             className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
-              activeView === 'compare' 
+              activeView === 'benchmark' 
                 ? 'text-gray-900 border-gray-900 bg-gray-50' 
                 : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
@@ -52,14 +52,14 @@ const SubHeader = ({ activeView, setActiveView }: SubHeaderProps) => {
             Benchmark
           </button>
           <button 
-            onClick={() => setActiveView('trends')}
+            onClick={() => setActiveView('approved-treatments')}
             className={`transition-colors duration-200 font-medium px-6 py-4 text-sm border-b-2 ${
-              activeView === 'trends' 
+              activeView === 'approved-treatments' 
                 ? 'text-gray-900 border-gray-900 bg-gray-50' 
                 : 'text-gray-600 hover:text-gray-900 border-transparent hover:bg-gray-50'
             }`}
           >
-            Trends
+            Approved Treatments
           </button>
         </nav>
       </div>
