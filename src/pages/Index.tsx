@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -18,7 +19,6 @@ const Index = () => {
   const [filterPanelCollapsed, setFilterPanelCollapsed] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState('');
   const [selectedTrial, setSelectedTrial] = useState(null);
-  const [viewMode, setViewMode] = useState('overview'); // Start with overview by default
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -45,22 +45,14 @@ const Index = () => {
     }
     
     setActiveView('trials');
-    setViewMode('overview'); // Start with overview when coming from landing
   };
 
   const handleTrialSelect = (trial: any) => {
     setSelectedTrial(trial);
-    setViewMode('detail');
   };
 
   const handleBackToDatabase = () => {
     setSelectedTrial(null);
-    setViewMode('database');
-  };
-
-  const handleBackToOverview = () => {
-    setSelectedTrial(null);
-    setViewMode('overview');
   };
 
   // Check for search selection on component mount
@@ -117,7 +109,7 @@ const Index = () => {
       ) : activeView === 'ai-assistant' ? (
         <AIAssistant />
       ) : activeView === 'trials' ? (
-        viewMode === 'detail' && selectedTrial ? (
+        selectedTrial ? (
           <TrialDetailView trial={selectedTrial} onBack={handleBackToDatabase} />
         ) : (
           <div className="h-[calc(100vh-7rem)] relative">
@@ -167,29 +159,11 @@ const Index = () => {
                         {renderSelectedFilters()}
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant={viewMode === 'overview' ? 'default' : 'outline'}
-                        onClick={() => setViewMode('overview')}
-                      >
-                        View Overview
-                      </Button>
-                      <Button
-                        variant={viewMode === 'database' ? 'default' : 'outline'}
-                        onClick={() => setViewMode('database')}
-                      >
-                        View Database
-                      </Button>
-                    </div>
                   </div>
                 </div>
                 
-                {/* Render either AbstractsOverview or TrialDatabase based on viewMode */}
-                {viewMode === 'overview' ? (
-                  <AbstractsOverview />
-                ) : (
-                  <TrialDatabase filters={filters} onTrialSelect={handleTrialSelect} />
-                )}
+                {/* Render AbstractsOverview which contains the proper tab structure */}
+                <AbstractsOverview />
               </ResizablePanel>
             </ResizablePanelGroup>
           </div>
