@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PieChartSection from './PieChartSection';
@@ -81,6 +82,7 @@ const AbstractsOverview = () => {
   };
 
   console.log('🔵 About to render AbstractsOverview JSX - PieChartSection should be called next');
+  console.log('🔵 Rendering overview tab content - calling PieChartSection now');
 
   return (
     <div className="bg-white p-6">
@@ -91,7 +93,6 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {console.log('🔵 Rendering overview tab content - calling PieChartSection now')}
           {/* Pie Chart Section */}
           <PieChartSection data={sessionTypeData} />
 
