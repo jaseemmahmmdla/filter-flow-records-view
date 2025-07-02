@@ -56,34 +56,36 @@ const AbstractsOverview = () => {
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
               <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center mr-4">
-                <div className="w-5 h-5 border-2 border-white rounded-full border-t-transparent"></div>
+                <div className="w-5 h-5 border-2 border-white rounded-full border-t-transparent animate-spin"></div>
               </div>
               Abstracts by Session Type
             </h2>
-            <div className="h-72">
+            <div className="h-96">
               <ChartContainer config={chartConfig} className="h-full w-full">
-                <PieChart>
-                  <Pie
-                    data={sessionTypeData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {sessionTypeData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip 
-                    content={<ChartTooltipContent />}
-                    formatter={(value, name) => [
-                      `${value.toLocaleString()} abstracts`,
-                      name
-                    ]}
-                  />
-                </PieChart>
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={sessionTypeData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={140}
+                      paddingAngle={3}
+                      dataKey="value"
+                    >
+                      {sessionTypeData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip 
+                      content={<ChartTooltipContent />}
+                      formatter={(value, name) => [
+                        `${value.toLocaleString()} abstracts`,
+                        name
+                      ]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
               </ChartContainer>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-6">
@@ -91,7 +93,7 @@ const AbstractsOverview = () => {
                 <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                   <div className="flex items-center">
                     <div 
-                      className="w-3 h-3 rounded-full mr-2"
+                      className="w-4 h-4 rounded-full mr-3"
                       style={{ backgroundColor: item.color }}
                     ></div>
                     <span className="text-sm font-medium text-gray-900">{item.name}</span>
