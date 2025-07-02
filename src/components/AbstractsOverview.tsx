@@ -92,7 +92,7 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Pie Chart Section */}
+          {/* Pie Chart Section - Moved to top */}
           <PieChartSection data={sessionTypeData} />
           
           {/* Bar Charts Grid */}
