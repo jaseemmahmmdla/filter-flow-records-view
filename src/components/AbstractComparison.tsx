@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -66,9 +67,14 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden bg-white font-sans">
         <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-6 border-b border-[#ddd]">
-          <DialogTitle className="text-3xl font-bold text-[#172B4D] font-sans">
-            Abstract Comparison
-          </DialogTitle>
+          <div>
+            <DialogTitle className="text-3xl font-bold text-[#172B4D] font-sans">
+              Abstract Comparison
+            </DialogTitle>
+            <DialogDescription className="text-[#6c757d] font-sans mt-2">
+              Compare clinical trial abstracts side by side to analyze key differences and similarities.
+            </DialogDescription>
+          </div>
           <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-[#e9ecef] rounded-full">
             <X className="w-5 h-5" />
           </Button>
