@@ -82,25 +82,31 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
     }
   };
 
+  // Prioritize outcomes at the top, then key trial information
   const comparisonFields = [
-    { key: 'title', label: 'Title', type: 'text' },
-    { key: 'trialId', label: 'Trial ID', type: 'text' },
-    { key: 'company', label: 'Company', type: 'text' },
-    { key: 'treatment', label: 'Treatment', type: 'text' },
-    { key: 'indication', label: 'Indication', type: 'text' },
-    { key: 'phase', label: 'Phase', type: 'badge' },
-    { key: 'lineOfTherapy', label: 'Line of Therapy', type: 'text' },
-    { key: 'population', label: 'Population', type: 'text' },
-    { key: 'targetModality', label: 'Target/Modality', type: 'text' },
-    { key: 'biomarker', label: 'Biomarker', type: 'text' },
-    { key: 'patientRatio', label: 'Patients', type: 'text' },
-    { key: 'outcomes', label: 'Outcomes', type: 'outcomes' },
-    { key: 'conference', label: 'Conference', type: 'text' },
-    { key: 'abstractNumber', label: 'Abstract Number', type: 'text' },
-    { key: 'presentationType', label: 'Presentation Type', type: 'presentationType' },
-    { key: 'status', label: 'Status', type: 'status' },
-    { key: 'presentationDate', label: 'Date', type: 'text' },
-    { key: 'location', label: 'Location', type: 'text' },
+    // Outcomes section - most important
+    { key: 'outcomes', label: 'Key Outcomes', type: 'outcomes', section: 'outcomes' },
+    
+    // Core trial information
+    { key: 'title', label: 'Title', type: 'text', section: 'core' },
+    { key: 'trialId', label: 'Trial ID', type: 'text', section: 'core' },
+    { key: 'company', label: 'Company', type: 'text', section: 'core' },
+    { key: 'treatment', label: 'Treatment', type: 'text', section: 'core' },
+    { key: 'indication', label: 'Indication', type: 'text', section: 'core' },
+    { key: 'phase', label: 'Phase', type: 'badge', section: 'core' },
+    { key: 'lineOfTherapy', label: 'Line of Therapy', type: 'text', section: 'core' },
+    { key: 'population', label: 'Population', type: 'text', section: 'core' },
+    { key: 'targetModality', label: 'Target/Modality', type: 'text', section: 'core' },
+    { key: 'biomarker', label: 'Biomarker', type: 'text', section: 'core' },
+    { key: 'patientRatio', label: 'Patients', type: 'text', section: 'core' },
+    
+    // Conference details
+    { key: 'conference', label: 'Conference', type: 'text', section: 'conference' },
+    { key: 'abstractNumber', label: 'Abstract Number', type: 'text', section: 'conference' },
+    { key: 'presentationType', label: 'Presentation Type', type: 'presentationType', section: 'conference' },
+    { key: 'status', label: 'Status', type: 'status', section: 'conference' },
+    { key: 'presentationDate', label: 'Date', type: 'text', section: 'conference' },
+    { key: 'location', label: 'Location', type: 'text', section: 'conference' },
   ];
 
   const renderCellContent = (abstract: Abstract, field: any) => {
@@ -128,10 +134,19 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
       case 'outcomes':
         const outcomes = value as Abstract['outcomes'];
         return (
-          <div className="space-y-1">
-            <div className="text-sm font-medium">ORR: {outcomes.orr}</div>
-            <div className="text-sm font-medium">PFS: {outcomes.pfs}</div>
-            <div className="text-sm font-medium">OS: {outcomes.os}</div>
+          <div className="space-y-3 bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <div className="text-center">
+              <div className="text-lg font-bold text-blue-900">{outcomes.orr}</div>
+              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">ORR</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-blue-900">{outcomes.pfs}</div>
+              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">PFS</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-bold text-blue-900">{outcomes.os}</div>
+              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">OS</div>
+            </div>
           </div>
         );
       case 'text':
@@ -151,6 +166,82 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
           </span>
         );
     }
+  };
+
+  const getSectionHeaderStyle = (section: string) => {
+    switch (section) {
+      case 'outcomes':
+        return 'bg-blue-100 text-blue-800 font-bold';
+      case 'core':
+        return 'bg-slate-100 text-slate-800 font-semibold';
+      case 'conference':
+        return 'bg-gray-100 text-gray-800 font-medium';
+      default:
+        return 'bg-slate-50 text-slate-700';
+    }
+  };
+
+  const renderSectionRows = () => {
+    const sections = ['outcomes', 'core', 'conference'];
+    const rows: React.ReactNode[] = [];
+
+    sections.forEach((section) => {
+      const sectionFields = comparisonFields.filter(field => field.section === section);
+      
+      // Add section header
+      if (section === 'outcomes') {
+        rows.push(
+          <TableRow key={`${section}-header`} className="border-b-2 border-blue-200">
+            <TableCell 
+              colSpan={abstracts.length + 1} 
+              className="py-3 px-4 bg-blue-100 text-blue-900 font-bold text-center text-lg"
+            >
+              🎯 Primary Outcomes (Most Important)
+            </TableCell>
+          </TableRow>
+        );
+      } else if (section === 'core') {
+        rows.push(
+          <TableRow key={`${section}-header`} className="border-b-2 border-slate-200">
+            <TableCell 
+              colSpan={abstracts.length + 1} 
+              className="py-2 px-4 bg-slate-100 text-slate-800 font-semibold text-center"
+            >
+              📊 Trial Information
+            </TableCell>
+          </TableRow>
+        );
+      } else if (section === 'conference') {
+        rows.push(
+          <TableRow key={`${section}-header`} className="border-b-2 border-gray-200">
+            <TableCell 
+              colSpan={abstracts.length + 1} 
+              className="py-2 px-4 bg-gray-100 text-gray-800 font-medium text-center"
+            >
+              📅 Conference Details
+            </TableCell>
+          </TableRow>
+        );
+      }
+
+      // Add section fields
+      sectionFields.forEach((field) => {
+        rows.push(
+          <TableRow key={field.key} className="border-b border-slate-100 hover:bg-slate-50/50">
+            <TableCell className={`font-medium text-slate-700 ${getSectionHeaderStyle(section)} sticky left-0 z-10 border-r border-slate-200 py-4`}>
+              {field.label}
+            </TableCell>
+            {abstracts.map((abstract) => (
+              <TableCell key={`${abstract.id}-${field.key}`} className="align-top p-4 text-center">
+                {renderCellContent(abstract, field)}
+              </TableCell>
+            ))}
+          </TableRow>
+        );
+      });
+    });
+
+    return rows;
   };
 
   return (
@@ -180,18 +271,7 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
               </TableRow>
             </TableHeader>
             <TableBody>
-              {comparisonFields.map((field) => (
-                <TableRow key={field.key} className="border-b border-slate-100 hover:bg-slate-50/50">
-                  <TableCell className="font-medium text-slate-700 bg-slate-50/50 sticky left-0 z-10 border-r border-slate-200 py-4">
-                    {field.label}
-                  </TableCell>
-                  {abstracts.map((abstract) => (
-                    <TableCell key={`${abstract.id}-${field.key}`} className="align-top p-4 text-center">
-                      {renderCellContent(abstract, field)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
+              {renderSectionRows()}
             </TableBody>
           </Table>
         </div>
