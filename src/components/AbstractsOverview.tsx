@@ -79,7 +79,7 @@ const AbstractsOverview = () => {
     },
   };
 
-  console.log('Session type data for donut chart:', sessionTypeData);
+  console.log('Session type data for pie chart:', sessionTypeData);
 
   return (
     <div className="bg-white p-6">
