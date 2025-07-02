@@ -1,10 +1,11 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PieChartSection from './PieChartSection';
 import BarChartsGrid from './BarChartsGrid';
 
 const AbstractsOverview = () => {
+  console.log('AbstractsOverview rendering');
+  
   const sessionTypeData = [
     { name: 'Oral Presentations', value: 3247, color: '#8B5CF6' },
     { name: 'Poster Sessions', value: 8934, color: '#06B6D4' },
@@ -13,6 +14,8 @@ const AbstractsOverview = () => {
     { name: 'Symposiums', value: 987, color: '#EF4444' },
     { name: 'Workshops', value: 634, color: '#8B5F65' }
   ];
+
+  console.log('sessionTypeData:', sessionTypeData);
 
   const drugsData = [
     { name: 'Pembrolizumab', oral: 2.1, poster: 1.8, mini_oral: 0.3 },

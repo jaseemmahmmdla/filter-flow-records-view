@@ -13,6 +13,8 @@ interface PieChartSectionProps {
 }
 
 const PieChartSection = ({ data }: PieChartSectionProps) => {
+  console.log('PieChartSection data:', data);
+  
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -22,7 +24,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Pie Chart */}
         <div className="flex-1">
-          <div className="w-full h-96">
+          <div className="w-full h-96 border border-gray-200 rounded-lg">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -37,7 +39,10 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
                   strokeWidth={2}
                 >
                   {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={entry.color}
+                    />
                   ))}
                 </Pie>
                 <Tooltip 
