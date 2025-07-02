@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
@@ -82,7 +81,6 @@ const AbstractsOverview = () => {
   console.log('Session type data for pie chart:', sessionTypeData);
   console.log('Chart config:', chartConfig);
   console.log('Rendering pie chart container...');
-  console.log('PieChart component rendering...');
 
   return (
     <div className="bg-white p-6">
@@ -93,132 +91,144 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Session Type Pie Chart - Test with simpler structure */}
-          <div className="bg-white rounded-lg p-6 shadow-sm border">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
+          {/* Session Type Pie Chart - Above Key Insights */}
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Abstracts by Session Type
             </h2>
             
-            <div style={{ width: '100%', height: '400px' }} className="mb-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={sessionTypeData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={140}
-                    paddingAngle={2}
-                    dataKey="value"
-                    stroke="#fff"
-                    strokeWidth={2}
-                  >
-                    {sessionTypeData.map((entry, index) => {
-                      console.log(`Rendering pie cell ${index}:`, entry);
-                      return <Cell key={`cell-${index}`} fill={entry.color} />;
-                    })}
-                  </Pie>
-                  <ChartTooltip 
-                    formatter={(value, name) => [
-                      `${value.toLocaleString()} abstracts`,
-                      name
-                    ]}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              {sessionTypeData.map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center">
-                    <div 
-                      className="w-3 h-3 rounded-full mr-2"
-                      style={{ backgroundColor: item.color }}
-                    ></div>
-                    <span className="text-sm font-medium text-gray-900">{item.name}</span>
-                  </div>
-                  <span className="text-sm font-bold text-gray-900">{item.value.toLocaleString()}</span>
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Pie Chart */}
+              <div className="flex-1">
+                <div className="w-full h-96 bg-gray-50 rounded-lg p-4">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={sessionTypeData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={140}
+                        paddingAngle={2}
+                        dataKey="value"
+                        stroke="#fff"
+                        strokeWidth={2}
+                      >
+                        {sessionTypeData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <ChartTooltip 
+                        formatter={(value, name) => [
+                          `${value.toLocaleString()} abstracts`,
+                          name
+                        ]}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </div>
-              ))}
+              </div>
+              
+              {/* Legend */}
+              <div className="flex-1">
+                <div className="space-y-3">
+                  {sessionTypeData.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center">
+                        <div 
+                          className="w-4 h-4 rounded-full mr-3"
+                          style={{ backgroundColor: item.color }}
+                        ></div>
+                        <span className="text-sm font-medium text-gray-900">{item.name}</span>
+                      </div>
+                      <span className="text-sm font-bold text-gray-900">{item.value.toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Bar Charts Grid - Key Insights Section */}
-          <div className="grid grid-cols-2 gap-6">
-            {/* Top 10 Drugs */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Drugs by Session Type</h3>
-              <div className="h-80">
-                <ChartContainer config={chartConfig} className="h-full w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={drugsData} layout="horizontal" margin={{ left: 80 }}>
-                      <XAxis type="number" domain={[0, 3]} />
-                      <YAxis dataKey="name" type="category" width={80} fontSize={10} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
-                      <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
-                      <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+          {/* Key Insights Section */}
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Insights</h2>
+            
+            {/* Bar Charts Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Top 10 Drugs */}
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Drugs by Session Type</h3>
+                <div className="h-80">
+                  <ChartContainer config={chartConfig} className="h-full w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={drugsData} layout="horizontal" margin={{ left: 80 }}>
+                        <XAxis type="number" domain={[0, 3]} />
+                        <YAxis dataKey="name" type="category" width={80} fontSize={10} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
+                        <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
+                        <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
               </div>
-            </div>
 
-            {/* Top 10 Companies */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Companies by Session Type</h3>
-              <div className="h-80">
-                <ChartContainer config={chartConfig} className="h-full w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={companiesData} layout="horizontal" margin={{ left: 80 }}>
-                      <XAxis type="number" domain={[0, 3]} />
-                      <YAxis dataKey="name" type="category" width={80} fontSize={10} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
-                      <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
-                      <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+              {/* Top 10 Companies */}
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Companies by Session Type</h3>
+                <div className="h-80">
+                  <ChartContainer config={chartConfig} className="h-full w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={companiesData} layout="horizontal" margin={{ left: 80 }}>
+                        <XAxis type="number" domain={[0, 3]} />
+                        <YAxis dataKey="name" type="category" width={80} fontSize={10} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
+                        <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
+                        <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
               </div>
-            </div>
 
-            {/* Top 10 Targets */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Targets by Session Type</h3>
-              <div className="h-80">
-                <ChartContainer config={chartConfig} className="h-full w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={targetsData} layout="horizontal" margin={{ left: 80 }}>
-                      <XAxis type="number" domain={[0, 2.5]} />
-                      <YAxis dataKey="name" type="category" width={80} fontSize={10} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
-                      <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
-                      <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+              {/* Top 10 Targets */}
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Targets by Session Type</h3>
+                <div className="h-80">
+                  <ChartContainer config={chartConfig} className="h-full w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={targetsData} layout="horizontal" margin={{ left: 80 }}>
+                        <XAxis type="number" domain={[0, 2.5]} />
+                        <YAxis dataKey="name" type="category" width={80} fontSize={10} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
+                        <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
+                        <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
               </div>
-            </div>
 
-            {/* Top 10 Modalities */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Modalities by Session Type</h3>
-              <div className="h-80">
-                <ChartContainer config={chartConfig} className="h-full w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={modalitiesData} layout="horizontal" margin={{ left: 80 }}>
-                      <XAxis type="number" domain={[0, 5]} />
-                      <YAxis dataKey="name" type="category" width={80} fontSize={10} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
-                      <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
-                      <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+              {/* Top 10 Modalities */}
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Top 10 Modalities by Session Type</h3>
+                <div className="h-80">
+                  <ChartContainer config={chartConfig} className="h-full w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={modalitiesData} layout="horizontal" margin={{ left: 80 }}>
+                        <XAxis type="number" domain={[0, 5]} />
+                        <YAxis dataKey="name" type="category" width={80} fontSize={10} />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="oral" stackId="a" fill="#8B5CF6" />
+                        <Bar dataKey="poster" stackId="a" fill="#06B6D4" />
+                        <Bar dataKey="mini_oral" stackId="a" fill="#10B981" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
               </div>
             </div>
           </div>
