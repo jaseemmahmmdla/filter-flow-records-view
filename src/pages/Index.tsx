@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -18,7 +19,7 @@ const Index = () => {
   const [filterPanelCollapsed, setFilterPanelCollapsed] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState('');
   const [selectedTrial, setSelectedTrial] = useState(null);
-  const [viewMode, setViewMode] = useState('overview'); // Default to overview to show charts first
+  const [viewMode, setViewMode] = useState('database'); // 'database', 'detail', or 'overview'
 
   console.log('Index.tsx - Current state:', { activeView, viewMode, selectedProfile });
 
@@ -67,14 +68,6 @@ const Index = () => {
     setViewMode('overview');
   };
 
-  // When user clicks "Abstracts" tab, ensure we show overview first
-  const handleAbstractsClick = () => {
-    setActiveView('trials');
-    setViewMode('overview');
-    setSelectedTrial(null);
-    console.log('Abstracts tab clicked - showing overview with charts');
-  };
-
   // Check for search selection on component mount
   useEffect(() => {
     const searchSelection = sessionStorage.getItem('searchSelection');
@@ -94,7 +87,7 @@ const Index = () => {
     if (selectedProfile) {
       return Math.floor(Math.random() * 500) + 100; // Mock count between 100-600
     }
-    return 17501; // Default total
+    return 0;
   };
 
   const renderSelectedFilters = () => {
@@ -124,16 +117,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <SubHeader 
-        activeView={activeView} 
-        setActiveView={(view) => {
-          if (view === 'trials') {
-            handleAbstractsClick();
-          } else {
-            setActiveView(view);
-          }
-        }} 
-      />
+      <SubHeader activeView={activeView} setActiveView={setActiveView} />
       
       {activeView === 'home' ? (
         <OutcomesLanding onGetStarted={handleGetStarted} />
@@ -185,11 +169,11 @@ const Index = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h1 className="text-3xl font-bold text-[#1A237E] mb-2">
-                          {selectedProfile || 'Abstracts Overview'}
+                          {selectedProfile || 'Abstracts & Overview'}
                         </h1>
                         <div className="flex items-center gap-4">
                           <p className="text-gray-600">
-                            {getAbstractsCount().toLocaleString()} abstracts
+                            {getAbstractsCount()} abstracts
                           </p>
                           {renderSelectedFilters()}
                         </div>
@@ -257,7 +241,7 @@ const Index = () => {
                         </h1>
                         <div className="flex items-center gap-4">
                           <p className="text-gray-600">
-                            {getAbstractsCount().toLocaleString()} abstracts
+                            {getAbstractsCount()} abstracts
                           </p>
                           {renderSelectedFilters()}
                         </div>
