@@ -62,6 +62,8 @@ interface AbstractComparisonProps {
 }
 
 const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProps) => {
+  console.log('AbstractComparison rendered with:', { abstracts: abstracts.length, open });
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Published': return 'bg-green-50 text-green-700 border-green-200';
@@ -151,14 +153,24 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
     }
   };
 
+  if (!open) {
+    console.log('Dialog not open, returning null');
+    return null;
+  }
+
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden">
-        <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      console.log('Dialog open state changed to:', isOpen);
+      if (!isOpen) {
+        onClose();
+      }
+    }}>
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden bg-white">
+        <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b border-slate-200">
           <DialogTitle className="text-2xl font-bold text-slate-900 font-body">
             Abstract Comparison ({abstracts.length} abstracts)
           </DialogTitle>
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-slate-100">
             <X className="w-4 h-4" />
           </Button>
         </DialogHeader>
@@ -166,12 +178,12 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
         <div className="overflow-auto max-h-[calc(90vh-8rem)]">
           <Table>
             <TableHeader>
-              <TableRow className="bg-slate-50 hover:bg-slate-50">
-                <TableHead className="font-semibold text-slate-700 w-48 sticky left-0 bg-slate-50 z-10">
+              <TableRow className="bg-slate-50 hover:bg-slate-50 border-b border-slate-200">
+                <TableHead className="font-semibold text-slate-700 w-48 sticky left-0 bg-slate-50 z-10 border-r border-slate-200">
                   Field
                 </TableHead>
                 {abstracts.map((abstract, index) => (
-                  <TableHead key={abstract.id} className="font-semibold text-slate-700 min-w-64">
+                  <TableHead key={abstract.id} className="font-semibold text-slate-700 min-w-64 text-center">
                     Abstract {index + 1}
                   </TableHead>
                 ))}
@@ -180,11 +192,11 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
             <TableBody>
               {comparisonFields.map((field) => (
                 <TableRow key={field.key} className="border-b border-slate-100 hover:bg-slate-50/50">
-                  <TableCell className="font-medium text-slate-700 bg-slate-50/50 sticky left-0 z-10 border-r border-slate-200">
+                  <TableCell className="font-medium text-slate-700 bg-slate-50/50 sticky left-0 z-10 border-r border-slate-200 py-4">
                     {field.label}
                   </TableCell>
                   {abstracts.map((abstract) => (
-                    <TableCell key={`${abstract.id}-${field.key}`} className="align-top p-4">
+                    <TableCell key={`${abstract.id}-${field.key}`} className="align-top p-4 text-center">
                       {renderCellContent(abstract, field)}
                     </TableCell>
                   ))}

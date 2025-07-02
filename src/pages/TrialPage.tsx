@@ -72,6 +72,8 @@ const TrialPage = () => {
   const [selectedAbstracts, setSelectedAbstracts] = useState<string[]>([]);
   const [showComparison, setShowComparison] = useState(false);
 
+  console.log('TrialPage render - showComparison:', showComparison, 'selectedAbstracts:', selectedAbstracts);
+
   // Mock trial data
   const [trial] = useState<Trial>({
     id: trialId || '1',
@@ -188,7 +190,7 @@ const TrialPage = () => {
     console.log('Compare button clicked, selected abstracts:', selectedAbstracts);
     console.log('Number of selected abstracts:', selectedAbstracts.length);
     if (selectedAbstracts.length >= 2) {
-      console.log('Opening comparison dialog');
+      console.log('Setting showComparison to true');
       setShowComparison(true);
     } else {
       console.log('Not enough abstracts selected for comparison');
@@ -534,6 +536,10 @@ const TrialPage = () => {
       </div>
 
       {/* Abstract Comparison Dialog */}
+      {console.log('About to render AbstractComparison with:', { 
+        abstracts: getSelectedAbstracts().length, 
+        open: showComparison 
+      })}
       <AbstractComparison 
         abstracts={getSelectedAbstracts()}
         open={showComparison}
