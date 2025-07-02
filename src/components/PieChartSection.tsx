@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { ChartTooltip } from '@/components/ui/chart';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface SessionTypeData {
   name: string;
@@ -23,7 +22,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Pie Chart */}
         <div className="flex-1">
-          <div className="w-full h-96 bg-gray-50 rounded-lg p-4">
+          <div className="w-full h-96">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -41,8 +40,8 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <ChartTooltip 
-                  formatter={(value, name) => [
+                <Tooltip 
+                  formatter={(value: number, name: string) => [
                     `${value.toLocaleString()} abstracts`,
                     name
                   ]}
