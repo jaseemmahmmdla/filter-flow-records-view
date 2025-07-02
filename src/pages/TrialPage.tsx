@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -207,6 +206,11 @@ const TrialPage = () => {
     const selected = abstracts.filter(abstract => selectedAbstracts.includes(abstract.id));
     console.log('Getting selected abstracts:', selected);
     return selected;
+  };
+
+  const handleBackClick = () => {
+    console.log('Back button clicked');
+    navigate('/');
   };
 
   // Move the console.log outside of JSX
@@ -426,7 +430,7 @@ const TrialPage = () => {
   );
 
   return (
-    <div className="flex-1 bg-white font-sans text-[#172B4D]">
+    <div className="flex-1 bg-white font-sans text-[#172B4D]" style={{ fontFamily: "'Roboto', sans-serif" }}>
       <Header />
       
       {/* Trial Header */}
@@ -436,7 +440,7 @@ const TrialPage = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate(-1)}
+              onClick={handleBackClick}
               className="flex items-center gap-2 font-sans hover:bg-[#e9ecef] text-[#172B4D]"
             >
               <ArrowLeft className="w-4 h-4" />
