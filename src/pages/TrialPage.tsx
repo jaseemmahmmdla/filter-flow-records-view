@@ -183,7 +183,8 @@ const TrialPage = () => {
 
   const handleViewAbstract = (abstractId: string) => {
     console.log('Navigate to abstract:', abstractId);
-    // Navigate to abstract detail view
+    // Navigate to the existing abstract detail view
+    navigate(`/?tab=abstracts&view=abstract&id=${abstractId}`);
   };
 
   const handleCompareAbstracts = () => {
