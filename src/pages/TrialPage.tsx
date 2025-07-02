@@ -197,15 +197,23 @@ const TrialPage = () => {
         selectedAbstracts.includes(abstract.id)
       );
       
-      // Store in sessionStorage for the new window
-      sessionStorage.setItem('comparisonAbstracts', JSON.stringify(selectedAbstractsData));
+      console.log('Selected abstracts data:', selectedAbstractsData);
       
-      // Open new window
-      const newWindow = window.open('/comparison', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+      // Store in sessionStorage for the new window - using a more specific key
+      const comparisonData = JSON.stringify(selectedAbstractsData);
+      sessionStorage.setItem('comparisonAbstracts', comparisonData);
       
-      if (!newWindow) {
-        alert('Please allow pop-ups for this site to open the comparison window.');
-      }
+      console.log('Stored in sessionStorage:', comparisonData);
+      
+      // Small delay to ensure sessionStorage is set before opening window
+      setTimeout(() => {
+        // Open new window
+        const newWindow = window.open('/comparison', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+        
+        if (!newWindow) {
+          alert('Please allow pop-ups for this site to open the comparison window.');
+        }
+      }, 100);
     } else {
       console.log('❌ Not enough abstracts selected for comparison');
       alert(`Please select at least 2 abstracts to compare. Currently selected: ${selectedAbstracts.length}`);

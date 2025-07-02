@@ -53,12 +53,23 @@ const ComparisonPage = () => {
   const [abstracts, setAbstracts] = useState<Abstract[]>([]);
 
   useEffect(() => {
+    console.log('ComparisonPage: Component mounted, checking sessionStorage...');
+    
     // Get abstracts data from sessionStorage
     const storedAbstracts = sessionStorage.getItem('comparisonAbstracts');
+    console.log('ComparisonPage: Raw sessionStorage data:', storedAbstracts);
+    
     if (storedAbstracts) {
-      const parsedAbstracts = JSON.parse(storedAbstracts);
-      console.log('Loaded abstracts for comparison:', parsedAbstracts);
-      setAbstracts(parsedAbstracts);
+      try {
+        const parsedAbstracts = JSON.parse(storedAbstracts);
+        console.log('ComparisonPage: Parsed abstracts:', parsedAbstracts);
+        console.log('ComparisonPage: Number of abstracts:', parsedAbstracts.length);
+        setAbstracts(parsedAbstracts);
+      } catch (error) {
+        console.error('ComparisonPage: Error parsing stored abstracts:', error);
+      }
+    } else {
+      console.log('ComparisonPage: No stored abstracts found in sessionStorage');
     }
   }, []);
 
