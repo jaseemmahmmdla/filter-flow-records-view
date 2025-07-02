@@ -15,6 +15,7 @@ import {
   GitCompare
 } from 'lucide-react';
 import Header from '@/components/Header';
+import AbstractComparison from '@/components/AbstractComparison';
 
 interface Abstract {
   id: string;
@@ -69,9 +70,11 @@ const TrialPage = () => {
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [selectedAbstracts, setSelectedAbstracts] = useState<string[]>([]);
+  const [showComparison, setShowComparison] = useState(false);
 
-  console.log('TrialPage render - selectedAbstracts:', selectedAbstracts);
+  console.log('TrialPage render - showComparison:', showComparison, 'selectedAbstracts:', selectedAbstracts);
 
+  // Mock trial data
   const [trial] = useState<Trial>({
     id: trialId || '1',
     title: 'Phase III Study of Novel Immunotherapy in Advanced NSCLC',
@@ -83,6 +86,7 @@ const TrialPage = () => {
     estimatedCompletion: '2025-12-31'
   });
 
+  // Mock abstracts data for this trial
   const [abstracts] = useState<Abstract[]>([
     {
       id: '1',
@@ -186,32 +190,30 @@ const TrialPage = () => {
     console.log('🔥 COMPARE BUTTON CLICKED! 🔥');
     console.log('Compare button clicked, selected abstracts:', selectedAbstracts);
     console.log('Number of selected abstracts:', selectedAbstracts.length);
+    console.log('Current showComparison state:', showComparison);
     
     if (selectedAbstracts.length >= 2) {
-      console.log('✅ Opening comparison in new tab');
-      
-      // Get selected abstracts data
-      const selectedAbstractsData = abstracts.filter(abstract => 
-        selectedAbstracts.includes(abstract.id)
-      );
-      
-      console.log('🔍 Selected abstracts data:', selectedAbstractsData);
-      console.log('🔍 Data length:', selectedAbstractsData.length);
-      
-      // Encode data as URL parameter
-      const encodedData = encodeURIComponent(JSON.stringify(selectedAbstractsData));
-      console.log('🔍 Encoded data length:', encodedData.length);
-      
-      // Open new tab with data in URL
-      const comparisonUrl = `/comparison?data=${encodedData}`;
-      window.open(comparisonUrl, '_blank');
-      
-      console.log('✅ New tab opened successfully with URL data');
+      console.log('✅ Setting showComparison to true');
+      setShowComparison(true);
+      console.log('✅ showComparison should now be true');
     } else {
       console.log('❌ Not enough abstracts selected for comparison');
       alert(`Please select at least 2 abstracts to compare. Currently selected: ${selectedAbstracts.length}`);
     }
   };
+
+  const getSelectedAbstracts = () => {
+    const selected = abstracts.filter(abstract => selectedAbstracts.includes(abstract.id));
+    console.log('Getting selected abstracts:', selected);
+    return selected;
+  };
+
+  // Move the console.log outside of JSX
+  const selectedAbstractsForComparison = getSelectedAbstracts();
+  console.log('About to render AbstractComparison with:', { 
+    abstracts: selectedAbstractsForComparison.length, 
+    open: showComparison 
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -467,7 +469,6 @@ const TrialPage = () => {
       </div>
 
       {/* Main Content */}
-      
       <div className="max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="mb-8">
@@ -545,6 +546,16 @@ const TrialPage = () => {
           {viewMode === 'card' ? <CardView /> : <ListView />}
         </div>
       </div>
+
+      {/* Abstract Comparison Dialog */}
+      <AbstractComparison 
+        abstracts={selectedAbstractsForComparison}
+        open={showComparison}
+        onClose={() => {
+          console.log('🔥 Closing comparison dialog 🔥');
+          setShowComparison(false);
+        }}
+      />
     </div>
   );
 };
