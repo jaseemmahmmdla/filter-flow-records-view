@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,6 +15,7 @@ import {
   GitCompare
 } from 'lucide-react';
 import Header from '@/components/Header';
+import AbstractComparison from '@/components/AbstractComparison';
 
 interface Abstract {
   id: string;
@@ -70,6 +70,7 @@ const TrialPage = () => {
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [selectedAbstracts, setSelectedAbstracts] = useState<string[]>([]);
+  const [showComparison, setShowComparison] = useState(false);
 
   // Mock trial data
   const [trial] = useState<Trial>({
@@ -182,9 +183,12 @@ const TrialPage = () => {
 
   const handleCompareAbstracts = () => {
     if (selectedAbstracts.length >= 2) {
-      console.log('Compare abstracts:', selectedAbstracts);
-      // Navigate to comparison view
+      setShowComparison(true);
     }
+  };
+
+  const getSelectedAbstracts = () => {
+    return abstracts.filter(abstract => selectedAbstracts.includes(abstract.id));
   };
 
   const getStatusColor = (status: string) => {
@@ -518,6 +522,13 @@ const TrialPage = () => {
           {viewMode === 'card' ? <CardView /> : <ListView />}
         </div>
       </div>
+
+      {/* Abstract Comparison Dialog */}
+      <AbstractComparison 
+        abstracts={getSelectedAbstracts()}
+        open={showComparison}
+        onClose={() => setShowComparison(false)}
+      />
     </div>
   );
 };
