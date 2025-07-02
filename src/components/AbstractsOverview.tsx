@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { GitCompare, FileText, Eye } from 'lucide-react';
+import { GitCompare, FileText, Eye, ArrowLeft } from 'lucide-react';
 import BarChartsGrid from './BarChartsGrid';
 import PieChartSection from './PieChartSection';
 import AbstractComparison from './AbstractComparison';
@@ -133,11 +133,29 @@ const mockClinicalAbstracts = [
   }
 ];
 
-const AbstractsOverview = () => {
+interface AbstractsOverviewProps {
+  initialViewMode?: string;
+  selectedAbstractId?: string | null;
+}
+
+const AbstractsOverview = ({ initialViewMode = 'overview', selectedAbstractId }: AbstractsOverviewProps) => {
   console.log('🔵 AbstractsOverview component is rendering!');
   
   const [selectedAbstracts, setSelectedAbstracts] = useState<string[]>([]);
   const [showComparison, setShowComparison] = useState(false);
+  const [currentView, setCurrentView] = useState(initialViewMode === 'detail' && selectedAbstractId ? 'detail' : 'list');
+  const [selectedAbstract, setSelectedAbstract] = useState(null);
+
+  // Handle initial abstract selection from URL
+  useEffect(() => {
+    if (selectedAbstractId && initialViewMode === 'detail') {
+      const abstract = mockClinicalAbstracts.find(a => a.id === selectedAbstractId);
+      if (abstract) {
+        setSelectedAbstract(abstract);
+        setCurrentView('detail');
+      }
+    }
+  }, [selectedAbstractId, initialViewMode]);
 
   const sessionTypeData = [
     { name: 'NSCLC', value: 6, color: '#8B5CF6' },
@@ -229,6 +247,16 @@ const AbstractsOverview = () => {
     });
   };
 
+  const handleViewAbstract = (abstract: any) => {
+    setSelectedAbstract(abstract);
+    setCurrentView('detail');
+  };
+
+  const handleBackToList = () => {
+    setSelectedAbstract(null);
+    setCurrentView('list');
+  };
+
   const handleCompareAbstracts = () => {
     console.log('🔥 COMPARE BUTTON CLICKED! 🔥');
     console.log('Compare button clicked, selected abstracts:', selectedAbstracts);
@@ -259,6 +287,124 @@ const AbstractsOverview = () => {
   };
 
   console.log('🔵 About to render AbstractsOverview JSX with pie chart and bar charts');
+
+  // If we're in detail view, show the abstract detail
+  if (currentView === 'detail' && selectedAbstract) {
+    return (
+      <div className="bg-white p-6" style={{ fontFamily: "'Roboto', sans-serif" }}>
+        <div className="flex items-center gap-4 mb-6">
+          <Button
+            variant="outline"
+            onClick={handleBackToList}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to List
+          </Button>
+          <div className="h-8 w-px bg-gray-300" />
+          <h1 className="text-2xl font-bold text-[#172B4D]">Abstract Detail</h1>
+        </div>
+
+        <Card className="bg-white shadow-sm border border-[#ddd]">
+          <CardContent className="p-8">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-[#172B4D] mb-4 leading-tight font-sans">
+                  {selectedAbstract.title}
+                </h2>
+                <div className="flex items-center gap-4 text-sm text-[#6c757d] font-sans mb-6">
+                  <span>{selectedAbstract.conference}</span>
+                  <span>•</span>
+                  <span>{selectedAbstract.abstractNumber}</span>
+                  <span>•</span>
+                  <span>{selectedAbstract.presentationDate}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Trial ID</p>
+                    <p className="text-base text-[#172B4D] font-medium font-sans">{selectedAbstract.trialId}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Company</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.company}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Treatment</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.treatment}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Indication</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.indication}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Line of Therapy</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.lineOfTherapy}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Population</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.population}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Target/Modality</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.targetModality}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Biomarker</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.biomarker}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Phase</p>
+                    <p className="text-base text-[#172B4D] font-sans">{selectedAbstract.phase}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-[#ddd] pt-6">
+                <h3 className="text-lg font-semibold text-[#172B4D] mb-4 font-sans">Key Outcomes</h3>
+                <div className="flex items-center gap-12">
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">ORR</p>
+                    <p className="text-2xl font-bold text-[#1A237E] font-sans">{selectedAbstract.outcomes.orr}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">PFS</p>
+                    <p className="text-2xl font-bold text-[#1A237E] font-sans">{selectedAbstract.outcomes.pfs}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">OS</p>
+                    <p className="text-2xl font-bold text-[#1A237E] font-sans">{selectedAbstract.outcomes.os}</p>
+                  </div>
+                </div>
+              </div>
+
+              {selectedAbstract.keyFindings && (
+                <div className="border-t border-[#ddd] pt-6">
+                  <h3 className="text-lg font-semibold text-[#172B4D] mb-4 font-sans">Key Findings</h3>
+                  <ul className="space-y-2">
+                    {selectedAbstract.keyFindings.map((finding, index) => (
+                      <li key={index} className="text-[#172B4D] font-sans flex items-start">
+                        <span className="text-[#1A237E] mr-2">•</span>
+                        {finding}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white p-6" style={{ fontFamily: "'Roboto', sans-serif" }}>
@@ -381,6 +527,7 @@ const AbstractsOverview = () => {
                           variant="ghost"
                           size="sm"
                           className="ml-2 hover:bg-[#e9ecef]"
+                          onClick={() => handleViewAbstract(abstract)}
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
