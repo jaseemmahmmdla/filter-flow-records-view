@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -56,7 +57,7 @@ const ComparisonPage = () => {
   useEffect(() => {
     console.log('ComparisonPage: Component mounted, starting data load');
     
-    const loadComparisonData = () => {
+    const loadComparisonData = async () => {
       try {
         console.log('ComparisonPage: Attempting to load sessionStorage data');
         const storedData = sessionStorage.getItem('comparisonAbstracts');
@@ -73,23 +74,25 @@ const ComparisonPage = () => {
               console.log('ComparisonPage: Setting abstracts data');
               setAbstracts(parsedData);
               setError(null);
+              setLoading(false);
             } else {
               console.log('ComparisonPage: Data is not a valid array or is empty');
               setError('Invalid comparison data format');
+              setLoading(false);
             }
           } catch (parseError) {
             console.error('ComparisonPage: Error parsing sessionStorage data:', parseError);
             setError('Failed to parse comparison data');
+            setLoading(false);
           }
         } else {
           console.log('ComparisonPage: No data found in sessionStorage');
           setError('No comparison data found');
+          setLoading(false);
         }
       } catch (error) {
         console.error('ComparisonPage: Error loading data:', error);
         setError('Failed to load comparison data');
-      } finally {
-        console.log('ComparisonPage: Setting loading to false');
         setLoading(false);
       }
     };
