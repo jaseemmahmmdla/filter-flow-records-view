@@ -89,14 +89,14 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {console.log('Rendering Overview tab content')}
+          
           
           {/* Donut Chart - First item in Overview tab */}
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Abstracts by Session Type
             </h2>
-            {console.log('About to render donut chart')}
+            
             <div className="h-96 mb-4">
               <ChartContainer config={chartConfig} className="h-full w-full">
                 <ResponsiveContainer width="100%" height="100%">
