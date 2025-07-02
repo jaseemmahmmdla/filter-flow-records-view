@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -52,55 +51,51 @@ interface Abstract {
 const ComparisonPage = () => {
   const [abstracts, setAbstracts] = useState<Abstract[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('ComparisonPage: Component mounted');
+    console.log('ComparisonPage: Component mounted, starting data load');
     
-    const loadData = () => {
+    const loadComparisonData = () => {
       try {
-        const storedAbstracts = sessionStorage.getItem('comparisonAbstracts');
-        console.log('ComparisonPage: Raw sessionStorage data:', storedAbstracts);
+        console.log('ComparisonPage: Attempting to load sessionStorage data');
+        const storedData = sessionStorage.getItem('comparisonAbstracts');
+        console.log('ComparisonPage: Raw sessionStorage data:', storedData);
         
-        if (storedAbstracts) {
-          const parsedAbstracts = JSON.parse(storedAbstracts);
-          console.log('ComparisonPage: Parsed abstracts:', parsedAbstracts);
-          console.log('ComparisonPage: Number of abstracts:', parsedAbstracts.length);
-          
-          if (Array.isArray(parsedAbstracts) && parsedAbstracts.length > 0) {
-            setAbstracts(parsedAbstracts);
-            setLoading(false);
-            return;
-          }
-        }
-        
-        console.log('ComparisonPage: No valid data found, retrying...');
-        // Retry after a short delay
-        setTimeout(() => {
-          const retryStoredAbstracts = sessionStorage.getItem('comparisonAbstracts');
-          console.log('ComparisonPage: Retry - raw data:', retryStoredAbstracts);
-          
-          if (retryStoredAbstracts) {
-            try {
-              const parsedAbstracts = JSON.parse(retryStoredAbstracts);
-              console.log('ComparisonPage: Retry - parsed abstracts:', parsedAbstracts);
-              
-              if (Array.isArray(parsedAbstracts) && parsedAbstracts.length > 0) {
-                setAbstracts(parsedAbstracts);
-              }
-            } catch (error) {
-              console.error('ComparisonPage: Retry - error parsing stored abstracts:', error);
+        if (storedData) {
+          try {
+            const parsedData = JSON.parse(storedData);
+            console.log('ComparisonPage: Successfully parsed data:', parsedData);
+            console.log('ComparisonPage: Data is array?', Array.isArray(parsedData));
+            console.log('ComparisonPage: Data length:', parsedData?.length);
+            
+            if (Array.isArray(parsedData) && parsedData.length > 0) {
+              console.log('ComparisonPage: Setting abstracts data');
+              setAbstracts(parsedData);
+              setError(null);
+            } else {
+              console.log('ComparisonPage: Data is not a valid array or is empty');
+              setError('Invalid comparison data format');
             }
+          } catch (parseError) {
+            console.error('ComparisonPage: Error parsing sessionStorage data:', parseError);
+            setError('Failed to parse comparison data');
           }
-          setLoading(false);
-        }, 1000);
-        
+        } else {
+          console.log('ComparisonPage: No data found in sessionStorage');
+          setError('No comparison data found');
+        }
       } catch (error) {
-        console.error('ComparisonPage: Error in loadData:', error);
+        console.error('ComparisonPage: Error loading data:', error);
+        setError('Failed to load comparison data');
+      } finally {
+        console.log('ComparisonPage: Setting loading to false');
         setLoading(false);
       }
     };
-    
-    loadData();
+
+    // Try to load data immediately
+    loadComparisonData();
   }, []);
 
   const handleClose = () => {
@@ -209,12 +204,19 @@ const ComparisonPage = () => {
     );
   }
 
-  if (abstracts.length === 0) {
+  if (error || abstracts.length === 0) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">No Abstracts to Compare</h1>
-          <p className="text-slate-600 mb-4">No comparison data was found.</p>
+          <p className="text-slate-600 mb-4">
+            {error || 'No comparison data was found.'}
+          </p>
+          <div className="text-xs text-slate-400 mb-4 max-w-md">
+            Debug Info: {abstracts.length} abstracts loaded
+            <br />
+            Error: {error || 'None'}
+          </div>
           <Button onClick={handleClose}>Close Window</Button>
         </div>
       </div>
