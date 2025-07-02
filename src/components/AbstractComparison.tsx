@@ -7,15 +7,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { X } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { X, TrendingUp, Clock, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface Abstract {
@@ -66,214 +59,195 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Published': return 'bg-green-50 text-green-700 border-green-200';
-      case 'Presented': return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'Upcoming': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+      case 'Published': return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+      case 'Presented': return 'bg-blue-100 text-blue-800 border-blue-300';
+      case 'Upcoming': return 'bg-amber-100 text-amber-800 border-amber-300';
+      default: return 'bg-gray-100 text-gray-800 border-gray-300';
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'Oral Presentation': return 'bg-purple-50 text-purple-700 border-purple-200';
-      case 'Poster': return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'Keynote': return 'bg-orange-50 text-orange-700 border-orange-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+      case 'Oral Presentation': return 'bg-purple-100 text-purple-800 border-purple-300';
+      case 'Poster': return 'bg-indigo-100 text-indigo-800 border-indigo-300';
+      case 'Keynote': return 'bg-orange-100 text-orange-800 border-orange-300';
+      default: return 'bg-gray-100 text-gray-800 border-gray-300';
     }
   };
 
-  // Prioritize outcomes at the top, then key trial information
-  const comparisonFields = [
-    // Outcomes section - most important
-    { key: 'outcomes', label: 'Key Outcomes', type: 'outcomes', section: 'outcomes' },
-    
-    // Core trial information
-    { key: 'title', label: 'Title', type: 'text', section: 'core' },
-    { key: 'trialId', label: 'Trial ID', type: 'text', section: 'core' },
-    { key: 'company', label: 'Company', type: 'text', section: 'core' },
-    { key: 'treatment', label: 'Treatment', type: 'text', section: 'core' },
-    { key: 'indication', label: 'Indication', type: 'text', section: 'core' },
-    { key: 'phase', label: 'Phase', type: 'badge', section: 'core' },
-    { key: 'lineOfTherapy', label: 'Line of Therapy', type: 'text', section: 'core' },
-    { key: 'population', label: 'Population', type: 'text', section: 'core' },
-    { key: 'targetModality', label: 'Target/Modality', type: 'text', section: 'core' },
-    { key: 'biomarker', label: 'Biomarker', type: 'text', section: 'core' },
-    { key: 'patientRatio', label: 'Patients', type: 'text', section: 'core' },
-    
-    // Conference details
-    { key: 'conference', label: 'Conference', type: 'text', section: 'conference' },
-    { key: 'abstractNumber', label: 'Abstract Number', type: 'text', section: 'conference' },
-    { key: 'presentationType', label: 'Presentation Type', type: 'presentationType', section: 'conference' },
-    { key: 'status', label: 'Status', type: 'status', section: 'conference' },
-    { key: 'presentationDate', label: 'Date', type: 'text', section: 'conference' },
-    { key: 'location', label: 'Location', type: 'text', section: 'conference' },
-  ];
+  const OutcomeMetric = ({ value, label, icon: Icon, color }: { 
+    value: string; 
+    label: string; 
+    icon: any; 
+    color: string; 
+  }) => (
+    <div className={`${color} rounded-2xl p-6 text-center border-2 shadow-sm hover:shadow-md transition-all duration-200`}>
+      <div className="flex items-center justify-center mb-3">
+        <Icon className="w-6 h-6 text-current opacity-80" />
+      </div>
+      <div className="text-2xl font-bold mb-2">{value}</div>
+      <div className="text-sm font-semibold uppercase tracking-wider opacity-80">{label}</div>
+    </div>
+  );
 
-  const renderCellContent = (abstract: Abstract, field: any) => {
-    const value = abstract[field.key as keyof Abstract];
-
-    switch (field.type) {
-      case 'badge':
-        return (
-          <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
-            {value as string}
-          </Badge>
-        );
-      case 'status':
-        return (
-          <Badge className={getStatusColor(value as string)}>
-            {value as string}
-          </Badge>
-        );
-      case 'presentationType':
-        return (
-          <Badge className={getTypeColor(value as string)}>
-            {value as string}
-          </Badge>
-        );
-      case 'outcomes':
-        const outcomes = value as Abstract['outcomes'];
-        return (
-          <div className="space-y-3 bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <div className="text-center">
-              <div className="text-lg font-bold text-blue-900">{outcomes.orr}</div>
-              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">ORR</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-blue-900">{outcomes.pfs}</div>
-              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">PFS</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-blue-900">{outcomes.os}</div>
-              <div className="text-xs font-medium text-blue-700 uppercase tracking-wide">OS</div>
-            </div>
-          </div>
-        );
-      case 'text':
-      default:
-        if (field.key === 'title') {
-          return (
-            <div className="max-w-xs">
-              <p className="text-sm font-medium text-slate-900 line-clamp-3 leading-tight">
-                {value as string}
-              </p>
-            </div>
-          );
-        }
-        return (
-          <span className="text-sm text-slate-900 font-body">
-            {value as string}
-          </span>
-        );
-    }
-  };
-
-  const getSectionHeaderStyle = (section: string) => {
-    switch (section) {
-      case 'outcomes':
-        return 'bg-blue-100 text-blue-800 font-bold';
-      case 'core':
-        return 'bg-slate-100 text-slate-800 font-semibold';
-      case 'conference':
-        return 'bg-gray-100 text-gray-800 font-medium';
-      default:
-        return 'bg-slate-50 text-slate-700';
-    }
-  };
-
-  const renderSectionRows = () => {
-    const sections = ['outcomes', 'core', 'conference'];
-    const rows: React.ReactNode[] = [];
-
-    sections.forEach((section) => {
-      const sectionFields = comparisonFields.filter(field => field.section === section);
-      
-      // Add section header
-      if (section === 'outcomes') {
-        rows.push(
-          <TableRow key={`${section}-header`} className="border-b-2 border-blue-200">
-            <TableCell 
-              colSpan={abstracts.length + 1} 
-              className="py-3 px-4 bg-blue-100 text-blue-900 font-bold text-center text-lg"
-            >
-              🎯 Primary Outcomes (Most Important)
-            </TableCell>
-          </TableRow>
-        );
-      } else if (section === 'core') {
-        rows.push(
-          <TableRow key={`${section}-header`} className="border-b-2 border-slate-200">
-            <TableCell 
-              colSpan={abstracts.length + 1} 
-              className="py-2 px-4 bg-slate-100 text-slate-800 font-semibold text-center"
-            >
-              📊 Trial Information
-            </TableCell>
-          </TableRow>
-        );
-      } else if (section === 'conference') {
-        rows.push(
-          <TableRow key={`${section}-header`} className="border-b-2 border-gray-200">
-            <TableCell 
-              colSpan={abstracts.length + 1} 
-              className="py-2 px-4 bg-gray-100 text-gray-800 font-medium text-center"
-            >
-              📅 Conference Details
-            </TableCell>
-          </TableRow>
-        );
-      }
-
-      // Add section fields
-      sectionFields.forEach((field) => {
-        rows.push(
-          <TableRow key={field.key} className="border-b border-slate-100 hover:bg-slate-50/50">
-            <TableCell className={`font-medium text-slate-700 ${getSectionHeaderStyle(section)} sticky left-0 z-10 border-r border-slate-200 py-4`}>
-              {field.label}
-            </TableCell>
-            {abstracts.map((abstract) => (
-              <TableCell key={`${abstract.id}-${field.key}`} className="align-top p-4 text-center">
-                {renderCellContent(abstract, field)}
-              </TableCell>
-            ))}
-          </TableRow>
-        );
-      });
-    });
-
-    return rows;
-  };
+  const DetailRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
+    <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
+      <span className="text-sm font-medium text-gray-600 min-w-32">{label}</span>
+      <div className="flex-1 text-right">{children}</div>
+    </div>
+  );
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden bg-white">
-        <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-4 border-b border-slate-200">
-          <DialogTitle className="text-2xl font-bold text-slate-900 font-body">
-            Abstract Comparison ({abstracts.length} abstracts)
+      <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden bg-gradient-to-br from-slate-50 to-white">
+        <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-6 border-b border-gray-200">
+          <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Abstract Comparison
           </DialogTitle>
-          <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-slate-100">
-            <X className="w-4 h-4" />
+          <Button variant="ghost" size="sm" onClick={onClose} className="hover:bg-gray-100 rounded-full">
+            <X className="w-5 h-5" />
           </Button>
         </DialogHeader>
         
-        <div className="overflow-auto max-h-[calc(90vh-8rem)]">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-slate-50 hover:bg-slate-50 border-b border-slate-200">
-                <TableHead className="font-semibold text-slate-700 w-48 sticky left-0 bg-slate-50 z-10 border-r border-slate-200">
-                  Field
-                </TableHead>
-                {abstracts.map((abstract, index) => (
-                  <TableHead key={abstract.id} className="font-semibold text-slate-700 min-w-64 text-center">
+        <div className="overflow-auto max-h-[calc(95vh-8rem)] space-y-8">
+          {/* Outcomes Comparison - Main Focus */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900">
+              <Target className="w-6 h-6 text-blue-600" />
+              Primary Outcomes Comparison
+            </h3>
+            
+            <div className="grid gap-6" style={{ gridTemplateColumns: `200px repeat(${abstracts.length}, 1fr)` }}>
+              {/* Column Headers */}
+              <div className="font-bold text-lg text-gray-700">Trial</div>
+              {abstracts.map((abstract, index) => (
+                <div key={abstract.id} className="text-center">
+                  <Badge variant="outline" className="mb-2 bg-blue-50 text-blue-700 border-blue-300">
                     Abstract {index + 1}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {renderSectionRows()}
-            </TableBody>
-          </Table>
+                  </Badge>
+                  <div className="text-sm font-medium text-gray-600 truncate">{abstract.trialId}</div>
+                </div>
+              ))}
+
+              {/* ORR Row */}
+              <div className="font-semibold text-gray-700 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-emerald-600" />
+                ORR
+              </div>
+              {abstracts.map((abstract) => (
+                <OutcomeMetric
+                  key={`${abstract.id}-orr`}
+                  value={abstract.outcomes.orr}
+                  label="Overall Response"
+                  icon={TrendingUp}
+                  color="bg-emerald-50 text-emerald-800 border-emerald-200"
+                />
+              ))}
+
+              {/* PFS Row */}
+              <div className="font-semibold text-gray-700 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-blue-600" />
+                PFS
+              </div>
+              {abstracts.map((abstract) => (
+                <OutcomeMetric
+                  key={`${abstract.id}-pfs`}
+                  value={abstract.outcomes.pfs}
+                  label="Progression Free"
+                  icon={Clock}
+                  color="bg-blue-50 text-blue-800 border-blue-200"
+                />
+              ))}
+
+              {/* OS Row */}
+              <div className="font-semibold text-gray-700 flex items-center gap-2">
+                <Target className="w-4 h-4 text-purple-600" />
+                OS
+              </div>
+              {abstracts.map((abstract) => (
+                <OutcomeMetric
+                  key={`${abstract.id}-os`}
+                  value={abstract.outcomes.os}
+                  label="Overall Survival"
+                  icon={Target}
+                  color="bg-purple-50 text-purple-800 border-purple-200"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Trial Details Cards */}
+          <div className="grid gap-6" style={{ gridTemplateColumns: `repeat(${abstracts.length}, 1fr)` }}>
+            {abstracts.map((abstract, index) => (
+              <Card key={abstract.id} className="shadow-lg border-0 bg-white hover:shadow-xl transition-shadow duration-300">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300">
+                      Abstract {index + 1}
+                    </Badge>
+                    <Badge className={getStatusColor(abstract.status)}>
+                      {abstract.status}
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-lg leading-tight">{abstract.title}</CardTitle>
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  {/* Core Trial Info */}
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 space-y-3">
+                    <h4 className="font-semibold text-blue-900 mb-3">Trial Information</h4>
+                    <DetailRow label="Trial ID">
+                      <Badge variant="outline" className="bg-white">{abstract.trialId}</Badge>
+                    </DetailRow>
+                    <DetailRow label="Company">
+                      <span className="font-medium">{abstract.company}</span>
+                    </DetailRow>
+                    <DetailRow label="Treatment">
+                      <span className="font-medium">{abstract.treatment}</span>
+                    </DetailRow>
+                    <DetailRow label="Phase">
+                      <Badge className="bg-blue-100 text-blue-800 border-blue-300">{abstract.phase}</Badge>
+                    </DetailRow>
+                    <DetailRow label="Patients">
+                      <span className="font-medium">{abstract.patientRatio}</span>
+                    </DetailRow>
+                  </div>
+
+                  {/* Conference Details */}
+                  <div className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-xl p-4 space-y-3">
+                    <h4 className="font-semibold text-gray-900 mb-3">Conference Details</h4>
+                    <DetailRow label="Conference">
+                      <span className="font-medium">{abstract.conference}</span>
+                    </DetailRow>
+                    <DetailRow label="Type">
+                      <Badge className={getTypeColor(abstract.presentationType)}>
+                        {abstract.presentationType}
+                      </Badge>
+                    </DetailRow>
+                    <DetailRow label="Date">
+                      <span>{abstract.presentationDate}</span>
+                    </DetailRow>
+                    <DetailRow label="Abstract #">
+                      <Badge variant="outline">{abstract.abstractNumber}</Badge>
+                    </DetailRow>
+                  </div>
+
+                  {/* Additional Details */}
+                  <div className="space-y-2 text-sm">
+                    <DetailRow label="Indication">
+                      <span>{abstract.indication}</span>
+                    </DetailRow>
+                    <DetailRow label="Population">
+                      <span>{abstract.population}</span>
+                    </DetailRow>
+                    <DetailRow label="Biomarker">
+                      <span>{abstract.biomarker}</span>
+                    </DetailRow>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </DialogContent>
     </Dialog>
