@@ -58,13 +58,21 @@ const ComparisonPage = () => {
     console.log('ComparisonPage: Component mounted, starting data load');
     
     const loadComparisonData = () => {
-      console.log('ComparisonPage: Attempting to load sessionStorage data');
+      console.log('ComparisonPage: Attempting to load localStorage data');
       
-      // Add a small delay to ensure sessionStorage is available
+      // Add a small delay to ensure localStorage is available
       setTimeout(() => {
         try {
-          const storedData = sessionStorage.getItem('comparisonAbstracts');
-          console.log('ComparisonPage: Raw sessionStorage data:', storedData);
+          // Try localStorage first (new approach)
+          let storedData = localStorage.getItem('comparisonAbstracts');
+          
+          // Fallback to sessionStorage if localStorage doesn't have data
+          if (!storedData || storedData === 'null' || storedData === 'undefined') {
+            storedData = sessionStorage.getItem('comparisonAbstracts');
+          }
+          
+          console.log('ComparisonPage: Raw stored data:', storedData);
+          console.log('ComparisonPage: localStorage keys:', Object.keys(localStorage));
           console.log('ComparisonPage: sessionStorage keys:', Object.keys(sessionStorage));
           
           if (storedData && storedData !== 'null' && storedData !== 'undefined') {
@@ -78,16 +86,19 @@ const ComparisonPage = () => {
                 console.log('ComparisonPage: Setting abstracts data');
                 setAbstracts(parsedData);
                 setError(null);
+                // Clean up the stored data after successful load
+                localStorage.removeItem('comparisonAbstracts');
+                sessionStorage.removeItem('comparisonAbstracts');
               } else {
                 console.log('ComparisonPage: Data is not a valid array or is empty');
                 setError('Invalid comparison data format');
               }
             } catch (parseError) {
-              console.error('ComparisonPage: Error parsing sessionStorage data:', parseError);
+              console.error('ComparisonPage: Error parsing stored data:', parseError);
               setError('Failed to parse comparison data');
             }
           } else {
-            console.log('ComparisonPage: No data found in sessionStorage');
+            console.log('ComparisonPage: No data found in storage');
             setError('No comparison data found');
           }
         } catch (error) {
@@ -97,10 +108,10 @@ const ComparisonPage = () => {
           console.log('ComparisonPage: Setting loading to false');
           setLoading(false);
         }
-      }, 100); // Small delay to ensure sessionStorage is ready
+      }, 200); // Increased delay to ensure storage is ready
     };
 
-    // Try to load data immediately and also listen for storage events
+    // Try to load data immediately
     loadComparisonData();
     
     // Also listen for storage events in case data is set after component mounts
@@ -239,9 +250,11 @@ const ComparisonPage = () => {
             <br />
             Error: {error || 'None'}
             <br />
+            LocalStorage keys: {Object.keys(localStorage).join(', ')}
+            <br />
             SessionStorage keys: {Object.keys(sessionStorage).join(', ')}
             <br />
-            ComparisonAbstracts value: {sessionStorage.getItem('comparisonAbstracts')?.substring(0, 100)}...
+            ComparisonAbstracts value: {(localStorage.getItem('comparisonAbstracts') || sessionStorage.getItem('comparisonAbstracts') || 'null')?.substring(0, 100)}...
           </div>
           <Button onClick={handleClose}>Close Window</Button>
         </div>

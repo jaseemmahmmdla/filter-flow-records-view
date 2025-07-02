@@ -199,13 +199,13 @@ const TrialPage = () => {
       
       console.log('Selected abstracts data:', selectedAbstractsData);
       
-      // Store in sessionStorage for the new window - using a more specific key
+      // Store in localStorage instead of sessionStorage - this is shared between windows
       const comparisonData = JSON.stringify(selectedAbstractsData);
-      sessionStorage.setItem('comparisonAbstracts', comparisonData);
+      localStorage.setItem('comparisonAbstracts', comparisonData);
       
-      console.log('Stored in sessionStorage:', comparisonData);
+      console.log('Stored in localStorage:', comparisonData);
       
-      // Small delay to ensure sessionStorage is set before opening window
+      // Small delay to ensure localStorage is set before opening window
       setTimeout(() => {
         // Open new window
         const newWindow = window.open('/comparison', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
