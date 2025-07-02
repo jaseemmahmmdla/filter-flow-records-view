@@ -13,8 +13,22 @@ interface PieChartSectionProps {
 }
 
 const PieChartSection = ({ data }: PieChartSectionProps) => {
-  console.log('PieChartSection data:', data);
+  console.log('PieChartSection rendering with data:', data);
+  console.log('Data length:', data?.length);
+  console.log('First item:', data?.[0]);
   
+  if (!data || data.length === 0) {
+    console.log('No data available for pie chart');
+    return (
+      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          Abstracts by Session Type
+        </h2>
+        <div className="text-center text-gray-500">No data available</div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -24,26 +38,27 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Pie Chart */}
         <div className="flex-1">
-          <div className="w-full h-96 border border-gray-200 rounded-lg">
+          <div className="w-full h-96 border-2 border-blue-500 rounded-lg bg-gray-50">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={data}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={140}
-                  paddingAngle={2}
+                  innerRadius={40}
+                  outerRadius={120}
+                  paddingAngle={5}
                   dataKey="value"
-                  stroke="#fff"
-                  strokeWidth={2}
                 >
-                  {data.map((entry, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={entry.color}
-                    />
-                  ))}
+                  {data.map((entry, index) => {
+                    console.log(`Rendering pie slice ${index}:`, entry);
+                    return (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color}
+                      />
+                    );
+                  })}
                 </Pie>
                 <Tooltip 
                   formatter={(value: number, name: string) => [
