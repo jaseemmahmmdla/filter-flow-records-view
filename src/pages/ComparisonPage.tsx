@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { X, ArrowLeft } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface Abstract {
   id: string;
@@ -54,63 +55,53 @@ const ComparisonPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('🔍 ComparisonPage: Component mounted, starting data load');
+    console.log('🚀 ComparisonPage: Starting data load process');
     
-    const loadComparisonData = () => {
-      console.log('🔍 ComparisonPage: loadComparisonData called');
-      
+    const loadData = () => {
       try {
-        // Check localStorage immediately
+        // Try localStorage first (where TrialPage stores the data)
         const storedData = localStorage.getItem('comparisonAbstracts');
-        console.log('🔍 ComparisonPage: localStorage data found:', !!storedData);
-        console.log('🔍 ComparisonPage: Raw data length:', storedData?.length || 0);
+        console.log('📦 ComparisonPage: Raw localStorage data:', storedData?.substring(0, 200));
         
         if (storedData && storedData !== 'null' && storedData !== 'undefined') {
-          try {
-            const parsedData = JSON.parse(storedData);
-            console.log('🔍 ComparisonPage: Successfully parsed data:', parsedData);
-            console.log('🔍 ComparisonPage: Parsed data length:', parsedData?.length);
-            
-            if (Array.isArray(parsedData) && parsedData.length > 0) {
-              console.log('✅ ComparisonPage: Setting abstracts data');
-              setAbstracts(parsedData);
-              setError(null);
-              // Clean up after successful load
-              localStorage.removeItem('comparisonAbstracts');
-            } else {
-              console.log('❌ ComparisonPage: Data is not a valid array or is empty');
-              setError('Invalid comparison data format');
-            }
-          } catch (parseError) {
-            console.error('❌ ComparisonPage: Error parsing stored data:', parseError);
-            setError('Failed to parse comparison data');
+          const parsedData = JSON.parse(storedData);
+          console.log('✅ ComparisonPage: Successfully parsed data, count:', parsedData?.length);
+          
+          if (Array.isArray(parsedData) && parsedData.length > 0) {
+            setAbstracts(parsedData);
+            setError(null);
+            // Clean up the data after successful load
+            localStorage.removeItem('comparisonAbstracts');
+            console.log('🧹 ComparisonPage: Cleaned up localStorage data');
+            return true;
           }
-        } else {
-          console.log('❌ ComparisonPage: No data found in localStorage');
-          setError('No comparison data found');
         }
-      } catch (error) {
-        console.error('❌ ComparisonPage: Error loading data:', error);
+        
+        console.log('❌ ComparisonPage: No valid data found');
+        setError('No comparison data found. Please try selecting abstracts again.');
+        return false;
+      } catch (err) {
+        console.error('💥 ComparisonPage: Error loading data:', err);
         setError('Failed to load comparison data');
-      } finally {
-        console.log('🔍 ComparisonPage: Setting loading to false');
-        setLoading(false);
+        return false;
       }
     };
 
-    // Load data immediately without delay
-    loadComparisonData();
+    // Try loading immediately
+    const success = loadData();
     
-    // Also try after a short delay in case there's a timing issue
-    const timeoutId = setTimeout(() => {
-      if (abstracts.length === 0) {
-        console.log('🔍 ComparisonPage: Retrying data load after delay');
-        loadComparisonData();
-      }
-    }, 500);
-    
-    return () => clearTimeout(timeoutId);
-  }, [abstracts.length]);
+    if (!success) {
+      // If immediate load fails, try again after a short delay
+      // This handles cases where the new window loads before localStorage is fully updated
+      setTimeout(() => {
+        console.log('🔄 ComparisonPage: Retrying data load after delay');
+        loadData();
+        setLoading(false);
+      }, 100);
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   const handleClose = () => {
     window.close();
@@ -230,9 +221,7 @@ const ComparisonPage = () => {
             <div>Debug Info:</div>
             <div>Abstracts loaded: {abstracts.length}</div>
             <div>Error: {error || 'None'}</div>
-            <div>LocalStorage keys: {Object.keys(localStorage).join(', ')}</div>
-            <div>ComparisonAbstracts exists: {!!localStorage.getItem('comparisonAbstracts')}</div>
-            <div>Data preview: {localStorage.getItem('comparisonAbstracts')?.substring(0, 100)}...</div>
+            <div>LocalStorage has comparisonAbstracts: {!!localStorage.getItem('comparisonAbstracts')}</div>
           </div>
           <Button onClick={handleClose}>Close Window</Button>
         </div>
