@@ -81,6 +81,8 @@ const AbstractsOverview = () => {
 
   console.log('Session type data for pie chart:', sessionTypeData);
   console.log('Chart config:', chartConfig);
+  console.log('Rendering pie chart container...');
+  console.log('PieChart component rendering...');
 
   return (
     <div className="bg-white p-6">
@@ -98,10 +100,8 @@ const AbstractsOverview = () => {
             </h2>
             
             <div style={{ width: '100%', height: '400px' }} className="mb-4">
-              {console.log('Rendering pie chart container...')}
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  {console.log('PieChart component rendering...')}
                   <Pie
                     data={sessionTypeData}
                     cx="50%"
