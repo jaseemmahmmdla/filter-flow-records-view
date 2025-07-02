@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BarChartsGrid from './BarChartsGrid';
@@ -17,6 +16,7 @@ const AbstractsOverview = () => {
   ];
 
   console.log('🔵 AbstractsOverview sessionTypeData:', sessionTypeData);
+  console.log('🔵 About to render PieChartSection with data length:', sessionTypeData.length);
 
   const drugsData = [
     { name: 'Pembrolizumab', oral: 2.1, poster: 1.8, mini_oral: 0.3 },
@@ -85,6 +85,11 @@ const AbstractsOverview = () => {
 
   return (
     <div className="bg-white p-6">
+      <div className="mb-4 p-4 bg-yellow-100 border border-yellow-300 rounded">
+        <p className="text-sm">DEBUG: Overview component loaded. SessionTypeData length: {sessionTypeData.length}</p>
+        <p className="text-sm">First item: {sessionTypeData[0]?.name} - {sessionTypeData[0]?.value}</p>
+      </div>
+      
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -92,6 +97,10 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
+          <div className="bg-red-100 border border-red-300 rounded p-4 mb-4">
+            <p className="text-sm">DEBUG: About to render PieChartSection</p>
+          </div>
+          
           {/* Pie Chart Section - Moved to top */}
           <PieChartSection data={sessionTypeData} />
           
