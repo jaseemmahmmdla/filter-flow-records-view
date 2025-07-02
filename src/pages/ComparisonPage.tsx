@@ -57,48 +57,65 @@ const ComparisonPage = () => {
   useEffect(() => {
     console.log('ComparisonPage: Component mounted, starting data load');
     
-    const loadComparisonData = async () => {
-      try {
-        console.log('ComparisonPage: Attempting to load sessionStorage data');
-        const storedData = sessionStorage.getItem('comparisonAbstracts');
-        console.log('ComparisonPage: Raw sessionStorage data:', storedData);
-        
-        if (storedData) {
-          try {
-            const parsedData = JSON.parse(storedData);
-            console.log('ComparisonPage: Successfully parsed data:', parsedData);
-            console.log('ComparisonPage: Data is array?', Array.isArray(parsedData));
-            console.log('ComparisonPage: Data length:', parsedData?.length);
-            
-            if (Array.isArray(parsedData) && parsedData.length > 0) {
-              console.log('ComparisonPage: Setting abstracts data');
-              setAbstracts(parsedData);
-              setError(null);
-              setLoading(false);
-            } else {
-              console.log('ComparisonPage: Data is not a valid array or is empty');
-              setError('Invalid comparison data format');
-              setLoading(false);
+    const loadComparisonData = () => {
+      console.log('ComparisonPage: Attempting to load sessionStorage data');
+      
+      // Add a small delay to ensure sessionStorage is available
+      setTimeout(() => {
+        try {
+          const storedData = sessionStorage.getItem('comparisonAbstracts');
+          console.log('ComparisonPage: Raw sessionStorage data:', storedData);
+          console.log('ComparisonPage: sessionStorage keys:', Object.keys(sessionStorage));
+          
+          if (storedData && storedData !== 'null' && storedData !== 'undefined') {
+            try {
+              const parsedData = JSON.parse(storedData);
+              console.log('ComparisonPage: Successfully parsed data:', parsedData);
+              console.log('ComparisonPage: Data is array?', Array.isArray(parsedData));
+              console.log('ComparisonPage: Data length:', parsedData?.length);
+              
+              if (Array.isArray(parsedData) && parsedData.length > 0) {
+                console.log('ComparisonPage: Setting abstracts data');
+                setAbstracts(parsedData);
+                setError(null);
+              } else {
+                console.log('ComparisonPage: Data is not a valid array or is empty');
+                setError('Invalid comparison data format');
+              }
+            } catch (parseError) {
+              console.error('ComparisonPage: Error parsing sessionStorage data:', parseError);
+              setError('Failed to parse comparison data');
             }
-          } catch (parseError) {
-            console.error('ComparisonPage: Error parsing sessionStorage data:', parseError);
-            setError('Failed to parse comparison data');
-            setLoading(false);
+          } else {
+            console.log('ComparisonPage: No data found in sessionStorage');
+            setError('No comparison data found');
           }
-        } else {
-          console.log('ComparisonPage: No data found in sessionStorage');
-          setError('No comparison data found');
+        } catch (error) {
+          console.error('ComparisonPage: Error loading data:', error);
+          setError('Failed to load comparison data');
+        } finally {
+          console.log('ComparisonPage: Setting loading to false');
           setLoading(false);
         }
-      } catch (error) {
-        console.error('ComparisonPage: Error loading data:', error);
-        setError('Failed to load comparison data');
-        setLoading(false);
-      }
+      }, 100); // Small delay to ensure sessionStorage is ready
     };
 
-    // Try to load data immediately
+    // Try to load data immediately and also listen for storage events
     loadComparisonData();
+    
+    // Also listen for storage events in case data is set after component mounts
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'comparisonAbstracts') {
+        console.log('ComparisonPage: Storage event detected, reloading data');
+        loadComparisonData();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleClose = () => {
@@ -216,9 +233,15 @@ const ComparisonPage = () => {
             {error || 'No comparison data was found.'}
           </p>
           <div className="text-xs text-slate-400 mb-4 max-w-md">
-            Debug Info: {abstracts.length} abstracts loaded
+            Debug Info: 
+            <br />
+            Abstracts loaded: {abstracts.length}
             <br />
             Error: {error || 'None'}
+            <br />
+            SessionStorage keys: {Object.keys(sessionStorage).join(', ')}
+            <br />
+            ComparisonAbstracts value: {sessionStorage.getItem('comparisonAbstracts')?.substring(0, 100)}...
           </div>
           <Button onClick={handleClose}>Close Window</Button>
         </div>
