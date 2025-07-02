@@ -20,6 +20,8 @@ const Index = () => {
   const [selectedTrial, setSelectedTrial] = useState(null);
   const [viewMode, setViewMode] = useState('database'); // 'database', 'detail', or 'overview'
 
+  console.log('Index.tsx - Current state:', { activeView, viewMode, selectedProfile });
+
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
     console.log('Clinical trial filters applied:', newFilters);
@@ -30,6 +32,7 @@ const Index = () => {
   };
 
   const handleGetStarted = () => {
+    console.log('handleGetStarted called');
     // Check if there's a search selection in sessionStorage
     const searchSelection = sessionStorage.getItem('searchSelection');
     if (searchSelection) {
@@ -46,6 +49,7 @@ const Index = () => {
     
     setActiveView('trials');
     setViewMode('overview'); // Start with overview when coming from landing
+    console.log('Set activeView to trials and viewMode to overview');
   };
 
   const handleTrialSelect = (trial: any) => {
@@ -121,6 +125,7 @@ const Index = () => {
           <TrialDetailView trial={selectedTrial} onBack={handleBackToDatabase} />
         ) : viewMode === 'overview' ? (
           <div className="h-[calc(100vh-7rem)] relative">
+            {console.log('Rendering overview mode - should show AbstractsOverview')}
             <ResizablePanelGroup direction="horizontal" className="h-full">
               {!filterPanelCollapsed && (
                 <>
@@ -181,6 +186,7 @@ const Index = () => {
                   </div>
                 </div>
                 
+                {console.log('About to render AbstractsOverview component')}
                 <AbstractsOverview />
               </ResizablePanel>
             </ResizablePanelGroup>

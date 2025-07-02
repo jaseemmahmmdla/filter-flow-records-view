@@ -13,12 +13,13 @@ interface PieChartSectionProps {
 }
 
 const PieChartSection = ({ data }: PieChartSectionProps) => {
-  console.log('PieChartSection rendering with data:', data);
-  console.log('Data length:', data?.length);
-  console.log('First item:', data?.[0]);
+  console.log('🟢 PieChartSection is rendering!');
+  console.log('🟢 PieChartSection data received:', data);
+  console.log('🟢 Data length:', data?.length);
+  console.log('🟢 First item:', data?.[0]);
   
   if (!data || data.length === 0) {
-    console.log('No data available for pie chart');
+    console.log('🔴 No data available for pie chart');
     return (
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -28,6 +29,8 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
       </div>
     );
   }
+
+  console.log('🟢 Data is valid, rendering pie chart');
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
@@ -39,7 +42,8 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
         {/* Pie Chart */}
         <div className="flex-1">
           <div className="w-full h-96 border-2 border-blue-500 rounded-lg bg-gray-50">
-            <ResponsiveContainer width="100%" height="100%">
+            <p className="text-center text-blue-600 font-bold p-4">PIE CHART CONTAINER - You should see the chart below:</p>
+            <ResponsiveContainer width="100%" height="90%">
               <PieChart>
                 <Pie
                   data={data}
@@ -51,7 +55,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
                   dataKey="value"
                 >
                   {data.map((entry, index) => {
-                    console.log(`Rendering pie slice ${index}:`, entry);
+                    console.log(`🟢 Rendering pie slice ${index}:`, entry);
                     return (
                       <Cell 
                         key={`cell-${index}`} 

@@ -4,7 +4,7 @@ import PieChartSection from './PieChartSection';
 import BarChartsGrid from './BarChartsGrid';
 
 const AbstractsOverview = () => {
-  console.log('AbstractsOverview rendering');
+  console.log('🔵 AbstractsOverview component is rendering!');
   
   const sessionTypeData = [
     { name: 'Oral Presentations', value: 3247, color: '#8B5CF6' },
@@ -15,7 +15,7 @@ const AbstractsOverview = () => {
     { name: 'Workshops', value: 634, color: '#8B5F65' }
   ];
 
-  console.log('sessionTypeData:', sessionTypeData);
+  console.log('🔵 AbstractsOverview sessionTypeData:', sessionTypeData);
 
   const drugsData = [
     { name: 'Pembrolizumab', oral: 2.1, poster: 1.8, mini_oral: 0.3 },
@@ -80,6 +80,8 @@ const AbstractsOverview = () => {
     },
   };
 
+  console.log('🔵 About to render AbstractsOverview JSX - PieChartSection should be called next');
+
   return (
     <div className="bg-white p-6">
       <Tabs defaultValue="overview" className="w-full">
@@ -89,6 +91,7 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
+          {console.log('🔵 Rendering overview tab content - calling PieChartSection now')}
           {/* Pie Chart Section */}
           <PieChartSection data={sessionTypeData} />
 
