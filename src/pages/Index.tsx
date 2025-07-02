@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
@@ -8,7 +7,7 @@ import TrialDetailView from '@/components/TrialDetailView';
 import OutcomesLanding from '@/components/OutcomesLanding';
 import AbstractsOverview from '@/components/AbstractsOverview';
 import AIAssistant from './AIAssistant';
-import { ResizablePanelGroup, ResizablePanel } from '@/components/ui/resizable';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PanelLeftOpen, PanelLeftClose } from 'lucide-react';
@@ -124,22 +123,25 @@ const Index = () => {
           <div className="h-[calc(100vh-7rem)] relative">
             <ResizablePanelGroup direction="horizontal" className="h-full">
               {!filterPanelCollapsed && (
-                <ResizablePanel 
-                  defaultSize={18} 
-                  minSize={15} 
-                  maxSize={35}
-                  className="relative"
-                >
-                  <FilterPanel onFiltersChange={handleFiltersChange} />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={toggleFilterPanel}
-                    className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+                <>
+                  <ResizablePanel 
+                    defaultSize={18} 
+                    minSize={15} 
+                    maxSize={35}
+                    className="relative"
                   >
-                    <PanelLeftClose className="w-4 h-4" />
-                  </Button>
-                </ResizablePanel>
+                    <FilterPanel onFiltersChange={handleFiltersChange} />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={toggleFilterPanel}
+                      className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+                    >
+                      <PanelLeftClose className="w-4 h-4" />
+                    </Button>
+                  </ResizablePanel>
+                  <ResizableHandle />
+                </>
               )}
               
               <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82} className="relative">
@@ -187,22 +189,25 @@ const Index = () => {
           <div className="h-[calc(100vh-7rem)] relative">
             <ResizablePanelGroup direction="horizontal" className="h-full">
               {!filterPanelCollapsed && (
-                <ResizablePanel 
-                  defaultSize={18} 
-                  minSize={15} 
-                  maxSize={35}
-                  className="relative"
-                >
-                  <FilterPanel onFiltersChange={handleFiltersChange} />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={toggleFilterPanel}
-                    className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+                <>
+                  <ResizablePanel 
+                    defaultSize={18} 
+                    minSize={15} 
+                    maxSize={35}
+                    className="relative"
                   >
-                    <PanelLeftClose className="w-4 h-4" />
-                  </Button>
-                </ResizablePanel>
+                    <FilterPanel onFiltersChange={handleFiltersChange} />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={toggleFilterPanel}
+                      className="absolute top-4 -right-6 z-10 bg-white shadow-md border-l-0 rounded-l-none"
+                    >
+                      <PanelLeftClose className="w-4 h-4" />
+                    </Button>
+                  </ResizablePanel>
+                  <ResizableHandle />
+                </>
               )}
               
               <ResizablePanel defaultSize={filterPanelCollapsed ? 100 : 82} className="relative">
