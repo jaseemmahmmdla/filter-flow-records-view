@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
@@ -85,13 +86,11 @@ const AbstractsOverview = () => {
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="abstracts">Abstracts</TabsTrigger>
+          <TabsTrigger value="clinical">Clinical Data</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          
-          
-          {/* Donut Chart - First item in Overview tab */}
+          {/* Session Type Pie Chart - New chart above key insights */}
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Abstracts by Session Type
@@ -105,7 +104,7 @@ const AbstractsOverview = () => {
                       data={sessionTypeData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={80}
+                      innerRadius={60}
                       outerRadius={140}
                       paddingAngle={2}
                       dataKey="value"
@@ -125,6 +124,7 @@ const AbstractsOverview = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
+            
             <div className="grid grid-cols-2 gap-3">
               {sessionTypeData.map((item, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -141,7 +141,7 @@ const AbstractsOverview = () => {
             </div>
           </div>
 
-          {/* Bar Charts Grid */}
+          {/* Bar Charts Grid - Key Insights Section */}
           <div className="grid grid-cols-2 gap-6">
             {/* Top 10 Drugs */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -221,10 +221,10 @@ const AbstractsOverview = () => {
           </div>
         </TabsContent>
         
-        <TabsContent value="abstracts" className="space-y-6">
+        <TabsContent value="clinical" className="space-y-6">
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <div className="text-gray-500 text-center py-12">
-              Additional abstract details will be available here...
+              Clinical data details will be available here...
             </div>
           </div>
         </TabsContent>
