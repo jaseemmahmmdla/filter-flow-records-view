@@ -80,6 +80,7 @@ const AbstractsOverview = () => {
   };
 
   console.log('Session type data for pie chart:', sessionTypeData);
+  console.log('Chart config:', chartConfig);
 
   return (
     <div className="bg-white p-6">
@@ -90,39 +91,41 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Session Type Pie Chart - New chart above key insights */}
+          {/* Session Type Pie Chart - Test with simpler structure */}
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Abstracts by Session Type
             </h2>
             
-            <div className="h-96 mb-4">
-              <ChartContainer config={chartConfig} className="h-full w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={sessionTypeData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={140}
-                      paddingAngle={2}
-                      dataKey="value"
-                    >
-                      {sessionTypeData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip 
-                      content={<ChartTooltipContent />}
-                      formatter={(value, name) => [
-                        `${value.toLocaleString()} abstracts`,
-                        name
-                      ]}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartContainer>
+            <div style={{ width: '100%', height: '400px' }} className="mb-4">
+              {console.log('Rendering pie chart container...')}
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  {console.log('PieChart component rendering...')}
+                  <Pie
+                    data={sessionTypeData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={140}
+                    paddingAngle={2}
+                    dataKey="value"
+                    stroke="#fff"
+                    strokeWidth={2}
+                  >
+                    {sessionTypeData.map((entry, index) => {
+                      console.log(`Rendering pie cell ${index}:`, entry);
+                      return <Cell key={`cell-${index}`} fill={entry.color} />;
+                    })}
+                  </Pie>
+                  <ChartTooltip 
+                    formatter={(value, name) => [
+                      `${value.toLocaleString()} abstracts`,
+                      name
+                    ]}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
             
             <div className="grid grid-cols-2 gap-3">
