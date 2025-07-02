@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
@@ -86,15 +85,12 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Donut Chart - Moved to top for better visibility */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm border">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
-                <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin"></div>
-              </div>
+          {/* Donut Chart - First section in Overview */}
+          <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
               Abstracts by Session Type
             </h2>
-            <div className="h-80">
+            <div className="h-96 mb-4">
               <ChartContainer config={chartConfig} className="h-full w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -102,8 +98,8 @@ const AbstractsOverview = () => {
                       data={sessionTypeData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={120}
+                      innerRadius={80}
+                      outerRadius={140}
                       paddingAngle={2}
                       dataKey="value"
                     >
@@ -122,7 +118,7 @@ const AbstractsOverview = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
-            <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-2 gap-3">
               {sessionTypeData.map((item, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center">
