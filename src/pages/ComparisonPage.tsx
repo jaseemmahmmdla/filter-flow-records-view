@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -50,42 +51,39 @@ interface Abstract {
 
 const ComparisonPage = () => {
   const [abstracts, setAbstracts] = useState<Abstract[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('ComparisonPage: Component mounted, checking sessionStorage...');
+    console.log('ComparisonPage: Component mounted');
     
     const loadData = () => {
-      // Get abstracts data from sessionStorage
-      const storedAbstracts = sessionStorage.getItem('comparisonAbstracts');
-      console.log('ComparisonPage: Raw sessionStorage data:', storedAbstracts);
-      console.log('ComparisonPage: All sessionStorage keys:', Object.keys(sessionStorage));
-      
-      if (storedAbstracts) {
-        try {
+      try {
+        const storedAbstracts = sessionStorage.getItem('comparisonAbstracts');
+        console.log('ComparisonPage: Raw sessionStorage data:', storedAbstracts);
+        
+        if (storedAbstracts) {
           const parsedAbstracts = JSON.parse(storedAbstracts);
           console.log('ComparisonPage: Parsed abstracts:', parsedAbstracts);
           console.log('ComparisonPage: Number of abstracts:', parsedAbstracts.length);
           
           if (Array.isArray(parsedAbstracts) && parsedAbstracts.length > 0) {
             setAbstracts(parsedAbstracts);
-          } else {
-            console.log('ComparisonPage: Invalid abstracts data format or empty array');
+            setLoading(false);
+            return;
           }
-        } catch (error) {
-          console.error('ComparisonPage: Error parsing stored abstracts:', error);
         }
-      } else {
-        console.log('ComparisonPage: No stored abstracts found in sessionStorage');
         
-        // Try again after a short delay in case of timing issues
+        console.log('ComparisonPage: No valid data found, retrying...');
+        // Retry after a short delay
         setTimeout(() => {
           const retryStoredAbstracts = sessionStorage.getItem('comparisonAbstracts');
-          console.log('ComparisonPage: Retry - checking sessionStorage again:', retryStoredAbstracts);
+          console.log('ComparisonPage: Retry - raw data:', retryStoredAbstracts);
           
           if (retryStoredAbstracts) {
             try {
               const parsedAbstracts = JSON.parse(retryStoredAbstracts);
               console.log('ComparisonPage: Retry - parsed abstracts:', parsedAbstracts);
+              
               if (Array.isArray(parsedAbstracts) && parsedAbstracts.length > 0) {
                 setAbstracts(parsedAbstracts);
               }
@@ -93,7 +91,12 @@ const ComparisonPage = () => {
               console.error('ComparisonPage: Retry - error parsing stored abstracts:', error);
             }
           }
-        }, 500);
+          setLoading(false);
+        }, 1000);
+        
+      } catch (error) {
+        console.error('ComparisonPage: Error in loadData:', error);
+        setLoading(false);
       }
     };
     
@@ -193,17 +196,25 @@ const ComparisonPage = () => {
     }
   };
 
-  if (abstracts.length === 0) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Loading Comparison...</h1>
           <p className="text-slate-600 mb-4">Please wait while we load your selected abstracts.</p>
-          <div className="mb-4">
-            <div className="text-sm text-slate-500">
-              Debug Info: Checking sessionStorage for comparison data...
-            </div>
-          </div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <Button onClick={handleClose}>Close Window</Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (abstracts.length === 0) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">No Abstracts to Compare</h1>
+          <p className="text-slate-600 mb-4">No comparison data was found.</p>
           <Button onClick={handleClose}>Close Window</Button>
         </div>
       </div>
@@ -261,74 +272,6 @@ const ComparisonPage = () => {
       </div>
     </div>
   );
-};
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'Published': return 'bg-green-50 text-green-700 border-green-200';
-    case 'Presented': return 'bg-blue-50 text-blue-700 border-blue-200';
-    case 'Upcoming': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
-    default: return 'bg-gray-50 text-gray-700 border-gray-200';
-  }
-};
-
-const getTypeColor = (type: string) => {
-  switch (type) {
-    case 'Oral Presentation': return 'bg-purple-50 text-purple-700 border-purple-200';
-    case 'Poster': return 'bg-blue-50 text-blue-700 border-blue-200';
-    case 'Keynote': return 'bg-orange-50 text-orange-700 border-orange-200';
-    default: return 'bg-gray-50 text-gray-700 border-gray-200';
-  }
-};
-
-const renderCellContent = (abstract: Abstract, field: any) => {
-  const value = abstract[field.key as keyof Abstract];
-
-  switch (field.type) {
-    case 'badge':
-      return (
-        <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
-          {value as string}
-        </Badge>
-      );
-    case 'status':
-      return (
-        <Badge className={getStatusColor(value as string)}>
-          {value as string}
-        </Badge>
-      );
-    case 'presentationType':
-      return (
-        <Badge className={getTypeColor(value as string)}>
-          {value as string}
-        </Badge>
-      );
-    case 'outcomes':
-      const outcomes = value as Abstract['outcomes'];
-      return (
-        <div className="space-y-1">
-          <div className="text-sm font-medium">ORR: {outcomes.orr}</div>
-          <div className="text-sm font-medium">PFS: {outcomes.pfs}</div>
-          <div className="text-sm font-medium">OS: {outcomes.os}</div>
-        </div>
-      );
-    case 'text':
-    default:
-      if (field.key === 'title') {
-        return (
-          <div className="max-w-xs">
-            <p className="text-sm font-medium text-slate-900 line-clamp-3 leading-tight">
-              {value as string}
-            </p>
-          </div>
-        );
-      }
-      return (
-        <span className="text-sm text-slate-900 font-body">
-          {value as string}
-        </span>
-      );
-  }
 };
 
 export default ComparisonPage;
