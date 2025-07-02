@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 interface SessionTypeData {
   name: string;
@@ -15,8 +16,6 @@ interface PieChartSectionProps {
 const PieChartSection = ({ data }: PieChartSectionProps) => {
   console.log('🟢 PieChartSection is rendering!');
   console.log('🟢 PieChartSection data received:', data);
-  console.log('🟢 Data length:', data?.length);
-  console.log('🟢 First item:', data?.[0]);
   
   if (!data || data.length === 0) {
     console.log('🔴 No data available for pie chart');
@@ -30,6 +29,21 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
     );
   }
 
+  // Create chart config for shadcn/ui chart
+  const chartConfig = {
+    value: {
+      label: "Abstracts",
+    },
+    ...data.reduce((acc, item, index) => {
+      acc[item.name.toLowerCase().replace(/\s+/g, '_')] = {
+        label: item.name,
+        color: item.color,
+      };
+      return acc;
+    }, {} as any)
+  };
+
+  console.log('🟢 Chart config:', chartConfig);
   console.log('🟢 Data is valid, rendering pie chart');
 
   return (
@@ -41,38 +55,35 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Pie Chart */}
         <div className="flex-1">
-          <div className="w-full h-96 border-2 border-blue-500 rounded-lg bg-gray-50">
-            <p className="text-center text-blue-600 font-bold p-4">PIE CHART CONTAINER - You should see the chart below:</p>
-            <ResponsiveContainer width="100%" height="90%">
-              <PieChart>
-                <Pie
-                  data={data}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={120}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {data.map((entry, index) => {
-                    console.log(`🟢 Rendering pie slice ${index}:`, entry);
-                    return (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={entry.color}
-                      />
-                    );
-                  })}
-                </Pie>
-                <Tooltip 
-                  formatter={(value: number, name: string) => [
-                    `${value.toLocaleString()} abstracts`,
-                    name
-                  ]}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[400px]"
+          >
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={120}
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {data.map((entry, index) => {
+                  console.log(`🟢 Rendering pie slice ${index}:`, entry);
+                  return (
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={entry.color}
+                    />
+                  );
+                })}
+              </Pie>
+              <ChartTooltip 
+                content={<ChartTooltipContent />}
+              />
+            </PieChart>
+          </ChartContainer>
         </div>
         
         {/* Legend */}
