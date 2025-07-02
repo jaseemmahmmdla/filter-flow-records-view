@@ -85,55 +85,6 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Donut Chart - First section in Overview */}
-          <div className="bg-white rounded-lg p-6 shadow-sm border">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Abstracts by Session Type
-            </h2>
-            <div className="h-96 mb-4">
-              <ChartContainer config={chartConfig} className="h-full w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={sessionTypeData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={80}
-                      outerRadius={140}
-                      paddingAngle={2}
-                      dataKey="value"
-                    >
-                      {sessionTypeData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip 
-                      content={<ChartTooltipContent />}
-                      formatter={(value, name) => [
-                        `${value.toLocaleString()} abstracts`,
-                        name
-                      ]}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {sessionTypeData.map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center">
-                    <div 
-                      className="w-3 h-3 rounded-full mr-2"
-                      style={{ backgroundColor: item.color }}
-                    ></div>
-                    <span className="text-sm font-medium text-gray-900">{item.name}</span>
-                  </div>
-                  <span className="text-sm font-bold text-gray-900">{item.value.toLocaleString()}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* Bar Charts Grid */}
           <div className="grid grid-cols-2 gap-6">
             {/* Top 10 Drugs */}
@@ -215,8 +166,53 @@ const AbstractsOverview = () => {
         </TabsContent>
         
         <TabsContent value="abstracts" className="space-y-6">
-          <div className="bg-white rounded-lg p-6">
-            <p className="text-gray-600">Abstracts list will be displayed here...</p>
+          {/* Donut Chart - Now in Abstracts tab */}
+          <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              Abstracts by Session Type
+            </h2>
+            <div className="h-96 mb-4">
+              <ChartContainer config={chartConfig} className="h-full w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={sessionTypeData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={140}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {sessionTypeData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip 
+                      content={<ChartTooltipContent />}
+                      formatter={(value, name) => [
+                        `${value.toLocaleString()} abstracts`,
+                        name
+                      ]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {sessionTypeData.map((item, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center">
+                    <div 
+                      className="w-3 h-3 rounded-full mr-2"
+                      style={{ backgroundColor: item.color }}
+                    ></div>
+                    <span className="text-sm font-medium text-gray-900">{item.name}</span>
+                  </div>
+                  <span className="text-sm font-bold text-gray-900">{item.value.toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </TabsContent>
       </Tabs>
