@@ -169,11 +169,14 @@ const TrialPage = () => {
   ]);
 
   const handleAbstractSelect = (abstractId: string) => {
-    setSelectedAbstracts(prev => 
-      prev.includes(abstractId) 
+    console.log('Selecting abstract:', abstractId);
+    setSelectedAbstracts(prev => {
+      const newSelection = prev.includes(abstractId) 
         ? prev.filter(id => id !== abstractId)
-        : [...prev, abstractId]
-    );
+        : [...prev, abstractId];
+      console.log('New selection:', newSelection);
+      return newSelection;
+    });
   };
 
   const handleViewAbstract = (abstractId: string) => {
@@ -182,13 +185,20 @@ const TrialPage = () => {
   };
 
   const handleCompareAbstracts = () => {
+    console.log('Compare button clicked, selected abstracts:', selectedAbstracts);
+    console.log('Number of selected abstracts:', selectedAbstracts.length);
     if (selectedAbstracts.length >= 2) {
+      console.log('Opening comparison dialog');
       setShowComparison(true);
+    } else {
+      console.log('Not enough abstracts selected for comparison');
     }
   };
 
   const getSelectedAbstracts = () => {
-    return abstracts.filter(abstract => selectedAbstracts.includes(abstract.id));
+    const selected = abstracts.filter(abstract => selectedAbstracts.includes(abstract.id));
+    console.log('Getting selected abstracts:', selected);
+    return selected;
   };
 
   const getStatusColor = (status: string) => {
@@ -527,7 +537,10 @@ const TrialPage = () => {
       <AbstractComparison 
         abstracts={getSelectedAbstracts()}
         open={showComparison}
-        onClose={() => setShowComparison(false)}
+        onClose={() => {
+          console.log('Closing comparison dialog');
+          setShowComparison(false);
+        }}
       />
     </div>
   );
