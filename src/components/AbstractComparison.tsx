@@ -101,78 +101,9 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
         </DialogHeader>
         
         <div className="overflow-auto max-h-[calc(95vh-8rem)]">
-          {/* Primary Outcomes Table */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900 mb-4">
-              <Target className="w-6 h-6 text-blue-600" />
-              Primary Outcomes Comparison
-            </h3>
-            
-            <div className="rounded-xl border border-gray-200 overflow-hidden shadow-lg bg-white">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-gradient-to-r from-blue-50 to-indigo-50 hover:bg-gradient-to-r hover:from-blue-100 hover:to-indigo-100">
-                    <TableHead className="font-bold text-gray-900 w-48">Trial ID</TableHead>
-                    <TableHead className="font-bold text-emerald-700 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <TrendingUp className="w-5 h-5" />
-                        ORR
-                      </div>
-                    </TableHead>
-                    <TableHead className="font-bold text-blue-700 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <Clock className="w-5 h-5" />
-                        PFS
-                      </div>
-                    </TableHead>
-                    <TableHead className="font-bold text-purple-700 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <Target className="w-5 h-5" />
-                        OS
-                      </div>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {abstracts.map((abstract, index) => (
-                    <TableRow key={abstract.id} className="hover:bg-gray-50 transition-colors">
-                      <TableCell className="font-medium">
-                        <div className="space-y-2">
-                          <Badge variant="outline" className="bg-slate-100 text-slate-700">
-                            {abstract.trialId}
-                          </Badge>
-                          <div className="text-sm text-gray-600">{abstract.treatment}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <OutcomeBadge 
-                          value={abstract.outcomes.orr} 
-                          color="bg-emerald-100 text-emerald-800 border-emerald-300" 
-                        />
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <OutcomeBadge 
-                          value={abstract.outcomes.pfs} 
-                          color="bg-blue-100 text-blue-800 border-blue-300" 
-                        />
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <OutcomeBadge 
-                          value={abstract.outcomes.os} 
-                          color="bg-purple-100 text-purple-800 border-purple-300" 
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-
-          {/* Detailed Comparison Table */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold flex items-center gap-2 text-gray-900">
-              Trial Details Comparison
+              Trial Comparison
             </h3>
             
             <div className="rounded-xl border border-gray-200 overflow-hidden shadow-lg bg-white">
@@ -193,6 +124,57 @@ const AbstractComparison = ({ abstracts, open, onClose }: AbstractComparisonProp
                   </TableRow>
                 </TableHeader>
                 <TableBody>
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="w-5 h-5 text-emerald-600" />
+                        ORR
+                      </div>
+                    </TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-orr`} className="text-center">
+                        <OutcomeBadge 
+                          value={abstract.outcomes.orr} 
+                          color="bg-emerald-100 text-emerald-800 border-emerald-300" 
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-5 h-5 text-blue-600" />
+                        PFS
+                      </div>
+                    </TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-pfs`} className="text-center">
+                        <OutcomeBadge 
+                          value={abstract.outcomes.pfs} 
+                          color="bg-blue-100 text-blue-800 border-blue-300" 
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  <TableRow className="hover:bg-gray-50">
+                    <TableCell className="font-medium text-gray-700">
+                      <div className="flex items-center gap-2">
+                        <Target className="w-5 h-5 text-purple-600" />
+                        OS
+                      </div>
+                    </TableCell>
+                    {abstracts.map((abstract) => (
+                      <TableCell key={`${abstract.id}-os`} className="text-center">
+                        <OutcomeBadge 
+                          value={abstract.outcomes.os} 
+                          color="bg-purple-100 text-purple-800 border-purple-300" 
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  
                   <TableRow className="hover:bg-gray-50">
                     <TableCell className="font-medium text-gray-700">Title</TableCell>
                     {abstracts.map((abstract) => (
