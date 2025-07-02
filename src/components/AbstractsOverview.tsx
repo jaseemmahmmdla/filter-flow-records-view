@@ -2,6 +2,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BarChartsGrid from './BarChartsGrid';
+import PieChartSection from './PieChartSection';
 
 const AbstractsOverview = () => {
   console.log('🔵 AbstractsOverview component is rendering!');
@@ -80,7 +81,7 @@ const AbstractsOverview = () => {
     },
   };
 
-  console.log('🔵 About to render AbstractsOverview JSX with all charts in one grid');
+  console.log('🔵 About to render AbstractsOverview JSX with pie chart and bar charts');
 
   return (
     <div className="bg-white p-6">
@@ -91,7 +92,10 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* All Charts in One Grid */}
+          {/* Pie Chart Section */}
+          <PieChartSection data={sessionTypeData} />
+          
+          {/* Bar Charts Grid */}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Insights</h2>
             <BarChartsGrid 
