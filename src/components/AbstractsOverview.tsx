@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from 'recharts';
@@ -86,7 +85,7 @@ const AbstractsOverview = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          {/* Donut Chart - Above the bar charts */}
+          {/* Donut Chart - Positioned above bar charts as requested */}
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Abstracts by Session Type
