@@ -6,13 +6,18 @@ import PieChartSection from './PieChartSection';
 const AbstractsOverview = () => {
   console.log('🔵 AbstractsOverview component is rendering!');
   
+  // Data that matches the Key Insights from TrialDatabase - trial distribution by indication
   const sessionTypeData = [
-    { name: 'Oral Presentations', value: 3247, color: '#8B5CF6' },
-    { name: 'Poster Sessions', value: 8934, color: '#06B6D4' },
-    { name: 'Clinical Trials', value: 2156, color: '#10B981' },
-    { name: 'Educational Sessions', value: 1543, color: '#F59E0B' },
-    { name: 'Symposiums', value: 987, color: '#EF4444' },
-    { name: 'Workshops', value: 634, color: '#8B5F65' }
+    { name: 'NSCLC', value: 6, color: '#8B5CF6' },
+    { name: 'Breast Cancer', value: 1, color: '#06B6D4' },
+    { name: 'RCC', value: 1, color: '#10B981' },
+    { name: 'Gastric Cancer', value: 2, color: '#F59E0B' },
+    { name: 'HCC', value: 2, color: '#EF4444' },
+    { name: 'Prostate Cancer', value: 2, color: '#8B5F65' },
+    { name: 'Endometrial Cancer', value: 1, color: '#A855F7' },
+    { name: 'SCLC', value: 2, color: '#EC4899' },
+    { name: 'Sarcoma', value: 1, color: '#06B6D4' },
+    { name: 'Pan-Tumor', value: 1, color: '#84CC16' }
   ];
 
   console.log('🔵 AbstractsOverview sessionTypeData:', sessionTypeData);
@@ -86,8 +91,8 @@ const AbstractsOverview = () => {
   return (
     <div className="bg-white p-6">
       <div className="mb-4 p-4 bg-yellow-100 border border-yellow-300 rounded">
-        <p className="text-sm">DEBUG: Overview component loaded. SessionTypeData length: {sessionTypeData.length}</p>
-        <p className="text-sm">First item: {sessionTypeData[0]?.name} - {sessionTypeData[0]?.value}</p>
+        <p className="text-sm">DEBUG: Overview component loaded. Trial distribution data length: {sessionTypeData.length}</p>
+        <p className="text-sm">First item: {sessionTypeData[0]?.name} - {sessionTypeData[0]?.value} trials</p>
       </div>
       
       <Tabs defaultValue="overview" className="w-full">
@@ -98,10 +103,10 @@ const AbstractsOverview = () => {
         
         <TabsContent value="overview" className="space-y-6">
           <div className="bg-red-100 border border-red-300 rounded p-4 mb-4">
-            <p className="text-sm">DEBUG: About to render PieChartSection</p>
+            <p className="text-sm">DEBUG: About to render PieChartSection with trial indication data</p>
           </div>
           
-          {/* Pie Chart Section - Moved to top */}
+          {/* Pie Chart Section - Shows trial distribution by indication */}
           <PieChartSection data={sessionTypeData} />
           
           {/* Bar Charts Grid */}

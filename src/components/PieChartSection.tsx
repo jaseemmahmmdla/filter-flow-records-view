@@ -22,7 +22,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
     return (
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Abstracts by Session Type
+          Trial Distribution by Indication
         </h2>
         <div className="text-center text-gray-500">No data available</div>
       </div>
@@ -32,7 +32,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
   // Create chart config for shadcn/ui chart
   const chartConfig = {
     value: {
-      label: "Abstracts",
+      label: "Trials",
     },
     ...data.reduce((acc, item, index) => {
       acc[item.name.toLowerCase().replace(/\s+/g, '_')] = {
@@ -49,7 +49,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
-        Abstracts by Session Type
+        Trial Distribution by Indication
       </h2>
       
       <div className="flex flex-col lg:flex-row gap-6">
@@ -78,8 +78,8 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
                   })}
                 </Pie>
                 <Tooltip 
-                  formatter={(value, name) => [value.toLocaleString(), name]}
-                  labelFormatter={(label) => `Session Type: ${label}`}
+                  formatter={(value, name) => [`${value} trials`, name]}
+                  labelFormatter={(label) => `Indication: ${label}`}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -98,7 +98,7 @@ const PieChartSection = ({ data }: PieChartSectionProps) => {
                   ></div>
                   <span className="text-sm font-medium text-gray-900">{item.name}</span>
                 </div>
-                <span className="text-sm font-bold text-gray-900">{item.value.toLocaleString()}</span>
+                <span className="text-sm font-bold text-gray-900">{item.value} trials</span>
               </div>
             ))}
           </div>
