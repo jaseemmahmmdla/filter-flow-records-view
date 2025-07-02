@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -229,7 +230,7 @@ const TrialPage = () => {
       {abstracts.map((abstract) => (
         <Card 
           key={abstract.id} 
-          className="bg-white shadow-sm border border-slate-200 hover:shadow-md transition-shadow"
+          className="bg-white shadow-sm border border-[#ddd] hover:shadow-md transition-shadow"
         >
           <CardContent className="p-6">
             {/* Header Row with Checkbox */}
@@ -240,14 +241,14 @@ const TrialPage = () => {
                   onCheckedChange={() => handleAbstractSelect(abstract.id)}
                   className="mt-1"
                 />
-                <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-6 h-6 text-slate-600" />
+                <div className="w-12 h-12 bg-[#F5F8FA] rounded-xl flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-6 h-6 text-[#172B4D]" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-slate-900 text-lg mb-2 leading-tight font-body">
+                  <h3 className="font-semibold text-[#172B4D] text-lg mb-2 leading-tight font-sans">
                     {abstract.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-slate-500 font-body">
+                  <div className="flex items-center gap-2 text-sm text-[#6c757d] font-sans">
                     <span>{abstract.conference}</span>
                     <span>•</span>
                     <span>{abstract.abstractNumber}</span>
@@ -255,7 +256,7 @@ const TrialPage = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
+                <Badge variant="outline" className="border-[#ddd] text-[#172B4D] bg-[#F5F8FA] font-sans">
                   {abstract.presentationType}
                 </Badge>
                 <Badge className={getStatusColor(abstract.status)}>
@@ -265,7 +266,7 @@ const TrialPage = () => {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleViewAbstract(abstract.id)}
-                  className="ml-2"
+                  className="ml-2 hover:bg-[#e9ecef]"
                 >
                   <Eye className="w-4 h-4" />
                 </Button>
@@ -276,70 +277,70 @@ const TrialPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Trial ID</p>
-                  <p className="text-sm text-slate-700 font-medium font-body">{abstract.trialId}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Trial ID</p>
+                  <p className="text-sm text-[#172B4D] font-medium font-sans">{abstract.trialId}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Company</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.company}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Company</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.company}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Treatment</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.treatment}</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Indication</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.indication}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Line of Therapy</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.lineOfTherapy}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Population</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.population}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Treatment</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.treatment}</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Target/Modality</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.targetModality}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Indication</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.indication}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Biomarker</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.biomarker}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Line of Therapy</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.lineOfTherapy}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Phase</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.phase}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Population</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.population}</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">Patients</p>
-                  <p className="text-sm text-slate-900 font-body">{abstract.patientRatio}</p>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Target/Modality</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.targetModality}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Biomarker</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.biomarker}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Phase</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.phase}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">Patients</p>
+                  <p className="text-sm text-[#172B4D] font-sans">{abstract.patientRatio}</p>
                 </div>
               </div>
             </div>
 
             {/* Outcomes Row */}
-            <div className="flex items-center justify-start gap-8 pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-start gap-8 pt-4 border-t border-[#ddd]">
               <div className="text-center">
-                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">ORR</p>
-                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.orr}</p>
+                <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">ORR</p>
+                <p className="text-lg font-semibold text-[#1A237E] font-sans">{abstract.outcomes.orr}</p>
               </div>
               <div className="text-center">
-                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">PFS</p>
-                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.pfs}</p>
+                <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">PFS</p>
+                <p className="text-lg font-semibold text-[#1A237E] font-sans">{abstract.outcomes.pfs}</p>
               </div>
               <div className="text-center">
-                <p className="text-xs font-medium text-slate-500 mb-1 font-body uppercase tracking-wide">OS</p>
-                <p className="text-lg font-semibold text-slate-700 font-body">{abstract.outcomes.os}</p>
+                <p className="text-xs font-medium text-[#6c757d] mb-1 font-sans uppercase tracking-wide">OS</p>
+                <p className="text-lg font-semibold text-[#1A237E] font-sans">{abstract.outcomes.os}</p>
               </div>
             </div>
           </CardContent>
@@ -349,23 +350,23 @@ const TrialPage = () => {
   );
 
   const ListView = () => (
-    <Card className="bg-white shadow-sm border border-slate-200 overflow-hidden">
+    <Card className="bg-white shadow-sm border border-[#ddd] overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="border-b border-slate-200 bg-slate-50">
+        <table className="w-full results-table">
+          <thead className="border-b border-[#ddd] bg-[#F5F8FA]">
             <tr>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Select</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Abstract</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Conference</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Type</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Status</th>
-              <th className="text-left p-4 text-sm font-semibold text-slate-700 font-body">Outcomes</th>
-              <th className="text-right p-4 text-sm font-semibold text-slate-700 font-body">Actions</th>
+              <th className="text-left p-4 text-sm font-semibold text-[#172B4D] font-sans">Select</th>
+              <th className="text-left p-4 text-sm font-semibold text-[#172B4D] font-sans">Abstract</th>
+              <th className="text-left p-4 text-sm font-semibold text-[#172B4D] font-sans">Conference</th>
+              <th className="text-left p-4 text-sm font-semibold text-[#172B4D] font-sans">Type</th>
+              <th className="text-left p-4 text-sm font-semibold text-[#172B4D] font-sans">Status</th>
+              <th className="text-left p-4 text-sm font-semibold text-[#172B4D] font-sans">Outcomes</th>
+              <th className="text-right p-4 text-sm font-semibold text-[#172B4D] font-sans">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {abstracts.map((abstract) => (
-              <tr key={abstract.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            {abstracts.map((abstract, index) => (
+              <tr key={abstract.id} className={`border-b border-[#ddd] hover:bg-[#e9ecef] transition-colors ${index % 2 === 0 ? 'bg-[#f8f9fa]' : 'bg-white'}`}>
                 <td className="p-4">
                   <Checkbox
                     checked={selectedAbstracts.includes(abstract.id)}
@@ -374,23 +375,23 @@ const TrialPage = () => {
                 </td>
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-slate-50 rounded-lg">
-                      <FileText className="w-4 h-4 text-slate-600" />
+                    <div className="p-2 bg-[#F5F8FA] rounded-lg">
+                      <FileText className="w-4 h-4 text-[#172B4D]" />
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900 font-body">{abstract.title.substring(0, 60)}...</p>
-                      <p className="text-sm text-slate-500 mt-1 font-body">{abstract.abstractNumber}</p>
+                      <p className="font-medium text-[#172B4D] font-sans">{abstract.title.substring(0, 60)}...</p>
+                      <p className="text-sm text-[#6c757d] mt-1 font-sans">{abstract.abstractNumber}</p>
                     </div>
                   </div>
                 </td>
                 <td className="p-4">
-                  <div className="font-body">
-                    <p className="text-sm text-slate-900">{abstract.conference}</p>
-                    <p className="text-xs text-slate-500">{abstract.presentationDate}</p>
+                  <div className="font-sans">
+                    <p className="text-sm text-[#172B4D]">{abstract.conference}</p>
+                    <p className="text-xs text-[#6c757d]">{abstract.presentationDate}</p>
                   </div>
                 </td>
                 <td className="p-4">
-                  <Badge variant="outline" className="border-slate-300 text-slate-700 bg-slate-50 font-body">
+                  <Badge variant="outline" className="border-[#ddd] text-[#172B4D] bg-[#F5F8FA] font-sans">
                     {abstract.presentationType}
                   </Badge>
                 </td>
@@ -400,10 +401,10 @@ const TrialPage = () => {
                   </Badge>
                 </td>
                 <td className="p-4">
-                  <div className="flex gap-4 text-sm font-body">
-                    <span className="text-slate-700">ORR: {abstract.outcomes.orr}</span>
-                    <span className="text-slate-700">PFS: {abstract.outcomes.pfs}</span>
-                    <span className="text-slate-700">OS: {abstract.outcomes.os}</span>
+                  <div className="flex gap-4 text-sm font-sans">
+                    <span className="text-[#1A237E] font-bold">ORR: {abstract.outcomes.orr}</span>
+                    <span className="text-[#1A237E] font-bold">PFS: {abstract.outcomes.pfs}</span>
+                    <span className="text-[#1A237E] font-bold">OS: {abstract.outcomes.os}</span>
                   </div>
                 </td>
                 <td className="p-4 text-right">
@@ -411,6 +412,7 @@ const TrialPage = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleViewAbstract(abstract.id)}
+                    className="hover:bg-[#e9ecef]"
                   >
                     <Eye className="w-4 h-4" />
                   </Button>
@@ -424,18 +426,18 @@ const TrialPage = () => {
   );
 
   return (
-    <div className="flex-1 bg-slate-50 font-body">
+    <div className="flex-1 bg-white font-sans text-[#172B4D]">
       <Header />
       
       {/* Trial Header */}
-      <div className="bg-white border-b border-slate-200 shadow-sm">
+      <div className="bg-white border-b border-[#ddd] shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 font-body hover:bg-slate-100"
+              className="flex items-center gap-2 font-sans hover:bg-[#e9ecef] text-[#172B4D]"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
@@ -444,24 +446,24 @@ const TrialPage = () => {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-800 mb-2 font-body">
+              <h1 className="text-3xl font-bold text-[#172B4D] mb-2 font-sans">
                 {trial.title}
               </h1>
               <div className="flex flex-wrap gap-3 mb-4">
-                <Badge variant="outline" className="border-slate-300 text-slate-700 font-body">
+                <Badge variant="outline" className="border-[#ddd] text-[#172B4D] font-sans bg-[#F5F8FA]">
                   {trial.phase}
                 </Badge>
-                <Badge variant="outline" className="border-slate-300 text-slate-700 font-body">
+                <Badge variant="outline" className="border-[#ddd] text-[#172B4D] font-sans bg-[#F5F8FA]">
                   {trial.indication}
                 </Badge>
-                <Badge className="bg-green-50 text-green-700 border-green-200 font-body">
+                <Badge className="bg-green-50 text-green-700 border-green-200 font-sans">
                   {trial.status}
                 </Badge>
               </div>
-              <div className="text-slate-600 space-y-1 font-body">
-                <p><strong className="text-slate-800">Sponsor:</strong> {trial.sponsor}</p>
-                <p><strong className="text-slate-800">Start Date:</strong> {new Date(trial.startDate).toLocaleDateString()}</p>
-                <p><strong className="text-slate-800">Estimated Completion:</strong> {new Date(trial.estimatedCompletion).toLocaleDateString()}</p>
+              <div className="text-[#6c757d] space-y-1 font-sans">
+                <p><strong className="text-[#172B4D]">Sponsor:</strong> {trial.sponsor}</p>
+                <p><strong className="text-[#172B4D]">Start Date:</strong> {new Date(trial.startDate).toLocaleDateString()}</p>
+                <p><strong className="text-[#172B4D]">Estimated Completion:</strong> {new Date(trial.estimatedCompletion).toLocaleDateString()}</p>
               </div>
             </div>
           </div>
@@ -469,25 +471,25 @@ const TrialPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-6">
+      <div className="max-w-7xl mx-auto p-6 main-content">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl font-bold text-slate-800 mb-2 font-body">
+              <h2 className="text-3xl font-bold text-[#172B4D] mb-2 font-sans">
                 Conference Abstracts
               </h2>
-              <p className="text-slate-600 font-body">
+              <p className="text-[#6c757d] font-sans">
                 Showing 1-{abstracts.length} of {abstracts.length} abstracts
               </p>
             </div>
             <div className="flex gap-3">
-              <div className="flex bg-slate-100 rounded-lg p-1">
+              <div className="flex bg-[#f2f2f2] rounded-lg p-1">
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('list')}
-                  className={viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'}
+                  className={viewMode === 'list' ? 'bg-white shadow-sm text-[#172B4D]' : 'hover:bg-[#e9ecef] text-[#172B4D]'}
                 >
                   <List className="w-4 h-4 mr-2" />
                   List
@@ -496,7 +498,7 @@ const TrialPage = () => {
                   variant={viewMode === 'card' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('card')}
-                  className={viewMode === 'card' ? 'bg-white shadow-sm' : 'hover:bg-slate-200'}
+                  className={viewMode === 'card' ? 'bg-white shadow-sm text-[#172B4D]' : 'hover:bg-[#e9ecef] text-[#172B4D]'}
                 >
                   <LayoutGrid className="w-4 h-4 mr-2" />
                   Cards
@@ -504,14 +506,14 @@ const TrialPage = () => {
               </div>
               <Button 
                 variant="outline" 
-                className="border-slate-300 hover:border-slate-400 hover:bg-slate-50"
+                className="border-[#ddd] hover:border-[#172B4D] hover:bg-[#F5F8FA] text-[#172B4D]"
                 disabled={selectedAbstracts.length < 2}
                 onClick={handleCompareAbstracts}
               >
                 <GitCompare className="w-4 h-4 mr-2" />
                 Compare ({selectedAbstracts.length})
               </Button>
-              <Button variant="outline" className="border-slate-300 hover:border-slate-400 hover:bg-slate-50">
+              <Button variant="outline" className="border-[#ddd] hover:border-[#172B4D] hover:bg-[#F5F8FA] text-[#172B4D]">
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
@@ -521,20 +523,20 @@ const TrialPage = () => {
 
         {/* Stats Row */}
         <div className="flex items-center gap-6 mb-8">
-          <Badge variant="outline" className="px-3 py-2 text-sm border-slate-300 text-slate-700 bg-slate-50 font-body">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-[#ddd] text-[#172B4D] bg-[#F5F8FA] font-sans">
             <span className="font-semibold">{abstracts.length}</span>
             <span className="ml-1">Total Abstracts</span>
           </Badge>
-          <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50 font-body">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-green-200 text-green-700 bg-green-50 font-sans">
             <span className="font-semibold">{abstracts.filter(a => a.status === 'Published').length}</span>
             <span className="ml-1">Published</span>
           </Badge>
-          <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50 font-body">
+          <Badge variant="outline" className="px-3 py-2 text-sm border-blue-200 text-blue-700 bg-blue-50 font-sans">
             <span className="font-semibold">{abstracts.filter(a => a.presentationType === 'Oral Presentation').length}</span>
             <span className="ml-1">Oral Presentations</span>
           </Badge>
           {selectedAbstracts.length > 0 && (
-            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50 font-body">
+            <Badge variant="outline" className="px-3 py-2 text-sm border-orange-200 text-orange-700 bg-orange-50 font-sans">
               <span className="font-semibold">{selectedAbstracts.length}</span>
               <span className="ml-1">Selected</span>
             </Badge>
