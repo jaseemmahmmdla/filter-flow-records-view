@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
@@ -11,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { X } from 'lucide-react';
+import { X, ArrowLeft } from 'lucide-react';
 
 interface Abstract {
   id: string;
@@ -52,6 +51,7 @@ interface Abstract {
 
 const ComparisonPage = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [abstracts, setAbstracts] = useState<Abstract[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -91,7 +91,12 @@ const ComparisonPage = () => {
   }, [searchParams]);
 
   const handleClose = () => {
-    window.close();
+    // Close the current tab and go back to the previous page
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -190,7 +195,10 @@ const ComparisonPage = () => {
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Loading Comparison...</h1>
           <p className="text-slate-600 mb-4">Please wait while we load your selected abstracts.</p>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <Button onClick={handleClose}>Close Window</Button>
+          <Button onClick={handleClose}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go Back
+          </Button>
         </div>
       </div>
     );
@@ -204,7 +212,10 @@ const ComparisonPage = () => {
           <p className="text-slate-600 mb-4">
             {error || 'No comparison data was found.'}
           </p>
-          <Button onClick={handleClose}>Close Window</Button>
+          <Button onClick={handleClose}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go Back
+          </Button>
         </div>
       </div>
     );
@@ -216,9 +227,20 @@ const ComparisonPage = () => {
       <div className="bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-slate-900 font-body">
-              Abstract Comparison ({abstracts.length} abstracts)
-            </h1>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClose}
+                className="flex items-center gap-2 font-body hover:bg-slate-100"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back
+              </Button>
+              <h1 className="text-2xl font-bold text-slate-900 font-body">
+                Abstract Comparison ({abstracts.length} abstracts)
+              </h1>
+            </div>
             <Button variant="ghost" size="sm" onClick={handleClose} className="hover:bg-slate-100">
               <X className="w-4 h-4" />
             </Button>

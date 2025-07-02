@@ -188,7 +188,7 @@ const TrialPage = () => {
     console.log('Number of selected abstracts:', selectedAbstracts.length);
     
     if (selectedAbstracts.length >= 2) {
-      console.log('✅ Opening comparison in new window');
+      console.log('✅ Opening comparison in new tab');
       
       // Get selected abstracts data
       const selectedAbstractsData = abstracts.filter(abstract => 
@@ -202,15 +202,11 @@ const TrialPage = () => {
       const encodedData = encodeURIComponent(JSON.stringify(selectedAbstractsData));
       console.log('🔍 Encoded data length:', encodedData.length);
       
-      // Open new window with data in URL
+      // Open new tab with data in URL
       const comparisonUrl = `/comparison?data=${encodedData}`;
-      const newWindow = window.open(comparisonUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+      window.open(comparisonUrl, '_blank');
       
-      if (!newWindow) {
-        alert('Please allow pop-ups for this site to open the comparison window.');
-      } else {
-        console.log('✅ New window opened successfully with URL data');
-      }
+      console.log('✅ New tab opened successfully with URL data');
     } else {
       console.log('❌ Not enough abstracts selected for comparison');
       alert(`Please select at least 2 abstracts to compare. Currently selected: ${selectedAbstracts.length}`);
